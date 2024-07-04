@@ -1,0 +1,38 @@
+version: "3"
+services:
+    db_config:
+        container_name: postgresql_configs
+        image: postgres:16.2
+        environment:
+            - POSTGRES_DB=AtendimentoConfigDB
+            - POSTGRES_USER=postgresconfiguser
+            - POSTGRES_PASSWORD=atendimento@config
+            - POSTGRES_HOST_AUTH_METHOD=trust
+        ports:
+            - 5432:5432
+        volumes:
+            - db_config_volume:/var/lib/postgresql/data
+        restart: always  
+        networks:
+            - db_config_network
+    db_data:
+        container_name: postgresql_tenants
+        image: postgres:16.2
+        environment:
+            - POSTGRES_DB=AtendimentoTenantDB
+            - POSTGRES_USER=postgrestenantuser
+            - POSTGRES_PASSWORD=atendimento@tenant
+            - POSTGRES_HOST_AUTH_METHOD=trust
+        ports:
+            - 5433:5432
+        volumes:
+            - db_tenant_volume:/var/lib/postgresql/data
+        restart: always 
+        networks:
+            - db_tenant_network
+volumes: 
+    db_config_volume: 
+    db_tenant_volume:
+networks: 
+    db_config_network: 
+    db_tenant_network:

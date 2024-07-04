@@ -1,0 +1,11 @@
+﻿global using AtendimentoMultiTenant.Infra.EntityConfigurations;
+global using Microsoft.EntityFrameworkCore;
+global using AtendimentoMultiTenant.Core.Entities.ConfigurationEntities;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using AtendimentoMultiTenant.Core.Entities.Base;
+global using AtendimentoMultiTenant.Core.Interfaces.Base;
+global using System.Linq.Expressions;
+global using AtendimentoMultiTenant.Core.Interfaces;
+global using AtendimentoMultiTenant.Infra.Context;
+global using AtendimentoMultiTenant.Infra.Repositories.Base;
+global using System.Diagnostics.CodeAnalysis;
