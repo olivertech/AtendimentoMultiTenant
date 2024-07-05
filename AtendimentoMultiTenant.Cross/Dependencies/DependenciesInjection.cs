@@ -20,6 +20,10 @@ namespace AtendimentoMultiTenant.Cross.Dependencies
 
             //Repository injections
             services.AddScoped<IContainerRepository, ContainerRepository>();
+            services.AddScoped<ITenantRepository, TenantRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IPortRepository, PortRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             return services;
         }

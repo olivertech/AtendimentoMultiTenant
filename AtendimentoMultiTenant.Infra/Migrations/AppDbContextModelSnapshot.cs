@@ -29,55 +29,70 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateOnly?>("ContainerCreatedAt")
-                        .HasColumnType("date");
+                        .HasColumnType("date")
+                        .HasColumnName("container_created_at");
 
                     b.Property<string>("ContainerImage")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("container_image");
 
                     b.Property<string>("ContainerName")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("container_name");
 
                     b.Property<string>("ContainerNetwork")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("container_network");
 
                     b.Property<string>("ContainerPort")
                         .IsRequired()
                         .HasMaxLength(4)
-                        .HasColumnType("character varying(4)");
+                        .HasColumnType("character varying(4)")
+                        .HasColumnName("container_port");
 
                     b.Property<string>("ContainerVolume")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("container_volume");
 
                     b.Property<string>("EnvironmentDbName")
                         .IsRequired()
                         .HasMaxLength(250)
-                        .HasColumnType("character varying(250)");
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("environment_db_name");
 
                     b.Property<string>("EnvironmentDbPwd")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("environment_db_pwd");
 
                     b.Property<string>("EnvironmentDbUser")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("environment_db_user");
 
                     b.Property<bool>("IsUp")
-                        .HasColumnType("boolean");
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_up");
+
+                    b.Property<Guid>("PortId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PortId");
 
                     b.HasIndex("TenantId");
 
@@ -86,45 +101,82 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("b9148b2f-38d2-4e01-81bc-bc3710e8fbab"),
+                            Id = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
                             ContainerImage = "postgres:16.2",
                             ContainerName = "postgresql_cliente1",
                             ContainerNetwork = "cliente1_network",
-                            ContainerPort = "5433",
+                            ContainerPort = "5434",
                             ContainerVolume = "cliente1_volume",
                             EnvironmentDbName = "Cliente1DB",
                             EnvironmentDbPwd = "pwdcliente1",
                             EnvironmentDbUser = "usercliente1",
                             IsUp = false,
+                            PortId = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
                             TenantId = new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8")
                         },
                         new
                         {
-                            Id = new Guid("338988dc-bc96-46e9-bdfa-0a5e298ae3cb"),
+                            Id = new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
                             ContainerImage = "postgres:16.2",
                             ContainerName = "postgresql_cliente2",
                             ContainerNetwork = "cliente2_network",
-                            ContainerPort = "5434",
+                            ContainerPort = "5435",
                             ContainerVolume = "cliente2_volume",
                             EnvironmentDbName = "Cliente2DB",
                             EnvironmentDbPwd = "pwdcliente2",
                             EnvironmentDbUser = "usercliente2",
                             IsUp = false,
+                            PortId = new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
                             TenantId = new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179")
                         },
                         new
                         {
-                            Id = new Guid("616a7837-dfcc-4ab8-9f5b-7616556bcee7"),
+                            Id = new Guid("39715917-a829-41c4-8da1-64029a0c6364"),
                             ContainerImage = "postgres:16.2",
                             ContainerName = "postgresql_cliente3",
                             ContainerNetwork = "cliente3_network",
-                            ContainerPort = "5435",
+                            ContainerPort = "5436",
                             ContainerVolume = "cliente3_volume",
                             EnvironmentDbName = "Cliente3DB",
                             EnvironmentDbPwd = "pwdcliente3",
                             EnvironmentDbUser = "usercliente3",
                             IsUp = false,
+                            PortId = new Guid("39715917-a829-41c4-8da1-64029a0c6364"),
                             TenantId = new Guid("25ae8570-56b6-4a9d-9616-c15862613525")
+                        });
+                });
+
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Port", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("PortNumber")
+                        .IsRequired()
+                        .HasMaxLength(4)
+                        .HasColumnType("character varying(4)")
+                        .HasColumnName("port_number");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Port", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
+                            PortNumber = "5434"
+                        },
+                        new
+                        {
+                            Id = new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
+                            PortNumber = "5435"
+                        },
+                        new
+                        {
+                            Id = new Guid("39715917-a829-41c4-8da1-64029a0c6364"),
+                            PortNumber = "5436"
                         });
                 });
 
@@ -136,26 +188,31 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
                     b.Property<string>("ConnectionString")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("connection_string");
 
                     b.Property<string>("InitialUrl")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("initial_url");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Secret")
                         .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("character varying(20)")
+                        .HasColumnName("secret");
 
                     b.HasKey("Id");
 
@@ -204,21 +261,26 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(150)
-                        .HasColumnType("character varying(150)");
+                        .HasColumnType("character varying(150)")
+                        .HasColumnName("email");
 
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
-                        .HasDefaultValue(true);
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("name");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("password");
 
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uuid");
@@ -227,7 +289,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
                     b.HasIndex("Email")
                         .IsUnique()
-                        .HasDatabaseName("User_Email");
+                        .HasDatabaseName("user_email");
 
                     b.HasIndex("TenantId");
 
@@ -236,7 +298,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("bf06f7b2-6376-4ad6-9ba5-2cee86c3fae3"),
+                            Id = new Guid("fc78dca0-97d6-475d-ac9e-4f713d0df32e"),
                             Email = "usuario1@teste.com",
                             IsActive = true,
                             Name = "Usuario1",
@@ -245,7 +307,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("a379e99a-826a-43f5-b7eb-5d60d7b67c5f"),
+                            Id = new Guid("3b005a21-2b05-4659-b549-c1f4e7c95d7e"),
                             Email = "usuario2@teste.com",
                             IsActive = true,
                             Name = "Usuario2",
@@ -254,7 +316,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("1f88bffa-bba7-4c14-8e51-3bfa06322616"),
+                            Id = new Guid("fca2fa8f-ad8e-4c0f-8a34-1a2f44d2cbe6"),
                             Email = "usuario3@teste.com",
                             IsActive = true,
                             Name = "Usuario3",
@@ -265,11 +327,19 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Container", b =>
                 {
+                    b.HasOne("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Port", "Port")
+                        .WithMany()
+                        .HasForeignKey("PortId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Tenant", "Tenant")
                         .WithMany()
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Port");
 
                     b.Navigation("Tenant");
                 });

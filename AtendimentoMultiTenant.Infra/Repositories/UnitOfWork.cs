@@ -7,6 +7,7 @@
         private IContainerRepository? _containerRepository;
         private ITenantRepository? _tenantRepository;
         private IUserRepository? _userRepository;
+        private IPortRepository? _portRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -34,6 +35,14 @@
             get
             {
                 return _userRepository ??= new UserRepository(_context);
+            }
+        }
+
+        public IPortRepository PortRepository
+        {
+            get
+            {
+                return _portRepository ??= new PortRepository(_context);
             }
         }
 

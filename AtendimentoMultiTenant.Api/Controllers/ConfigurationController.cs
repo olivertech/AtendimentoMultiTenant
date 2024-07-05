@@ -1,4 +1,7 @@
-﻿using System.ComponentModel;
+﻿using AtendimentoMultiTenant.Cross.Helpers;
+using System;
+using System.ComponentModel;
+using System.Security.Cryptography;
 
 namespace AtendimentoMultiTenant.Api.Controllers
 {
@@ -73,7 +76,6 @@ namespace AtendimentoMultiTenant.Api.Controllers
                 var search = _unitOfWork!.ContainerRepository.GetAll().Result;
 
                 if (search!.Any(x => x.ContainerName == request.ContainerName) ||
-                    search!.Any(x => x.ContainerPort == request.ContainerPort) ||
                     search!.Any(x => x.ContainerVolume == request.ContainerVolume) ||
                     search!.Any(x => x.ContainerNetwork == request.ContainerNetwork))
                     return Ok(ResponseFactory<ContainerResponse>.Error(false, String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));
@@ -81,7 +83,9 @@ namespace AtendimentoMultiTenant.Api.Controllers
                 var entity = _mapper!.Map<Core.Entities.ConfigurationEntities.Container>(request);
 
                 entity.Id = Guid.NewGuid();
+                entity.ContainerImage = _configuration!.GetSection("ContainerDatabaseImage").Value!;
                 entity.ContainerCreatedAt = DateOnly.FromDateTime(DateTime.Now);
+                entity.ContainerPort = PortHelper.GetPortNumber();
                 entity.IsUp = false;
 
                 var result = _unitOfWork.ContainerRepository.Insert(entity);
@@ -127,7 +131,6 @@ namespace AtendimentoMultiTenant.Api.Controllers
                 var search = _unitOfWork!.ContainerRepository.GetAll().Result;
 
                 if (search!.Any(x => x.ContainerName == request.ContainerName) ||
-                    search!.Any(x => x.ContainerPort == request.ContainerPort) ||
                     search!.Any(x => x.ContainerVolume == request.ContainerVolume) ||
                     search!.Any(x => x.ContainerNetwork == request.ContainerNetwork))
                     return Ok(ResponseFactory<ContainerResponse>.Error(false, String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));

@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.HasKey(x => x.Id).HasName("id");
+            builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Email).HasDatabaseName("user_email").IsUnique();
             builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(50).IsRequired();
             builder.Property(x => x.Email).HasColumnName("email").HasMaxLength(150).IsRequired();

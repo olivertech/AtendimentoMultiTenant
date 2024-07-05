@@ -6,3 +6,6 @@ global using Newtonsoft.Json;
 global using System;
 global using System.Text.Json.Serialization;
 global using AtendimentoMultiTenant.Cross.Requests.Base;
+global using System.ComponentModel.DataAnnotations;
+global using System.ComponentModel;
+global using AtendimentoMultiTenant.Core.Interfaces;

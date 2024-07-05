@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<Tenant> builder)
         {
-            builder.HasKey(x => x.Id).HasName("id");
+            builder.HasKey(x => x.Id);
             builder.HasIndex(x => x.Name).HasDatabaseName("Tenant_Name").IsUnique();
             builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(50).IsRequired();
             builder.Property(x => x.Secret).HasColumnName("secret").HasMaxLength(20).IsRequired();

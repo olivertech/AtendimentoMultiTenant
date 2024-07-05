@@ -4,7 +4,7 @@
     {
         public void Configure(EntityTypeBuilder<Container> builder)
         {
-            builder.HasKey(x => x.Id).HasName("id");
+            builder.HasKey(x => x.Id);
             builder.Property(x => x.ContainerName).HasColumnName("container_name").HasMaxLength(250).IsRequired();
             builder.Property(x => x.ContainerImage).HasColumnName("container_image").HasMaxLength(250).IsRequired();
             builder.Property(x => x.EnvironmentDbName).HasColumnName("environment_db_name").HasMaxLength(250).IsRequired();
@@ -16,6 +16,7 @@
             builder.Property(x => x.ContainerCreatedAt).HasColumnName("container_created_at").IsRequired(false);
             builder.Property(x => x.IsUp).HasColumnName("is_up").IsRequired();
             builder.HasOne(x => x.Tenant);
+            builder.HasOne(x => x.Port);
             builder.ToTable("Container");
 
             //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
@@ -23,7 +24,7 @@
             {
                 new Container
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
                     ContainerName = "postgresql_cliente1",
                     ContainerImage = "postgres:16.2",
                     EnvironmentDbName = "Cliente1DB",
@@ -33,11 +34,12 @@
                     ContainerVolume = "cliente1_volume",
                     ContainerNetwork = "cliente1_network",
                     TenantId = Guid.Parse("f6a2372a-b146-45f9-be70-a0be13736dd8"),
+                    PortId = Guid.Parse("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
                     IsUp = false
                 },
                 new Container
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
                     ContainerName = "postgresql_cliente2",
                     ContainerImage = "postgres:16.2",
                     EnvironmentDbName = "Cliente2DB",
@@ -47,11 +49,12 @@
                     ContainerVolume = "cliente2_volume",
                     ContainerNetwork = "cliente2_network",
                     TenantId = Guid.Parse("64210b12-a8d4-44ae-b35e-b13b762c4179"),
+                    PortId = Guid.Parse("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
                     IsUp = false
                 },
                 new Container
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("39715917-a829-41c4-8da1-64029a0c6364"),
                     ContainerName = "postgresql_cliente3",
                     ContainerImage = "postgres:16.2",
                     EnvironmentDbName = "Cliente3DB",
@@ -61,6 +64,7 @@
                     ContainerVolume = "cliente3_volume",
                     ContainerNetwork = "cliente3_network",
                     TenantId = Guid.Parse("25ae8570-56b6-4a9d-9616-c15862613525"),
+                    PortId = Guid.Parse("39715917-a829-41c4-8da1-64029a0c6364"),
                     IsUp = false
                 }
             });

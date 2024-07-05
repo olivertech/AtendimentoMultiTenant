@@ -35,8 +35,10 @@
         public DateOnly? ContainerCreatedAt { get; set; }
 
         public Guid TenantId { get; set; }
+        public Guid PortId { get; set; }
 
         //Navigation Property
         public Tenant? Tenant { get; set; }
+        public Port? Port { get; set; }
     }
 }

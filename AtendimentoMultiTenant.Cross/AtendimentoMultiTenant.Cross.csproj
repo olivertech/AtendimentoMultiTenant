@@ -19,8 +19,4 @@
     <ProjectReference Include="..\AtendimentoMultiTenant.Infra\AtendimentoMultiTenant.Infra.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Helpers\" />
-  </ItemGroup>
-
 </Project>

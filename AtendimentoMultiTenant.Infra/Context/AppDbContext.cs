@@ -14,6 +14,7 @@
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Container> Containers { get; set; }
+        public DbSet<Port> Port { get; set; }
 
         /// <summary>
         /// Faz referencia as classes de configurações das entidades
@@ -24,6 +25,7 @@
             modelBuilder.ApplyConfiguration(new TenantConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ContainerConfiguration());
+            modelBuilder.ApplyConfiguration(new PortConfiguration());
         }
     }
 }

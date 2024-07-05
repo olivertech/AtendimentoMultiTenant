@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-namespace AtendimentoMultiTenant.Cross.Requests
+﻿namespace AtendimentoMultiTenant.Cross.Requests
 {
     public class UserRequest
     {
