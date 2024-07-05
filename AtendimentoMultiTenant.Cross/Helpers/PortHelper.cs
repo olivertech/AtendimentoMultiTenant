@@ -1,18 +1,20 @@
-﻿namespace AtendimentoMultiTenant.Cross.Helpers
+﻿using AtendimentoMultiTenant.Cross.Interfaces;
+
+namespace AtendimentoMultiTenant.Cross.Helpers
 {
     /// <summary>
     /// Classe que auxilia na busca por uma nova porta
     /// </summary>
-    public class PortHelper
+    public class PortHelper : IPortHelper
     {
-        public static IUnitOfWork? _unitOfWork;
+        protected readonly IUnitOfWork? _unitOfWork;
 
         public PortHelper(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
 
-        public static string GetPortNumber()
+        public string GetNewPortNumber()
         {
             bool ok = false;
             string randomPort = string.Empty;

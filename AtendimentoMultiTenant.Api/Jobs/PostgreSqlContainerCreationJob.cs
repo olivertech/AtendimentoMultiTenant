@@ -11,13 +11,13 @@
     public class PostgreSqlContainerCreationJob : IJob
     {
         protected readonly IConfiguration? _configuration;
-        protected readonly IContainerRepository _containerRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PostgreSqlContainerCreationJob(IConfiguration configuration,
-                                              IContainerRepository containerRepository)
+                                              IUnitOfWork unitOfWork)
         {
             _configuration = configuration;
-            _containerRepository = containerRepository;
+            _unitOfWork = unitOfWork;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@
 
             //Recupera todos os registros que da tabela Container, que ainda não
             //tenha sido processados e gerados os seus respectivos containers
-            IEnumerable<Core.Entities.ConfigurationEntities.Container>? containers = await _containerRepository.GetList(x => x.IsUp == false);
+            IEnumerable<Core.Entities.ConfigurationEntities.Container>? containers = await _unitOfWork.ContainerRepository.GetList(x => x.IsUp == false);
 
             string folderCliente = string.Empty;
 
@@ -128,7 +128,9 @@
                             container!.IsUp = true;
                             container.ContainerCreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
 
-                            await _containerRepository.Update(container);
+                            await _unitOfWork.ContainerRepository.Update(container);
+
+                            _unitOfWork.CommitAsync().Wait();
                         }
                         catch (Exception)
                         {

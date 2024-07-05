@@ -1,4 +1,6 @@
 ﻿using AtendimentoMultiTenant.Core.Interfaces;
+using AtendimentoMultiTenant.Cross.Helpers;
+using AtendimentoMultiTenant.Cross.Interfaces;
 using AtendimentoMultiTenant.Infra.Repositories;
 
 namespace AtendimentoMultiTenant.Cross.Dependencies
@@ -24,6 +26,7 @@ namespace AtendimentoMultiTenant.Cross.Dependencies
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IPortRepository, PortRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IPortHelper, PortHelper>();
 
             return services;
         }

@@ -216,10 +216,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("Tenant_Name");
-
                     b.ToTable("Tenant", (string)null);
 
                     b.HasData(
@@ -298,7 +294,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("fc78dca0-97d6-475d-ac9e-4f713d0df32e"),
+                            Id = new Guid("193b863f-1512-4aa8-be99-b68bdb5da90c"),
                             Email = "usuario1@teste.com",
                             IsActive = true,
                             Name = "Usuario1",
@@ -307,7 +303,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("3b005a21-2b05-4659-b549-c1f4e7c95d7e"),
+                            Id = new Guid("8015e5a6-0972-4452-b419-ac0b19e3fc29"),
                             Email = "usuario2@teste.com",
                             IsActive = true,
                             Name = "Usuario2",
@@ -316,7 +312,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("fca2fa8f-ad8e-4c0f-8a34-1a2f44d2cbe6"),
+                            Id = new Guid("c94ba5d2-4833-4079-b92a-43fa8339ff79"),
                             Email = "usuario3@teste.com",
                             IsActive = true,
                             Name = "Usuario3",

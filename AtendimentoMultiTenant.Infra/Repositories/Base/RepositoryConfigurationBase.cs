@@ -79,7 +79,7 @@
                     throw new ArgumentNullException(nameof(entity));
 
                 await _entities!.AddAsync(entity);
-                await _context!.SaveChangesAsync();
+                //await _context!.SaveChangesAsync();
 
                 return entity;
             }
@@ -101,7 +101,7 @@
                 if (item is not null)
                 {
                     _entities.Update(entity);
-                    await _context!.SaveChangesAsync();
+                    //await _context!.SaveChangesAsync();
                 }
                 return true;
             }

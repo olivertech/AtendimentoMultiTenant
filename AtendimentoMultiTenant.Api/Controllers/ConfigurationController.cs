@@ -1,7 +1,4 @@
-﻿using AtendimentoMultiTenant.Cross.Helpers;
-using System;
-using System.ComponentModel;
-using System.Security.Cryptography;
+﻿using AtendimentoMultiTenant.Cross.Interfaces;
 
 namespace AtendimentoMultiTenant.Api.Controllers
 {
@@ -10,12 +7,15 @@ namespace AtendimentoMultiTenant.Api.Controllers
     [ApiController]
     public class ConfigurationController : Base.ControllerBase
     {
+        private readonly IPortHelper _portHelper;
         public ConfigurationController(IUnitOfWork unitOfWork, 
                                        IMapper? mapper, 
-                                       IConfiguration configuration)
+                                       IConfiguration configuration,
+                                       IPortHelper portHelper)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Container";
+            _portHelper = portHelper;
         }
 
         [HttpGet]
@@ -66,7 +66,7 @@ namespace AtendimentoMultiTenant.Api.Controllers
         [Produces("application/json")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(ContainerResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerResponse))]
-        public ActionResult<ContainerResponse> Insert([FromBody] ContainerRequest request)
+        public ActionResult<ContainerResponse> Insert([FromBody] ConfigurationRequest request)
         {
             try
             {
@@ -85,8 +85,24 @@ namespace AtendimentoMultiTenant.Api.Controllers
                 entity.Id = Guid.NewGuid();
                 entity.ContainerImage = _configuration!.GetSection("ContainerDatabaseImage").Value!;
                 entity.ContainerCreatedAt = DateOnly.FromDateTime(DateTime.Now);
-                entity.ContainerPort = PortHelper.GetPortNumber();
+                entity.ContainerPort = _portHelper.GetNewPortNumber();
                 entity.IsUp = false;
+
+                //Insere o novo Port e associa o id
+                entity.PortId = _unitOfWork.PortRepository.Insert(new Port
+                { 
+                    PortNumber = entity.ContainerPort 
+                }).Result!.Id;
+                
+                //Insere o novo Tenant e associa o id
+                entity.TenantId = _unitOfWork.TenantRepository.Insert(new Tenant
+                { 
+                    InitialUrl = $"https://localhost:{entity.ContainerPort}",
+                    Secret = "123",
+                    ConnectionString = $"Host=localhost;Port={entity.PortId};Database={request.EnvironmentDbName};User ID={request.EnvironmentDbUser};Password={request.EnvironmentDbPwd};Pooling=true;",
+                    IsActive = true,
+                    Name = request.ClientName
+                }).Result!.Id;
 
                 var result = _unitOfWork.ContainerRepository.Insert(entity);
 

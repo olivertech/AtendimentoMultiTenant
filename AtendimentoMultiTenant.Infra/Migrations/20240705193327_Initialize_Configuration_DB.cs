@@ -133,9 +133,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 columns: new[] { "Id", "email", "is_active", "name", "password", "TenantId" },
                 values: new object[,]
                 {
-                    { new Guid("3b005a21-2b05-4659-b549-c1f4e7c95d7e"), "usuario2@teste.com", true, "Usuario2", "123", new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179") },
-                    { new Guid("fc78dca0-97d6-475d-ac9e-4f713d0df32e"), "usuario1@teste.com", true, "Usuario1", "123", new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8") },
-                    { new Guid("fca2fa8f-ad8e-4c0f-8a34-1a2f44d2cbe6"), "usuario3@teste.com", true, "Usuario3", "123", new Guid("25ae8570-56b6-4a9d-9616-c15862613525") }
+                    { new Guid("193b863f-1512-4aa8-be99-b68bdb5da90c"), "usuario1@teste.com", true, "Usuario1", "123", new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8") },
+                    { new Guid("8015e5a6-0972-4452-b419-ac0b19e3fc29"), "usuario2@teste.com", true, "Usuario2", "123", new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179") },
+                    { new Guid("c94ba5d2-4833-4079-b92a-43fa8339ff79"), "usuario3@teste.com", true, "Usuario3", "123", new Guid("25ae8570-56b6-4a9d-9616-c15862613525") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -147,12 +147,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 name: "IX_Container_TenantId",
                 table: "Container",
                 column: "TenantId");
-
-            migrationBuilder.CreateIndex(
-                name: "Tenant_Name",
-                table: "Tenant",
-                column: "name",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_TenantId",

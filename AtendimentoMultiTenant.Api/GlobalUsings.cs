@@ -10,3 +10,5 @@ global using Swashbuckle.AspNetCore.Annotations;
 global using AtendimentoMultiTenant.Cross.Requests;
 global using AtendimentoMultiTenant.Cross.Responses;
 global using AutoMapper;
+global using System;
+global using AtendimentoMultiTenant.Core.Entities.ConfigurationEntities;
