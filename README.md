@@ -11,13 +11,13 @@ Na parte de tecnologias, temos até o momento as seguintes stacks:
 FRONTEND
 
 BACKEND
-> Aspnet core com C#
-> Entity Framework core
-> Automapper
+- Aspnet core com C#
+- Entity Framework core
+- Automapper
 
 BANCO DE DADOS
-> PostgreSql rodando em containers, com isolamento a nível de banco de dados
+- PostgreSql rodando em containers, com isolamento a nível de banco de dados
 
 INFRA
-> Docker
-> Quartz.net
+- Docker
+- Quartz.net
