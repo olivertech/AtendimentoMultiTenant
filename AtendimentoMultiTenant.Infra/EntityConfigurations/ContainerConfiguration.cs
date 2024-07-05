@@ -4,17 +4,17 @@
     {
         public void Configure(EntityTypeBuilder<Container> builder)
         {
-            builder.HasKey(x => x.Id);
-            builder.Property(x => x.ContainerName).HasMaxLength(250).IsRequired();
-            builder.Property(x => x.ContainerImage).HasMaxLength(250).IsRequired();
-            builder.Property(x => x.EnvironmentDbName).HasMaxLength(250).IsRequired();
-            builder.Property(x => x.EnvironmentDbUser).HasMaxLength(50).IsRequired();
-            builder.Property(x => x.EnvironmentDbPwd).HasMaxLength(50).IsRequired();
-            builder.Property(x => x.ContainerPort).HasMaxLength(4).IsRequired();
-            builder.Property(x => x.ContainerVolume).HasMaxLength(50).IsRequired();
-            builder.Property(x => x.ContainerNetwork).HasMaxLength(50).IsRequired();
-            builder.Property(x => x.IsUp).IsRequired();
-            builder.Property(x => x.ContainerCreatedAt).IsRequired(false);
+            builder.HasKey(x => x.Id).HasName("id");
+            builder.Property(x => x.ContainerName).HasColumnName("container_name").HasMaxLength(250).IsRequired();
+            builder.Property(x => x.ContainerImage).HasColumnName("container_image").HasMaxLength(250).IsRequired();
+            builder.Property(x => x.EnvironmentDbName).HasColumnName("environment_db_name").HasMaxLength(250).IsRequired();
+            builder.Property(x => x.EnvironmentDbUser).HasColumnName("environment_db_user").HasMaxLength(50).IsRequired();
+            builder.Property(x => x.EnvironmentDbPwd).HasColumnName("environment_db_pwd").HasMaxLength(50).IsRequired();
+            builder.Property(x => x.ContainerPort).HasColumnName("container_port").HasMaxLength(4).IsRequired();
+            builder.Property(x => x.ContainerVolume).HasColumnName("container_volume").HasMaxLength(50).IsRequired();
+            builder.Property(x => x.ContainerNetwork).HasColumnName("container_network").HasMaxLength(50).IsRequired();
+            builder.Property(x => x.ContainerCreatedAt).HasColumnName("container_created_at").IsRequired(false);
+            builder.Property(x => x.IsUp).HasColumnName("is_up").IsRequired();
             builder.HasOne(x => x.Tenant);
             builder.ToTable("Container");
 

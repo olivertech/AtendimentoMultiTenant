@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Core.Interfaces.Base
 {
-    public interface IRepositoryBase<T> where T : BaseEntity
+    public interface IRepositoryBase<T> where T : EntityBase
     {
         Task<IEnumerable<T>?> GetAll();
         Task<T?> GetById(Guid? id);

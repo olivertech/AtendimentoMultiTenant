@@ -1,7 +1,7 @@
 ﻿namespace AtendimentoMultiTenant.Infra.Repositories.Base
 {
     public class RepositoryBase<T> : IRepositoryBase<T>
-        where T : BaseEntity
+        where T : EntityBase
     {
         protected readonly AppDbContext? _context;
         protected readonly DbSet<T>? _entities;
@@ -79,6 +79,7 @@
                     throw new ArgumentNullException(nameof(entity));
 
                 await _entities!.AddAsync(entity);
+                await _context!.SaveChangesAsync();
 
                 return entity;
             }
@@ -98,8 +99,10 @@
                 var item = await _entities!.FindAsync(entity.Id);
 
                 if (item is not null)
+                {
                     _entities.Update(entity);
-
+                    await _context!.SaveChangesAsync();
+                }
                 return true;
             }
             catch (Exception ex)

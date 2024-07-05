@@ -21,7 +21,7 @@
     ///    networks:
     ///        - <NETWORK>
     /// </summary>
-    public class Container : BaseConfigurationEntity
+    public class Container : ConfigurationEntityBase
     {
         public string? ContainerName { get; set; } = null;
         public string? ContainerImage { get; set; } = null;

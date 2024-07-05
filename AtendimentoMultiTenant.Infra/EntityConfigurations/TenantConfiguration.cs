@@ -4,13 +4,13 @@
     {
         public void Configure(EntityTypeBuilder<Tenant> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(x => x.Id).HasName("id");
             builder.HasIndex(x => x.Name).HasDatabaseName("Tenant_Name").IsUnique();
-            builder.Property(x => x.Name).HasMaxLength(50).IsRequired();
-            builder.Property(x => x.Secret).HasMaxLength(20).IsRequired();
-            builder.Property(x => x.ConnectionString).IsRequired();
-            builder.Property(x => x.InitialUrl).IsRequired();
-            builder.Property(x => x.IsActive).IsRequired().HasDefaultValue(true);
+            builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(50).IsRequired();
+            builder.Property(x => x.Secret).HasColumnName("secret").HasMaxLength(20).IsRequired();
+            builder.Property(x => x.ConnectionString).HasColumnName("connection_string").IsRequired();
+            builder.Property(x => x.InitialUrl).HasColumnName("initial_url").IsRequired();
+            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
             builder.ToTable("Tenant");
 
             //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido

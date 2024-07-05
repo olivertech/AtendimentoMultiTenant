@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Core.Entities.Base
 {
-    public class BaseConfigurationEntity
+    public class ConfigurationEntityBase
     {
         public Guid Id { get; set; }
     }

@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Core.Entities.Base
 {
-    public class BaseEntity
+    public class EntityBase
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 

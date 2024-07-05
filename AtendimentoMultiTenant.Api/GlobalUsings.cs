@@ -6,3 +6,7 @@ global using Microsoft.Extensions.Options;
 global using Microsoft.OpenApi.Models;
 global using AtendimentoMultiTenant.Cross.Dependencies;
 global using AtendimentoMultiTenant.Api.Jobs;
+global using Swashbuckle.AspNetCore.Annotations;
+global using AtendimentoMultiTenant.Cross.Requests;
+global using AtendimentoMultiTenant.Cross.Responses;
+global using AutoMapper;

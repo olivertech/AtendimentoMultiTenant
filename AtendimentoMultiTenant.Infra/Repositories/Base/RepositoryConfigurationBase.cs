@@ -1,7 +1,7 @@
 ﻿namespace AtendimentoMultiTenant.Infra.Repositories.Base
 {
     public class RepositoryConfigurationBase<T> : IRepositoryConfigurationBase<T>
-        where T : BaseConfigurationEntity
+        where T : ConfigurationEntityBase
     {
         protected readonly AppDbContext? _context;
         protected readonly DbSet<T>? _entities;
@@ -54,6 +54,20 @@
             catch (Exception ex)
             {
                 throw new Exception("RepositoryError - Não foi possível recuperar a lista.", ex);
+            }
+        }
+
+        public async virtual Task<int> Count()
+        {
+            try
+            {
+                var list = await _entities!.ToListAsync();
+
+                return list.Count;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RepositoryError - Não foi possível recuperar o total.", ex);
             }
         }
 
