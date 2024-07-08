@@ -54,7 +54,7 @@
 
             //Recupera todos os registros que da tabela Container, que ainda não
             //tenha sido processados e gerados os seus respectivos containers
-            IEnumerable<Core.Entities.ConfigurationEntities.Container>? containers = await _unitOfWork.ContainerRepository.GetList(x => x.IsUp == false);
+            IEnumerable<Core.Entities.ConfigurationEntities.ContainerDb>? containers = await _unitOfWork.ContainerRepository.GetList(x => x.IsUp == false);
 
             string folderCliente = string.Empty;
 
@@ -63,7 +63,7 @@
             {
                 foreach (var container in containers!)
                 {
-                    folderCliente = Path.Combine(folder, container!.ContainerName!);
+                    folderCliente = Path.Combine(folder, container!.ContainerDbName!);
 
                     //Caso por algum motivo o folder ainda exista, remove
                     RemoveFolderAndFiles(folderCliente, folder);
@@ -82,24 +82,24 @@
                                 writer.WriteLine("version: \"3.8\"");
                                 writer.WriteLine("services:");
                                 writer.WriteLine($"  db_tenant:");
-                                writer.WriteLine($"     container_name: {container?.ContainerName}");
-                                writer.WriteLine($"     image: {container?.ContainerImage}");
+                                writer.WriteLine($"     container_name: {container?.ContainerDbName}");
+                                writer.WriteLine($"     image: {container?.ContainerDbImage}");
                                 writer.WriteLine($"     environment:");
                                 writer.WriteLine($"         - POSTGRES_DB={container?.EnvironmentDbName}");
                                 writer.WriteLine($"         - POSTGRES_USER={container?.EnvironmentDbUser}");
                                 writer.WriteLine($"         - POSTGRES_PASSWORD={container?.EnvironmentDbPwd}");
                                 writer.WriteLine($"         - POSTGRES_HOST_AUTH_METHOD=trust");
                                 writer.WriteLine($"     ports:");
-                                writer.WriteLine($"         - {container?.ContainerPort}:5432");
+                                writer.WriteLine($"         - {container?.ContainerDbPort}:5432");
                                 writer.WriteLine($"     volumes:");
-                                writer.WriteLine($"         - {container?.ContainerVolume}:/var/lib/postgresql/data");
+                                writer.WriteLine($"         - {container?.ContainerDbVolume}:/var/lib/postgresql/data");
                                 writer.WriteLine($"     restart: always");
                                 writer.WriteLine($"     networks:");
-                                writer.WriteLine($"         - {container?.ContainerNetwork}");
+                                writer.WriteLine($"         - {container?.ContainerDbNetwork}");
                                 writer.WriteLine("volumes:");
-                                writer.WriteLine($"  {container?.ContainerVolume}:");
+                                writer.WriteLine($"  {container?.ContainerDbVolume}:");
                                 writer.WriteLine("networks:");
-                                writer.WriteLine($"  {container?.ContainerNetwork}:");
+                                writer.WriteLine($"  {container?.ContainerDbNetwork}:");
                             }
 
                             await Task.Delay(1000);
@@ -126,7 +126,7 @@
                             RemoveFolderAndFiles(folderCliente, folder);
 
                             container!.IsUp = true;
-                            container.ContainerCreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
+                            container.ContainerDbCreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
 
                             await _unitOfWork.ContainerRepository.Update(container);
 

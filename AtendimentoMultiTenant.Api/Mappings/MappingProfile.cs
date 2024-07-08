@@ -7,15 +7,17 @@
             /**
              * Mapping Requests ( Request -> Model )
              */
-            CreateMap<ContainerRequest, Core.Entities.ConfigurationEntities.Container>();
-            CreateMap<ConfigurationRequest, Core.Entities.ConfigurationEntities.Container>();
+            CreateMap<ContainerDbRequest, ContainerDb>();
+            CreateMap<ConfigurationRequest, ContainerDb>();
             CreateMap<TenantRequest, Tenant>();
             CreateMap<UserRequest, User>();
 
             /**
              * Mapping Responses ( Response <- Model )
              */
-            CreateMap<Core.Entities.ConfigurationEntities.Container, ContainerResponse>();
+            CreateMap<ContainerDb, ContainerDbResponse>();
+            CreateMap<ContainerDb, ConfigurationResponse>();
+            CreateMap<User, UserLoginResponse>();
             //CreateMap<Tenant, TenantResponse>();
             //CreateMap<User, UserResponse>();
         }

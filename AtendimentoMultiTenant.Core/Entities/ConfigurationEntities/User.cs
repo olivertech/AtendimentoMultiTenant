@@ -9,11 +9,16 @@
         public string? Name { get; set; } = null;
         public string? Email { get; set; } = null;
         public string? Password { get; set; } = null;
+
         public bool IsActive { get; set; }
 
         public Guid TenantId { get; set; }
+        public Guid? UserTypeId { get; set; }
+        public Guid? UserTokenId { get; set; }
 
         //Navigation Property
         public Tenant? Tenant { get; set; }
+        public UserType? UserType { get; set; }
+        public UserToken? UserToken { get; set; }
     }
 }

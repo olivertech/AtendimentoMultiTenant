@@ -1,10 +1,13 @@
-﻿namespace AtendimentoMultiTenant.Infra.EntityConfigurations
+﻿using Microsoft.EntityFrameworkCore.ValueGeneration;
+
+namespace AtendimentoMultiTenant.Infra.EntityConfigurations
 {
     public class TenantConfiguration : IEntityTypeConfiguration<Tenant>
     {
         public void Configure(EntityTypeBuilder<Tenant> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
             builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(50).IsRequired();
             builder.Property(x => x.Secret).HasColumnName("secret").HasMaxLength(20).IsRequired();
             builder.Property(x => x.ConnectionString).HasColumnName("connection_string").IsRequired();

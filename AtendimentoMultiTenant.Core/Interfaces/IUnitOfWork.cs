@@ -2,9 +2,11 @@
 {
     public interface IUnitOfWork
     {
-        IContainerRepository ContainerRepository { get; }
+        IContainerDbRepository ContainerRepository { get; }
         ITenantRepository TenantRepository { get; }
         IUserRepository UserRepository { get; }
+        IUserTypeRepository UserTypeRepository { get; }
+        IUserTokenRepository UserTokenRepository { get; }
         IPortRepository PortRepository { get; }
 
         Task CommitAsync();

@@ -1,13 +1,13 @@
 ﻿namespace AtendimentoMultiTenant.Cross.Requests
 {
-    public class ContainerRequest : RequestBase
+    public class ContainerDbRequest : RequestBase
     {
         [JsonPropertyName("container_name")]
         [JsonProperty(PropertyName = "container_name")]
         [StringLength(250, ErrorMessage = "Informe nome do container com até 250 caracteres.")]
         [DefaultValue("<NOMECLIENTE>_postgresql")]
         [Required]
-        public string? ContainerName { get; set; } = null;
+        public string? ContainerDbName { get; set; } = null;
 
         [JsonPropertyName("environment_db_name")]
         [JsonProperty(PropertyName = "environment_db_name")]

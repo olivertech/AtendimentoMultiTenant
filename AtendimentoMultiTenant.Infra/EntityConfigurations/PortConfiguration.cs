@@ -1,10 +1,13 @@
-﻿namespace AtendimentoMultiTenant.Infra.EntityConfigurations
+﻿using Microsoft.EntityFrameworkCore.ValueGeneration;
+
+namespace AtendimentoMultiTenant.Infra.EntityConfigurations
 {
-    internal class PortConfiguration : IEntityTypeConfiguration<Port>
+    public class PortConfiguration : IEntityTypeConfiguration<Port>
     {
         public void Configure(EntityTypeBuilder<Port> builder)
         {
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
             builder.Property(x => x.PortNumber).HasColumnName("port_number").HasMaxLength(4).IsRequired();
             builder.ToTable("Port");
 

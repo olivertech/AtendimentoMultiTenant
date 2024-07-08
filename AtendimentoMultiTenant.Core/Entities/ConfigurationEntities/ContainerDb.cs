@@ -21,18 +21,18 @@
     ///    networks:
     ///        - <NETWORK>
     /// </summary>
-    public class Container : ConfigurationEntityBase
+    public class ContainerDb : ConfigurationEntityBase
     {
-        public string? ContainerName { get; set; } = null;
-        public string? ContainerImage { get; set; } = null;
+        public string? ContainerDbName { get; set; } = null;
+        public string? ContainerDbImage { get; set; } = null;
         public string? EnvironmentDbName { get; set; }
         public string? EnvironmentDbUser { get; set; }
         public string? EnvironmentDbPwd { get; set; }
-        public string? ContainerPort { get; set; }
-        public string? ContainerVolume { get; set; }
-        public string? ContainerNetwork { get; set; }
+        public string? ContainerDbPort { get; set; }
+        public string? ContainerDbVolume { get; set; }
+        public string? ContainerDbNetwork { get; set; }
         public bool IsUp { get; set; } = false;
-        public DateOnly? ContainerCreatedAt { get; set; }
+        public DateOnly? ContainerDbCreatedAt { get; set; }
 
         public Guid TenantId { get; set; }
         public Guid PortId { get; set; }

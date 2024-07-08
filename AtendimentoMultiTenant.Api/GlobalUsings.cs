@@ -12,3 +12,7 @@ global using AtendimentoMultiTenant.Cross.Responses;
 global using AutoMapper;
 global using System;
 global using AtendimentoMultiTenant.Core.Entities.ConfigurationEntities;
+global using AtendimentoMultiTenant.Cross.Helpers;
+global using AtendimentoMultiTenant.Cross.Interfaces;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Http;

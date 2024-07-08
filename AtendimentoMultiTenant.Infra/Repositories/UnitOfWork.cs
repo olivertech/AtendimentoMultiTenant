@@ -4,9 +4,11 @@
     {
         private readonly AppDbContext _context;
 
-        private IContainerRepository? _containerRepository;
+        private IContainerDbRepository? _containerRepository;
         private ITenantRepository? _tenantRepository;
         private IUserRepository? _userRepository;
+        private IUserTypeRepository? _userTypeRepository;
+        private IUserTokenRepository? _userTokenRepository;
         private IPortRepository? _portRepository;
 
         public UnitOfWork(AppDbContext context)
@@ -14,11 +16,11 @@
             _context = context;
         }
 
-        public IContainerRepository ContainerRepository
+        public IContainerDbRepository ContainerRepository
         {
             get
             {
-                return _containerRepository ??= new ContainerRepository(_context);
+                return _containerRepository ??= new ContainerDbRepository(_context);
             }
         }
 
@@ -43,6 +45,22 @@
             get
             {
                 return _portRepository ??= new PortRepository(_context);
+            }
+        }
+
+        public IUserTypeRepository UserTypeRepository
+        {
+            get
+            {
+                return _userTypeRepository ??= new UserTypeRepository(_context);
+            }
+        }
+
+        public IUserTokenRepository UserTokenRepository
+        {
+            get
+            {
+                return _userTokenRepository ??= new UserTokenRepository(_context);
             }
         }
 

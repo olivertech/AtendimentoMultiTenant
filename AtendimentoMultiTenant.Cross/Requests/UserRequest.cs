@@ -4,13 +4,13 @@
     {
         [JsonPropertyName("user_name")]
         [JsonProperty(PropertyName = "user_name")]
-        [StringLength(50, ErrorMessage = "Informe nome do usuário com até 50 caracteres.")]
+        [StringLength(250, ErrorMessage = "Informe nome do usuário com até 250 caracteres.")]
         [Required]
         public string? Name { get; set; } = null;
 
         [JsonPropertyName("email")]
         [JsonProperty(PropertyName = "email")]
-        [StringLength(150, ErrorMessage = "Informe email do usuário com até 150 caracteres.")]
+        [StringLength(250, ErrorMessage = "Informe email do usuário com até 250 caracteres.")]
         [Required]
         public string? Email { get; set; } = null;
 
