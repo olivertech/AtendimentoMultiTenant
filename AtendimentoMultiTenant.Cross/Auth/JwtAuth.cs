@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-
-namespace AtendimentoMultiTenant.Cross.Auth
+﻿namespace AtendimentoMultiTenant.Cross.Auth
 {
     public static class JwtAuth
     {

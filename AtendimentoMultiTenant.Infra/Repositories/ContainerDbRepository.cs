@@ -1,5 +1,4 @@
-﻿
-namespace AtendimentoMultiTenant.Infra.Repositories
+﻿namespace AtendimentoMultiTenant.Infra.Repositories
 {
     public class ContainerDbRepository : RepositoryConfigurationBase<ContainerDb>, IContainerDbRepository
     {

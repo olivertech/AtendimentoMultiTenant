@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ValueGeneration;
-
-namespace AtendimentoMultiTenant.Infra.EntityConfigurations
+﻿namespace AtendimentoMultiTenant.Infra.EntityConfigurations
 {
     public class PortConfiguration : IEntityTypeConfiguration<Port>
     {

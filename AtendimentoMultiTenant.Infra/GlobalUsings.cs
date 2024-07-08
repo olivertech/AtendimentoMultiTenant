@@ -9,3 +9,4 @@ global using AtendimentoMultiTenant.Core.Interfaces;
 global using AtendimentoMultiTenant.Infra.Context;
 global using AtendimentoMultiTenant.Infra.Repositories.Base;
 global using System.Diagnostics.CodeAnalysis;
+global using Microsoft.EntityFrameworkCore.ValueGeneration;

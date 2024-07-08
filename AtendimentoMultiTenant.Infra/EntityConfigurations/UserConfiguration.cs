@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ValueGeneration;
-
-namespace AtendimentoMultiTenant.Infra.EntityConfigurations
+﻿namespace AtendimentoMultiTenant.Infra.EntityConfigurations
 {
     public class UserConfiguration : IEntityTypeConfiguration<User>
     {
@@ -33,11 +31,6 @@ namespace AtendimentoMultiTenant.Infra.EntityConfigurations
                     IsActive = true,
                     TenantId = Guid.Parse("f6a2372a-b146-45f9-be70-a0be13736dd8"),
                     UserTypeId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
-                    //UserType = new UserType()
-                    //{
-                    //    Id = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002"),
-                    //    Name = "admin",
-                    //}
                 },
                 new User
                 {
@@ -48,11 +41,6 @@ namespace AtendimentoMultiTenant.Infra.EntityConfigurations
                     IsActive = true,
                     TenantId = Guid.Parse("64210b12-a8d4-44ae-b35e-b13b762c4179"),
                     UserTypeId = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002")
-                    //UserType = new UserType()
-                    //{
-                    //    Id = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002"),
-                    //    Name = "admin",
-                    //}
                 },
                 new User
                 {
@@ -63,11 +51,6 @@ namespace AtendimentoMultiTenant.Infra.EntityConfigurations
                     IsActive = true,
                     TenantId = Guid.Parse("25ae8570-56b6-4a9d-9616-c15862613525"),
                     UserTypeId = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002")
-                    //UserType = new UserType()
-                    //{
-                    //    Id = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002"),
-                    //    Name = "admin",
-                    //}
                 }
             });
         }

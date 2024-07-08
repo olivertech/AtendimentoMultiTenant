@@ -1,7 +1,4 @@
-﻿using AtendimentoMultiTenant.Cross.Interfaces;
-using System.Collections.Generic;
-
-namespace AtendimentoMultiTenant.Api.Controllers
+﻿namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Configuration")]
     [SwaggerTag("Configuration")]

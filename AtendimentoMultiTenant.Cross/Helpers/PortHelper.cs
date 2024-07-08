@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Cross.Interfaces;
-
-namespace AtendimentoMultiTenant.Cross.Helpers
+﻿namespace AtendimentoMultiTenant.Cross.Helpers
 {
     /// <summary>
     /// Classe que auxilia na busca por uma nova porta

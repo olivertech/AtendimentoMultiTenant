@@ -13,3 +13,6 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Text;
 global using System.Security.Claims;
+global using AtendimentoMultiTenant.Cross.Helpers;
+global using AtendimentoMultiTenant.Cross.Interfaces;
+global using AtendimentoMultiTenant.Infra.Repositories;
