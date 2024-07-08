@@ -106,9 +106,9 @@
 
                 var search = _unitOfWork!.ContainerRepository.GetAll().Result;
 
-                if (search!.Any(x => x.ContainerDbName == request.ContainerName) ||
-                    search!.Any(x => x.ContainerDbVolume == request.ContainerVolume) ||
-                    search!.Any(x => x.ContainerDbNetwork == request.ContainerNetwork))
+                if (search!.Any(x => x.ContainerDbName == request.ContainerDbName) ||
+                    search!.Any(x => x.ContainerDbVolume == request.ContainerDbVolume) ||
+                    search!.Any(x => x.ContainerDbNetwork == request.ContainerDbNetwork))
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));
 
                 var entity = _mapper!.Map<ContainerDb>(request);

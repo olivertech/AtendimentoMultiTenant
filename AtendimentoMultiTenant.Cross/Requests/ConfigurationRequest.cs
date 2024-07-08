@@ -9,12 +9,12 @@
         [Required]
         public string? ClientName { get; set; } = null;
 
-        [JsonPropertyName("container_name")]
-        [JsonProperty(PropertyName = "container_name")]
+        [JsonPropertyName("container_db_name")]
+        [JsonProperty(PropertyName = "container_db_name")]
         [StringLength(250, ErrorMessage = "Informe nome do container com até 250 caracteres.")]
         [DefaultValue("<NOMECLIENTE>_postgresql")]
         [Required]
-        public string? ContainerName { get; set; } = null;
+        public string? ContainerDbName { get; set; } = null;
 
         [JsonPropertyName("environment_db_name")]
         [JsonProperty(PropertyName = "environment_db_name")]
@@ -37,18 +37,18 @@
         [Required]
         public string? EnvironmentDbPwd { get; set; }
 
-        [JsonPropertyName("container_volume")]
-        [JsonProperty(PropertyName = "container_volume")]
+        [JsonPropertyName("container_db_volume")]
+        [JsonProperty(PropertyName = "container_db_volume")]
         [StringLength(50, ErrorMessage = "Informe nome do volume do container com até 50 caracteres.")]
         [DefaultValue("<NOMECLIENTE>_volume")]
         [Required]
-        public string? ContainerVolume { get; set; }
+        public string? ContainerDbVolume { get; set; }
 
-        [JsonPropertyName("container_network")]
-        [JsonProperty(PropertyName = "container_network")]
+        [JsonPropertyName("container_db_network")]
+        [JsonProperty(PropertyName = "container_db_network")]
         [StringLength(50, ErrorMessage = "Informe nome da rede do container com até 50 caracteres.")]
         [DefaultValue("<NOMECLIENTE>_network")]
         [Required]
-        public string? ContainerNetwork { get; set; }
+        public string? ContainerDbNetwork { get; set; }
     }
 }
