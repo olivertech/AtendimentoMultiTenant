@@ -19,7 +19,11 @@
             services.AddScoped<IContainerDbRepository, ContainerDbRepository>();
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserTokenRepository, UserTokenRepository>();
+            services.AddScoped<IUserTypeRepository, UserTypeRepository>();
             services.AddScoped<IPortRepository, PortRepository>();
+            services.AddScoped<IFeatureRepository, FeatureRepository>();
+            services.AddScoped<IUserFeatureRepository, UserFeatureRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPortHelper, PortHelper>();
 

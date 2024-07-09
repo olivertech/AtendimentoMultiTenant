@@ -6,7 +6,20 @@
         [JsonProperty(PropertyName = "user_name")]
         [StringLength(250, ErrorMessage = "Informe nome do usuário com até 250 caracteres.")]
         [Required]
-        public string? Name { get; set; } = null;
+        public string? Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (value is not null)
+                    _name = value.ToString().ToUpper();
+            }
+        }
+
+        private string? _name;
 
         [JsonPropertyName("email")]
         [JsonProperty(PropertyName = "email")]

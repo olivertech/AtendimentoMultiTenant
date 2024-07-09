@@ -8,7 +8,7 @@
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
             builder.Property(x => x.Token).HasColumnName("token").IsRequired();
             builder.Property(x => x.Expiration).HasColumnName("expiration").IsRequired();
-            builder.ToTable("UserToken");
+            builder.ToTable("User_Token");
         }
     }
 }

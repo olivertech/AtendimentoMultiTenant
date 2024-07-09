@@ -20,11 +20,34 @@
             builder.Property(x => x.PortId).HasColumnName("port_id").IsRequired();
             builder.HasOne(x => x.Tenant);
             builder.HasOne(x => x.Port);
-            builder.ToTable("ContainerDb");
+            builder.ToTable("Container_Db");
 
-            //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
             builder.HasData(new[]
             {
+                //=======================================================================================================
+                //SEED DO BANCO DE CONFIGURAÇÃO - ESSE SEED É FIXO E NÃO DEVE SER REMOVIDO
+                //O SISTEMA CONTA COM UM STARTUP DE DADOS, QUE CONTERÁ INICIALMENTE UM CONTAINER ATIVO DE CONFIGURAÇÕES
+                //QUE VAI SER RESPONSÁVEL POR MANTER E GERIR TODO O RESTO DA APLICAÇÃO, MANTENDO ENTIDADES GLOBAIS
+                //QUE ARMAZENAM DADOS RELACIONADOS A GESTÃO DE TODOS OS CLIENTES, SEM MANTER AQUI OS DADOS DOS CLIENTES
+                //QUE FICARÃO RESTRITOS AOS CONTAINERS DE CADA CLIENTE
+                //=======================================================================================================
+                new ContainerDb
+                {
+                    Id = Guid.Parse("2fb70bc4-3d70-11ef-a3ab-0242ac1c0002"),
+                    ContainerDbName = "postgresql_configs",
+                    ContainerDbImage = "postgres:16.2",
+                    EnvironmentDbName = "AtendimentoConfigDB",
+                    EnvironmentDbUser = "postgresconfiguser",
+                    EnvironmentDbPwd = "atendimento@config",
+                    ContainerDbPort = "5432",
+                    ContainerDbVolume = "db_config_volume",
+                    ContainerDbNetwork = "db_tenant_network",
+                    TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
+                    PortId = Guid.Parse("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
+                    ContainerDbCreatedAt = DateOnly.FromDateTime(DateTime.Now),
+                    IsUp = true
+                },
+                //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
                 new ContainerDb
                 {
                     Id = Guid.Parse("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),

@@ -6,8 +6,8 @@
     public class ConfigurationController : Base.ControllerBase
     {
         private readonly IPortHelper _portHelper;
-        public ConfigurationController(IUnitOfWork unitOfWork, 
-                                       IMapper? mapper, 
+        public ConfigurationController(IUnitOfWork unitOfWork,
+                                       IMapper? mapper,
                                        IConfiguration configuration,
                                        IPortHelper portHelper)
             : base(unitOfWork, mapper, configuration)
@@ -120,13 +120,13 @@
 
                 //Insere o novo Port e associa o id
                 entity.PortId = _unitOfWork.PortRepository.Insert(new Port
-                { 
-                    PortNumber = entity.ContainerDbPort 
+                {
+                    PortNumber = entity.ContainerDbPort
                 }).Result!.Id;
-                
+
                 //Insere o novo Tenant e associa o id
                 entity.TenantId = _unitOfWork.TenantRepository.Insert(new Tenant
-                { 
+                {
                     InitialUrl = $"https://localhost:{entity.ContainerDbPort}",
                     Secret = "123",
                     ConnectionString = $"Host=localhost;Port={entity.PortId};Database={request.EnvironmentDbName};User ID={request.EnvironmentDbUser};Password={request.EnvironmentDbPwd};Pooling=true;",
@@ -134,6 +134,19 @@
                     Name = request.ClientName
                 }).Result!.Id;
 
+                //Insere novo Usuário do Tenant e associa o id
+                User newUser = _unitOfWork.UserRepository.Insert(new User
+                {
+                    Name = "Administrador",
+                    Email = "admin@" + request.ClientName + ".com.br",
+                    Password = "123",
+                    IsActive = true,
+                    TenantId = entity.TenantId,
+                    UserTypeId = _unitOfWork.UserTypeRepository.GetList(x => x.Name!.ToLower().Equals("administrador")).Result!.FirstOrDefault()!.Id
+
+                }).Result!;
+
+                //Insere novo Container, já tendo as referencias definidas acima
                 var result = _unitOfWork.ContainerRepository.Insert(entity);
 
                 _unitOfWork.CommitAsync().Wait();

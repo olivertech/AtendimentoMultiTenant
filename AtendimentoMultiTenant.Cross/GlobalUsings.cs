@@ -16,3 +16,5 @@ global using System.Security.Claims;
 global using AtendimentoMultiTenant.Cross.Helpers;
 global using AtendimentoMultiTenant.Cross.Interfaces;
 global using AtendimentoMultiTenant.Infra.Repositories;
+global using System.Text.RegularExpressions;
+global using AtendimentoMultiTenant.Cross.CustomValidators;

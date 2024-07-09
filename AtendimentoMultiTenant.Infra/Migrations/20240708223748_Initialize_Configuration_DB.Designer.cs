@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AtendimentoMultiTenant.Infra.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240707165711_Initialize_Configuration_DB")]
+    [Migration("20240708223748_Initialize_Configuration_DB")]
     partial class Initialize_Configuration_DB
     {
         /// <inheritdoc />
@@ -102,9 +102,24 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.ToTable("ContainerDb", (string)null);
+                    b.ToTable("Container_Db", (string)null);
 
                     b.HasData(
+                        new
+                        {
+                            Id = new Guid("2fb70bc4-3d70-11ef-a3ab-0242ac1c0002"),
+                            ContainerDbImage = "postgres:16.2",
+                            ContainerDbName = "postgresql_configs",
+                            ContainerDbNetwork = "db_tenant_network",
+                            ContainerDbPort = "5432",
+                            ContainerDbVolume = "db_config_volume",
+                            EnvironmentDbName = "AtendimentoConfigDB",
+                            EnvironmentDbPwd = "atendimento@config",
+                            EnvironmentDbUser = "postgresconfiguser",
+                            IsUp = true,
+                            PortId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
+                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002")
+                        },
                         new
                         {
                             Id = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
@@ -152,6 +167,26 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Feature", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Feature", (string)null);
+                });
+
             modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Port", b =>
                 {
                     b.Property<Guid>("Id")
@@ -170,6 +205,11 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.ToTable("Port", (string)null);
 
                     b.HasData(
+                        new
+                        {
+                            Id = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
+                            PortNumber = "5432"
+                        },
                         new
                         {
                             Id = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
@@ -227,6 +267,15 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.ToTable("Tenant", (string)null);
 
                     b.HasData(
+                        new
+                        {
+                            Id = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
+                            ConnectionString = "Host=localhost;Port=5432;Database=AtendimentoConfigDB;User ID=postgresconfiguser;Password=atendimento@config;Pooling=true;",
+                            InitialUrl = "",
+                            IsActive = true,
+                            Name = "Configuration",
+                            Secret = "123"
+                        },
                         new
                         {
                             Id = new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"),
@@ -316,17 +365,37 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("60a52233-dbd8-426d-8724-38dcedaa24d9"),
-                            Email = "admin1@teste.com",
+                            Id = new Guid("aae1f4ce-38a4-405f-941d-5decda4dbf51"),
+                            Email = "dir@config.com",
                             IsActive = true,
-                            Name = "admin",
+                            Name = "Director",
                             Password = "123",
-                            TenantId = new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"),
+                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
                             UserTypeId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002")
                         },
                         new
                         {
-                            Id = new Guid("4214fa3a-91a6-41a7-b2ab-e39be9ef5128"),
+                            Id = new Guid("f4f67473-867f-4c5d-8906-8735163fe182"),
+                            Email = "manager1@config.com",
+                            IsActive = true,
+                            Name = "Manager1",
+                            Password = "123",
+                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
+                            UserTypeId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002")
+                        },
+                        new
+                        {
+                            Id = new Guid("857fb620-01cf-4a52-9530-644b0e8578e7"),
+                            Email = "manager2@config.com",
+                            IsActive = true,
+                            Name = "Manager2",
+                            Password = "123",
+                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
+                            UserTypeId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002")
+                        },
+                        new
+                        {
+                            Id = new Guid("9d51d2ee-ee10-473c-aecd-081b4f6dd199"),
                             Email = "cliente1@teste.com",
                             IsActive = true,
                             Name = "cliente1",
@@ -336,7 +405,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("806a18fa-a650-446b-bb9f-4cb495ba0533"),
+                            Id = new Guid("4d0f8ac4-2501-43f0-8fab-dbd270c7c499"),
                             Email = "cliente2@teste.com",
                             IsActive = true,
                             Name = "cliente2",
@@ -344,6 +413,28 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             TenantId = new Guid("25ae8570-56b6-4a9d-9616-c15862613525"),
                             UserTypeId = new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002")
                         });
+                });
+
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.UserFeature", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("FeatureId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean")
+                        .HasColumnName("is_active");
+
+                    b.HasKey("UserId", "FeatureId");
+
+                    b.HasIndex("FeatureId");
+
+                    b.ToTable("User_Feature", (string)null);
                 });
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.UserToken", b =>
@@ -364,7 +455,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserToken", (string)null);
+                    b.ToTable("User_Token", (string)null);
                 });
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.UserType", b =>
@@ -382,7 +473,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserType", (string)null);
+                    b.ToTable("User_Type", (string)null);
 
                     b.HasData(
                         new
@@ -437,6 +528,37 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Navigation("UserToken");
 
                     b.Navigation("UserType");
+                });
+
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.UserFeature", b =>
+                {
+                    b.HasOne("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Feature", "Feature")
+                        .WithMany("UserFeatures")
+                        .HasForeignKey("FeatureId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("feature_id");
+
+                    b.HasOne("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.User", "User")
+                        .WithMany("UserFeatures")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("user_id");
+
+                    b.Navigation("Feature");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.Feature", b =>
+                {
+                    b.Navigation("UserFeatures");
+                });
+
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.Entities.ConfigurationEntities.User", b =>
+                {
+                    b.Navigation("UserFeatures");
                 });
 #pragma warning restore 612, 618
         }

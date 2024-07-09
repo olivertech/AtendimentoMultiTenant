@@ -6,7 +6,20 @@
         [JsonProperty(PropertyName = "email")]
         [StringLength(150, ErrorMessage = "Informe email do usuário com até 150 caracteres.")]
         [Required]
-        public string? Email { get; set; } = null;
+        public string? Email
+        {
+            get
+            {
+                return _email;
+            }
+            set
+            {
+                if (value is not null)
+                    _email = value.ToString().ToLower();
+            }
+        }
+
+        private string? _email;
 
         [JsonPropertyName("password")]
         [JsonProperty(PropertyName = "password")]

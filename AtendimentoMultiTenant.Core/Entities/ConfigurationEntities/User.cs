@@ -20,5 +20,8 @@
         public Tenant? Tenant { get; set; }
         public UserType? UserType { get; set; }
         public UserToken? UserToken { get; set; }
+
+        // Many-to-many relation
+        public IList<UserFeature>? UserFeatures { get; set; }
     }
 }

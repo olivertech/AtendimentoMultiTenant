@@ -10,6 +10,8 @@
         private IUserTypeRepository? _userTypeRepository;
         private IUserTokenRepository? _userTokenRepository;
         private IPortRepository? _portRepository;
+        private IFeatureRepository? _featureRepository;
+        private IUserFeatureRepository? _userFeatureRepository;
 
         public UnitOfWork(AppDbContext context)
         {
@@ -61,6 +63,22 @@
             get
             {
                 return _userTokenRepository ??= new UserTokenRepository(_context);
+            }
+        }
+
+        public IFeatureRepository FeatureRepository
+        {
+            get
+            {
+                return _featureRepository ??= new FeatureRepository(_context);
+            }
+        }
+
+        public IUserFeatureRepository UserFeatureRepository
+        {
+            get
+            {
+                return _userFeatureRepository ??= new UserFeatureRepository(_context);
             }
         }
 

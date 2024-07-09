@@ -8,6 +8,8 @@
         IUserTypeRepository UserTypeRepository { get; }
         IUserTokenRepository UserTokenRepository { get; }
         IPortRepository PortRepository { get; }
+        IFeatureRepository FeatureRepository { get; }
+        IUserFeatureRepository UserFeatureRepository { get; }
 
         Task CommitAsync();
     }

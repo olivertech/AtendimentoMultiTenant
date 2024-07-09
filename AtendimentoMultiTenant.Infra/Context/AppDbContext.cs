@@ -17,6 +17,8 @@
         public DbSet<Port> Ports { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<Feature> Features { get; set; }
+        public DbSet<UserFeature> UserFeatures { get; set; }
 
         /// <summary>
         /// Faz referencia as classes de configurações das entidades
@@ -30,6 +32,8 @@
             modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new ContainerDbConfiguration());
+            modelBuilder.ApplyConfiguration(new FeatureConfiguration());
+            modelBuilder.ApplyConfiguration(new UserFeatureConfiguration());
         }
     }
 }

@@ -54,7 +54,7 @@
 
             //Recupera todos os registros que da tabela Container, que ainda não
             //tenha sido processados e gerados os seus respectivos containers
-            IEnumerable<Core.Entities.ConfigurationEntities.ContainerDb>? containers = await _unitOfWork.ContainerRepository.GetList(x => x.IsUp == false);
+            IEnumerable<ContainerDb>? containers = await _unitOfWork.ContainerRepository.GetList(x => x.IsUp == false);
 
             string folderCliente = string.Empty;
 
