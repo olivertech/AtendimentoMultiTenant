@@ -6,14 +6,18 @@
     public class ConfigurationController : Base.ControllerBase
     {
         private readonly IPortHelper _portHelper;
+        private readonly ILogger<ConfigurationController>? _logger;
+
         public ConfigurationController(IUnitOfWork unitOfWork,
                                        IMapper? mapper,
                                        IConfiguration configuration,
-                                       IPortHelper portHelper)
+                                       IPortHelper portHelper,
+                                       ILogger<ConfigurationController>? logger)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Container";
             _portHelper = portHelper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -33,7 +37,8 @@
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao listar configurações - ") + ex.Message));
+                _logger!.LogError(ex, "GetAll");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao listar configurações - ", _nomeEntidade) + ex.Message));
             }
         }
 
@@ -45,17 +50,31 @@
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
         public async Task<IActionResult> GetById(Guid id)
         {
-            if (!Guid.TryParse(id.ToString(), out _))
-                return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id inválido!"));
+            try
+            {
+                if (!Guid.TryParse(id.ToString(), out _))
+                {
+                    _logger!.LogWarning("Id inválido!");
+                    return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id inválido!"));
+                }
 
-            var entity = await _unitOfWork!.ContainerRepository.GetById(id);
+                var entity = await _unitOfWork!.ContainerRepository.GetById(id);
 
-            if (entity == null)
-                return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id inválido!"));
+                if (entity == null)
+                {
+                    _logger!.LogWarning("Não existe configuração com o Id informado!");
+                    return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Não existe configuração com o Id informado!"));
+                }
 
-            var response = _mapper!.Map<ContainerDb, ContainerDbResponse>(entity!);
+                var response = _mapper!.Map<ContainerDb, ContainerDbResponse>(entity!);
 
-            return Ok(ResponseFactory<ContainerDbResponse>.Success(true, "Consulta realizada com sucesso.", response));
+                return Ok(ResponseFactory<ContainerDbResponse>.Success(true, "Consulta realizada com sucesso.", response));
+            }
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "GetById");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao recuperar configuração - ", _nomeEntidade) + ex.Message));
+            }
         }
 
         [HttpGet]
@@ -67,17 +86,31 @@
         [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(ContainerDbResponse))]
         public async Task<IActionResult> GetListByName(string name)
         {
-            if (name is null)
-                return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Nome inválido!"));
+            try
+            {
+                if (name is null)
+                {
+                    _logger!.LogWarning("Nome inválido!");
+                    return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Nome inválido!"));
+                }
 
-            var entities = await _unitOfWork!.ContainerRepository.GetList(x => x.ContainerDbName!.ToLower() == name.ToLower());
+                var entities = await _unitOfWork!.ContainerRepository.GetList(x => x.ContainerDbName!.ToLower() == name.ToLower());
 
-            if (entities == null)
-                return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<ContainerDbResponse>.Error(false, "Não existem configurações para esse nome!"));
+                if (entities == null)
+                {
+                    _logger!.LogWarning("Não existem configurações para esse nome!");
+                    return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<ContainerDbResponse>.Error(false, "Não existem configurações para esse nome!"));
+                }
 
-            var response = _mapper!.Map<IEnumerable<ContainerDb>, IEnumerable<ContainerDbResponse>>(entities!);
+                var response = _mapper!.Map<IEnumerable<ContainerDb>, IEnumerable<ContainerDbResponse>>(entities!);
 
-            return Ok(ResponseFactory<IEnumerable<ContainerDbResponse>>.Success(true, "Consulta realizada com sucesso.", response));
+                return Ok(ResponseFactory<IEnumerable<ContainerDbResponse>>.Success(true, "Consulta realizada com sucesso.", response));
+            }
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "GetListByName");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao recuperar lista de configurações por nome - ", _nomeEntidade) + ex.Message));
+            }
         }
 
         [HttpGet]
@@ -86,8 +119,17 @@
         [Authorize(Roles = "Administrador")]
         public async Task<IActionResult> GetCount()
         {
-            var result = await _unitOfWork!.ContainerRepository.Count();
-            return Ok(ResponseFactory<int>.Success(true, "Consulta realizada com sucesso.", result)); ;
+            try
+            {
+                var result = await _unitOfWork!.ContainerRepository.Count();
+                return Ok(ResponseFactory<int>.Success(true, "Consulta realizada com sucesso.", result)); ;
+
+            }
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "GetCount");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao recuperar total de configurações - ", _nomeEntidade) + ex.Message));
+            }
         }
 
         [HttpPost]
@@ -102,14 +144,21 @@
             try
             {
                 if (request is null)
+                {
+                    _logger!.LogWarning("Request inválido!");
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Request inválido!"));
+                }
 
-                var search = _unitOfWork!.ContainerRepository.GetAll().Result;
+                var search = _unitOfWork!.ContainerRepository.GetAllFull().Result;
 
-                if (search!.Any(x => x.ContainerDbName == request.ContainerDbName) ||
-                    search!.Any(x => x.ContainerDbVolume == request.ContainerDbVolume) ||
-                    search!.Any(x => x.ContainerDbNetwork == request.ContainerDbNetwork))
+                if (search!.Any(x => x!.Tenant!.Name == request.ClientName) ||
+                    search!.Any(x => x!.ContainerDbName == request.ContainerDbName) ||
+                    search!.Any(x => x!.ContainerDbVolume == request.ContainerDbVolume) ||
+                    search!.Any(x => x!.ContainerDbNetwork == request.ContainerDbNetwork))
+                {
+                    _logger!.LogWarning(String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade));
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));
+                }
 
                 var entity = _mapper!.Map<ContainerDb>(request);
 
@@ -158,12 +207,14 @@
                 }
                 else
                 {
+                    _logger!.LogWarning(String.Format("Não foi possível incluir o {0}! Verifique os dados enviados.", _nomeEntidade));
                     return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Não foi possível incluir o {0}! Verifique os dados enviados.", _nomeEntidade)));
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao inserir o {0} -> ", _nomeEntidade) + ex.Message));
+                _logger!.LogError(ex, "Insert");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao inserir o {0} - ", _nomeEntidade) + ex.Message));
             }
         }
 
@@ -181,20 +232,29 @@
             try
             {
                 if (request is null || !Guid.TryParse(request.Id.ToString(), out _))
+                {
+                    _logger!.LogWarning("Id informado inválido!");
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
+                }
 
                 var entity = _unitOfWork!.ContainerRepository.GetById(request.Id).Result;
 
                 if (entity is null)
+                {
+                    _logger!.LogWarning("Id informado inválido!");
                     return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
+                }
 
                 var search = _unitOfWork!.ContainerRepository.GetAll().Result;
 
                 if (search!.Any(x => x.ContainerDbName == request.ContainerDbName) ||
                     search!.Any(x => x.ContainerDbVolume == request.ContainerVolume) ||
                     search!.Any(x => x.ContainerDbNetwork == request.ContainerNetwork))
+                {
+                    _logger!.LogWarning(String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade));
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));
 
+                }
                 _mapper!.Map(request, entity);
 
                 var result = _unitOfWork.ContainerRepository.Update(entity).Result;
@@ -208,12 +268,14 @@
                 }
                 else
                 {
+                    _logger!.LogWarning(String.Format("{0} não encontrado para atualização!", _nomeEntidade));
                     return StatusCode(StatusCodes.Status304NotModified, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("{0} não encontrado para atualização!", _nomeEntidade)));
                 }
             }
             catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao atualizar a {0} -> ", _nomeEntidade) + ex.Message));
+                _logger!.LogError(ex, "Update");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao atualizar a {0} - ", _nomeEntidade) + ex.Message));
             }
         }
 
@@ -226,26 +288,40 @@
         [Authorize(Roles = "Administrador")]
         public IActionResult Delete(Guid id)
         {
-            if (id.ToString().Length == 0)
-                return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado igual a 0!"));
-
-            var entity = _unitOfWork!.ContainerRepository.GetById(id).Result;
-
-            if (entity is null)
-                return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
-
-            var result = _unitOfWork.ContainerRepository.Delete(id).Result;
-
-            _unitOfWork.CommitAsync().Wait();
-
-            if (result)
+            try
             {
-                var response = _mapper!.Map<ContainerDbResponse>(entity);
-                return Ok(ResponseFactory<ContainerDbResponse>.Success(true, String.Format("Remoção de {0} realizada com sucesso.", _nomeEntidade), response));
+                if (id.ToString().Length == 0)
+                {
+                    _logger!.LogWarning("Id informado igual a 0!");
+                    return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado igual a 0!"));
+                }
+                var entity = _unitOfWork!.ContainerRepository.GetById(id).Result;
+
+                if (entity is null)
+                {
+                    _logger!.LogWarning("Id informado inválido!");
+                    return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
+                }
+
+                var result = _unitOfWork.ContainerRepository.Delete(id).Result;
+
+                _unitOfWork.CommitAsync().Wait();
+
+                if (result)
+                {
+                    var response = _mapper!.Map<ContainerDbResponse>(entity);
+                    return Ok(ResponseFactory<ContainerDbResponse>.Success(true, String.Format("Remoção de {0} realizada com sucesso.", _nomeEntidade), response));
+                }
+                else
+                {
+                    _logger!.LogWarning(String.Format("{0} não encontrada para remoção!", _nomeEntidade));
+                    return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("{0} não encontrada para remoção!", _nomeEntidade)));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("{0} não encontrada para remoção!", _nomeEntidade)));
+                _logger!.LogError(ex, "Delete");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Erro ao remover a {0} - ", _nomeEntidade) + ex.Message));
             }
         }
     }

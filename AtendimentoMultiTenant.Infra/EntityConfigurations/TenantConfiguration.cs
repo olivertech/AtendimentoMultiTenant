@@ -22,7 +22,6 @@
                 //QUE ARMAZENAM DADOS RELACIONADOS A GESTÃO DE TODOS OS CLIENTES, SEM MANTER AQUI OS DADOS DOS CLIENTES
                 //QUE FICARÃO RESTRITOS AOS CONTAINERS DE CADA CLIENTE
                 //=======================================================================================================
-
                 new Tenant
                 {
                     Id = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),

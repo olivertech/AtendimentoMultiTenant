@@ -17,6 +17,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="5.3.11" />
     <PackageReference Include="Quartz" Version="3.10.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.10.0" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.10.0" />

@@ -5,12 +5,16 @@
     [ApiController]
     public class LoginController : Base.ControllerBase
     {
+        private readonly ILogger<LoginController>? _logger;
+
         public LoginController(IUnitOfWork unitOfWork,
                                IMapper? mapper,
-                               IConfiguration configuration)
+                               IConfiguration configuration,
+                               ILogger<LoginController>? logger)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Login";
+            _logger = logger;
         }
 
         [HttpPost]
@@ -53,8 +57,9 @@
                     Usuario = response
                 });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _logger!.LogError(ex, "Auth");
                 return BadRequest(new { Message = "Não foi possível autenticar. Ocorreu algum erro interno na aplicação, por favor tente novamente." });
             }
         }
@@ -62,26 +67,33 @@
         private async Task<UserToken> SetUserToken(string token, DateTime expirationDateTime, User user)
         {
             UserToken? userToken = null;
-            
-            UserToken newUserToken = new UserToken
-            {
-                Token = token,
-                Expiration = expirationDateTime
-            };
 
-            //Recupera o Token associado ao usuário
-            var result = _unitOfWork!.UserTokenRepository.GetToken(user).Result;
-
-            if (result == null)
-                //Se não existir registro de token associado ao usuário, insere
-                userToken = await _unitOfWork.UserTokenRepository.Insert(newUserToken);
-            else
+            try
             {
-                //Se existir registro de token associado ao usuário, atualiza
-                await _unitOfWork.UserTokenRepository.Update(newUserToken);
-                userToken = result;
+                UserToken newUserToken = new UserToken
+                {
+                    Token = token,
+                    Expiration = expirationDateTime
+                };
+
+                //Recupera o Token associado ao usuário
+                var result = _unitOfWork!.UserTokenRepository.GetToken(user).Result;
+
+                if (result == null)
+                    //Se não existir registro de token associado ao usuário, insere
+                    userToken = await _unitOfWork.UserTokenRepository.Insert(newUserToken);
+                else
+                {
+                    //Se existir registro de token associado ao usuário, atualiza
+                    await _unitOfWork.UserTokenRepository.Update(newUserToken);
+                    userToken = result;
+                }
             }
-
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "SetUserToken");
+            }
+            
             return userToken!;
         }
     }
