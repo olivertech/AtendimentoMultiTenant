@@ -17,8 +17,10 @@ BACKEND
 
 BANCO DE DADOS
 - PostgreSql rodando em containers, com isolamento a nível de banco de dados
+- Migrations com Code-First
 
 INFRA
 - Swagger
 - Docker
 - Quartz.net
+- NLog
