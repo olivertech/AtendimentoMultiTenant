@@ -89,6 +89,15 @@ try
         .AddControllers()
         .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+    // Register HTTP Client for OneSignal
+    builder.Services.AddHttpClient("OneSignal", client =>
+    {
+        var config = builder.Configuration;
+        client.BaseAddress = new Uri("https://onesignal.com/api/v1/");
+        client.DefaultRequestHeaders.Add("Authorization", $"Basic {config["OneSignal:ApiKey"]}");
+        client.DefaultRequestHeaders.Add("Content-Type", "application/json; charset=utf-8");
+    });
+
     //============================
     // Add Injection Dependencies
     //============================
@@ -107,6 +116,7 @@ try
     {
         app.UseSwagger();
         app.UseSwaggerUI();
+        app.UseDeveloperExceptionPage();
     }
 
     app.UseHttpsRedirection();

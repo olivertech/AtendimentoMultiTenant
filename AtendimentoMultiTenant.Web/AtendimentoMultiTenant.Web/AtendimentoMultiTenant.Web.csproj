@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\AtendimentoMultiTenant.Api\AtendimentoMultiTenant.Api.csproj" />
+    <ProjectReference Include="..\..\AtendimentoMultiTenant.Cross\AtendimentoMultiTenant.Cross.csproj" />
+    <ProjectReference Include="..\AtendimentoMultiTenant.Web.Client\AtendimentoMultiTenant.Web.Client.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.*" />
+  </ItemGroup>
+
+</Project>
