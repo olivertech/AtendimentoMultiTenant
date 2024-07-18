@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Core.Entities.ConfigurationEntities
 {
-    public class Feature : ConfigurationEntityBase
+    public sealed class Feature : ConfigurationEntityBase
     {
         public string? Name { get; set; }
         public string? Description { get; set; }

@@ -4,8 +4,6 @@
     {
         [JsonPropertyName("name")]
         [JsonProperty(PropertyName = "name")]
-        [StringLength(250, ErrorMessage = "Informe nome do usuário com até 50 caracteres.")]
-        [Required]
         public string? Name
         {
             get
@@ -27,7 +25,6 @@
 
         [JsonPropertyName("connection_string")]
         [JsonProperty(PropertyName = "connection_string")]
-        [Required]
         public string? ConnectionString { get; set; } = null;
 
         [JsonPropertyName("id")]

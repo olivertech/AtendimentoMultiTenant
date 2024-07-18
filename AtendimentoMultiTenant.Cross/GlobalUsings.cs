@@ -18,3 +18,6 @@ global using AtendimentoMultiTenant.Cross.Interfaces;
 global using AtendimentoMultiTenant.Infra.Repositories;
 global using System.Text.RegularExpressions;
 global using AtendimentoMultiTenant.Cross.CustomValidators;
+global using AtendimentoMultiTenant.Cross.Requests;
+global using FluentValidation;
+global using AtendimentoMultiTenant.Cross.Validators;

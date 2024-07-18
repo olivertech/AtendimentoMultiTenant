@@ -1,4 +1,7 @@
-﻿namespace AtendimentoMultiTenant.Api.Controllers
+﻿using FluentValidation;
+using System;
+
+namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Login")]
     [SwaggerTag("Login")]
@@ -6,15 +9,18 @@
     public class LoginController : Base.ControllerBase
     {
         private readonly ILogger<LoginController>? _logger;
+        private readonly IValidator<LoginRequest> _validator;
 
         public LoginController(IUnitOfWork unitOfWork,
                                IMapper? mapper,
                                IConfiguration configuration,
-                               ILogger<LoginController>? logger)
+                               ILogger<LoginController>? logger,
+                               IValidator<LoginRequest> validator)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Login";
             _logger = logger;
+            _validator = validator;
         }
 
         [HttpPost]
@@ -27,7 +33,15 @@
 
             try
             {
-                if(request is null)
+                var validation = await _validator.ValidateAsync(request);
+
+                if (!validation.IsValid)
+                {
+                    _logger!.LogWarning("Request inválido! - " + validation.Errors);
+                    return BadRequest(new { Message = validation.Errors });
+                }
+
+                if (request is null)
                     return BadRequest(new { Message = "Request inválido!" });
 
                 var userExists = _unitOfWork!.UserRepository.GetByEmail(request!.Email!).Result;
@@ -43,7 +57,7 @@
                 var userToken = SetUserToken(token, expirationDateTime, userExists);
 
                 userExists.UserTokenId = userToken.Result.Id;
-                
+
                 //Atualiza o token do usuário
                 await _unitOfWork.UserRepository.Update(userExists);
 
@@ -93,7 +107,7 @@
             {
                 _logger!.LogError(ex, "SetUserToken");
             }
-            
+
             return userToken!;
         }
     }

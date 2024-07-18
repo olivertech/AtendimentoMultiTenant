@@ -4,10 +4,7 @@
     {
         [JsonPropertyName("client_name")]
         [JsonProperty(PropertyName = "client_name")]
-        [StringLength(50, ErrorMessage = "Informe nome do cliente com até 50 caracteres, sem espaços e sem caracteres especiais.")]
-        [DefaultValue("<NOMECLIENTE>")]
         [NameCustomValidator(ErrorMessage = "Informe apenas letras, números e '_', sem espaço em branco.")]
-        [Required]
         public string? ClientName
         {
             get 

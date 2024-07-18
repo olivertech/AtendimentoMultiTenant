@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Core.Entities.ConfigurationEntities
 {
-    public class UserFeature : ConfigurationEntityBase
+    public sealed class UserFeature : ConfigurationEntityBase
     {
         public bool IsActive { get; set; }
 

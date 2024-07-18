@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Api.Controllers.Base
 {
-    public class ControllerBase : Controller
+    public abstract class ControllerBase : Controller
     {
         protected readonly IUnitOfWork? _unitOfWork;
         protected readonly IMapper? _mapper;

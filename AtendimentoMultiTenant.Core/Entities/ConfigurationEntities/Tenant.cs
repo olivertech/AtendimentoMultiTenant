@@ -4,7 +4,7 @@
     /// Classe que representa os "inquilinos" do SaaS, ou seja,
     /// as empresas clientes que estão contratando o serviço
     /// </summary>
-    public class Tenant : ConfigurationEntityBase
+    public sealed class Tenant : ConfigurationEntityBase
     {
         public string? Name { get; set; } = null;
         public string? Secret { get; set; } = null;

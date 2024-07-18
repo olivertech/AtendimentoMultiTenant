@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Cross.Requests.Base
 {
-    public class RequestBase
+    public abstract class RequestBase
     {
         [JsonPropertyName("id")]
         [JsonProperty(PropertyName = "id")]

@@ -15,7 +15,7 @@
                                                     configuration.GetConnectionString("ConfigConnection"))
                                                 );
 
-            //Repository injections
+            //Repositories injections
             services.AddScoped<IContainerDbRepository, ContainerDbRepository>();
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
@@ -26,6 +26,13 @@
             services.AddScoped<IUserFeatureRepository, UserFeatureRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPortHelper, PortHelper>();
+
+            //Validators injections
+            services.AddScoped<IValidator<UserRequest>, UserRequestValidator>();
+            services.AddScoped<IValidator<TenantRequest>, TenantRequestValidator>();
+            services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
+            services.AddScoped<IValidator<ContainerDbRequest>, ContainerDbRequestValidator>();
+            services.AddScoped<IValidator<ConfigurationRequest>, ConfigurationRequestValidator>();
 
             return services;
         }

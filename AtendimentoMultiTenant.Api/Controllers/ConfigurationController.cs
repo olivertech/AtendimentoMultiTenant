@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Api.Controllers
+﻿using FluentValidation;
+
+namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Configuration")]
     [SwaggerTag("Configuration")]
@@ -7,17 +9,20 @@
     {
         private readonly IPortHelper _portHelper;
         private readonly ILogger<ConfigurationController>? _logger;
+        private readonly IValidator<ConfigurationRequest> _validator;
 
         public ConfigurationController(IUnitOfWork unitOfWork,
                                        IMapper? mapper,
                                        IConfiguration configuration,
                                        IPortHelper portHelper,
-                                       ILogger<ConfigurationController>? logger)
+                                       ILogger<ConfigurationController>? logger,
+                                       IValidator<ConfigurationRequest> validator)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Container";
             _portHelper = portHelper;
             _logger = logger;
+            _validator = validator;
         }
 
         [HttpGet]
@@ -139,10 +144,18 @@
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
-        public ActionResult<ContainerDbResponse> Insert([FromBody] ConfigurationRequest request)
+        public async Task<ActionResult<ContainerDbResponse>> Insert([FromBody] ConfigurationRequest request)
         {
             try
             {
+                var validation = await _validator.ValidateAsync(request);
+
+                if(!validation.IsValid)
+                {
+                    _logger!.LogWarning("Request inválido! - " + validation.Errors);
+                    return BadRequest(new { Message = validation.Errors });
+                }
+
                 if (request is null)
                 {
                     _logger!.LogWarning("Request inválido!");
