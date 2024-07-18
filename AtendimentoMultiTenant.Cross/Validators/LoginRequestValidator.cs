@@ -5,7 +5,7 @@
         public LoginRequestValidator()
         {
             RuleFor(x => x.Email).Length(10, 150).NotNull().NotEqual("").EmailAddress().WithSeverity(Severity.Error);
-            RuleFor(x => x.Password).Length(5, 50).NotNull().NotEqual("");
+            RuleFor(x => x.Password).Length(3, 50).NotNull().NotEqual("");
         }
     }
 }
