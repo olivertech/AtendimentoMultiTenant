@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Api.Controllers
+﻿using FluentValidation;
+
+namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Configuration")]
     [SwaggerTag("Configuration")]
@@ -7,20 +9,23 @@
     {
         private readonly IPortHelper _portHelper;
         private readonly ILogger<ConfigurationController>? _logger;
-        private readonly IValidator<ConfigurationRequest> _validator;
+        private readonly IValidator<ConfigurationRequest>? _configurationRequestValidator;
+        private readonly IValidator<ContainerDbRequest>? _containerDbRequestValidator;
 
         public ConfigurationController(IUnitOfWork unitOfWork,
                                        IMapper? mapper,
                                        IConfiguration configuration,
                                        IPortHelper portHelper,
                                        ILogger<ConfigurationController>? logger,
-                                       IValidator<ConfigurationRequest> validator)
+                                       IValidator<ConfigurationRequest> configurationRequestValidator,
+                                       IValidator<ContainerDbRequest> containerDbRequestValidator)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Container";
             _portHelper = portHelper;
             _logger = logger;
-            _validator = validator;
+            _configurationRequestValidator = configurationRequestValidator;
+            _containerDbRequestValidator = containerDbRequestValidator;
         }
 
         [HttpGet]
@@ -148,18 +153,18 @@
         {
             try
             {
-                var validation = await _validator.ValidateAsync(request);
-
-                if(!validation.IsValid)
-                {
-                    _logger!.LogWarning("Request inválido! - " + validation.Errors);
-                    return BadRequest(new { Message = validation.Errors });
-                }
-
                 if (request is null)
                 {
                     _logger!.LogWarning("Request inválido!");
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Request inválido!"));
+                }
+
+                var validation = await _configurationRequestValidator!.ValidateAsync(request);
+
+                if (!validation.IsValid)
+                {
+                    _logger!.LogWarning("Request inválido! - " + validation.Errors);
+                    return BadRequest(new { Message = validation.Errors });
                 }
 
                 var search = _unitOfWork!.ContainerRepository.GetAllFull().Result;
@@ -240,7 +245,7 @@
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(ContainerDbResponse))]
         [Authorize(Roles = "Administrador")]
-        public ActionResult<ContainerDbResponse> Update(ContainerDbRequest request)
+        public async Task<ActionResult<ContainerDbResponse>> Update(ContainerDbRequest request)
         {
             try
             {
@@ -248,6 +253,14 @@
                 {
                     _logger!.LogWarning("Id informado inválido!");
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
+                }
+
+                var validation = await _containerDbRequestValidator!.ValidateAsync(request);
+
+                if (!validation.IsValid)
+                {
+                    _logger!.LogWarning("Request inválido! - " + validation.Errors);
+                    return BadRequest(new { Message = validation.Errors });
                 }
 
                 var entity = _unitOfWork!.ContainerRepository.GetById(request.Id).Result;
@@ -268,6 +281,7 @@
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));
 
                 }
+
                 _mapper!.Map(request, entity);
 
                 var result = _unitOfWork.ContainerRepository.Update(entity).Result;
