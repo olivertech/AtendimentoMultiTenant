@@ -1,6 +1,6 @@
 # AtendimentoMultiTenant
 
-Sistema Mult-Tenant de Atendimento/Controle de chamados ou ordens de serviços ou tickets de suporte.
+Sistema Mult-Tenant de Atendimento/Controle de chamados ou ordens de serviços/tickets de suporte.
 
 Sistema está sendo desenvolvido para ser um SaaS, um produto que poderá ser contratado futuramente por clientes, de forma automática na web.
 
@@ -9,11 +9,14 @@ O projeto procura estar antenado com boas práticas e arquitetura de sistemas qu
 Na parte de tecnologias, temos até o momento as seguintes stacks:
 
 FRONTEND
+- Blazor WebAssembly (Wasm)
+- MudBlazor
 
 BACKEND
 - Aspnet core (.Net 8) com C#
 - Entity Framework core
 - Automapper
+- FluentValidation
 
 BANCO DE DADOS
 - PostgreSql rodando em containers, com isolamento a nível de banco de dados
