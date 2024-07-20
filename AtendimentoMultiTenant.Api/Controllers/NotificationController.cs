@@ -1,8 +1,4 @@
-﻿using Microsoft.Net.Http.Headers;
-using System.Net.Http;
-using System.Text.Json;
-
-namespace AtendimentoMultiTenant.Api.Controllers
+﻿namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Notification")]
     [SwaggerTag("Notification")]

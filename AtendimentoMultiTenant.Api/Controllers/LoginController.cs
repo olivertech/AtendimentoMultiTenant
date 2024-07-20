@@ -1,7 +1,4 @@
-﻿using FluentValidation;
-using System;
-
-namespace AtendimentoMultiTenant.Api.Controllers
+﻿namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Login")]
     [SwaggerTag("Login")]

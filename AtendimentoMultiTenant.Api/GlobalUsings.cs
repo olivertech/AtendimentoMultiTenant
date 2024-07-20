@@ -21,3 +21,5 @@ global using Microsoft.IdentityModel.Tokens;
 global using System.Text;
 global using NLog;
 global using NLog.Web;
+global using FluentValidation;
+global using Microsoft.Net.Http.Headers;
