@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Cross.Responses
 {
-    public class ResponseFactory<T>
+    public sealed class ResponseFactory<T>
     {
         /// <summary>
         /// Inidicador booleano de sucesso ou não da resposta

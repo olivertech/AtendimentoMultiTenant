@@ -31,11 +31,12 @@ namespace AtendimentoMultiTenant.Api.Controllers
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof(ContainerDbResponse))]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll(ContainerDbPagedRequest request)
         {
             try
             {
-                var list = await _unitOfWork!.ContainerRepository.GetAll();
+                var list = await _unitOfWork!.ContainerRepository.GetPagedList(request.PageSize, request.PageNumber);
+
                 var responseList = _mapper!.Map<IEnumerable<ContainerDb>, IEnumerable<ContainerDbResponse>>(list!);
 
                 return Ok(ResponseFactory<IEnumerable<ContainerDbResponse>>.Success(true, "Lista recuperada com sucesso.", responseList));

@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Cross.Responses
 {
-    public class ContainerDbResponse
+    public abstract class ContainerDbResponse
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }

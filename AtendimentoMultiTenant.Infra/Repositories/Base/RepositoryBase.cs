@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Infra.Repositories.Base
+﻿using System;
+
+namespace AtendimentoMultiTenant.Infra.Repositories.Base
 {
     public class RepositoryBase<T> : IRepositoryBase<T>
         where T : EntityBase
@@ -57,6 +59,23 @@
             }
         }
 
+        public async virtual Task<IEnumerable<T?>> GetPagedList(int pageSize, int pageNumber)
+        {
+            try
+            {
+                var list = await _entities!
+                                .Skip(pageNumber)
+                                .Take(pageSize)
+                                .ToListAsync();
+
+                return list ?? Enumerable.Empty<T>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RepositoryError - Não foi possível recuperar a lista paginada.", ex);
+            }
+        }
+
         public async virtual Task<int> Count()
         {
             try
@@ -79,7 +98,6 @@
                     throw new ArgumentNullException(nameof(entity));
 
                 await _entities!.AddAsync(entity);
-                await _context!.SaveChangesAsync();
 
                 return entity;
             }
@@ -101,8 +119,8 @@
                 if (item is not null)
                 {
                     _entities.Update(entity);
-                    await _context!.SaveChangesAsync();
                 }
+
                 return true;
             }
             catch (Exception ex)

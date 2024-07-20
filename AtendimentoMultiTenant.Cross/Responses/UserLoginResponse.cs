@@ -4,7 +4,7 @@
     /// Response que retorna apenas algumas propriedades do user
     /// confirmando o seu login junto com o token de acesso
     /// </summary>
-    public class UserLoginResponse
+    public abstract class UserLoginResponse
     {
         public string? Name { get; set; } = null;
         public string? Email { get; set; } = null;

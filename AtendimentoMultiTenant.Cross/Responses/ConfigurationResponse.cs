@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Cross.Responses
 {
-    public class ConfigurationResponse
+    public abstract class ConfigurationResponse
     {
         [JsonProperty(PropertyName = "client_name")]
         public string? ClientName { get; set; } = null;
