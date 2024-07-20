@@ -21,3 +21,5 @@ global using AtendimentoMultiTenant.Cross.CustomValidators;
 global using AtendimentoMultiTenant.Cross.Requests;
 global using FluentValidation;
 global using AtendimentoMultiTenant.Cross.Validators;
+global using AtendimentoMultiTenant.Cross.Classes;
+global using AtendimentoMultiTenant.Cross.Responses.Base;

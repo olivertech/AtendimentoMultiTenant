@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Cross.Responses
 {
-    public sealed class ResponseFactory<T>
+    public sealed class ResponsePagedFactory<T> : ResponsePagedBase
     {
         /// <summary>
         /// Armazena o status code da requisição
@@ -30,10 +30,12 @@
         /// Métodos que criam o objeto de retorno
         /// </summary>
         /// <returns></returns>
-        public static ResponseFactory<T> Success(bool result, string message, T content)
+        public static ResponsePagedFactory<T> Success(bool result, string message, T content, int currentPage, int totalCount)
         {
-            return new ResponseFactory<T>()
+            return new ResponsePagedFactory<T>()
             {
+                CurrentPage = currentPage,
+                TotalCount = totalCount,
                 Message = message,
                 Content = content,
                 Result = result
@@ -44,9 +46,9 @@
         /// Métodos que criam o objeto de retorno para erros
         /// </summary>
         /// <returns></returns>
-        public static ResponseFactory<T> Error(bool result, string message)
+        public static ResponsePagedFactory<T> Error(bool result, string message)
         {
-            return new ResponseFactory<T>()
+            return new ResponsePagedFactory<T>()
             {
                 //StatusCode = statusCode,
                 Message = message,

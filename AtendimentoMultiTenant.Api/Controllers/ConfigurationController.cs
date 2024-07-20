@@ -36,10 +36,11 @@ namespace AtendimentoMultiTenant.Api.Controllers
             try
             {
                 var list = await _unitOfWork!.ContainerRepository.GetPagedList(request.PageSize, request.PageNumber);
+                var total = await _unitOfWork!.ContainerRepository.Count();
 
                 var responseList = _mapper!.Map<IEnumerable<ContainerDb>, IEnumerable<ContainerDbResponse>>(list!);
 
-                return Ok(ResponseFactory<IEnumerable<ContainerDbResponse>>.Success(true, "Lista recuperada com sucesso.", responseList));
+                return Ok(ResponsePagedFactory<IEnumerable<ContainerDbResponse>>.Success(true, "Lista recuperada com sucesso.", responseList, request.PageNumber, total));
             }
             catch (Exception ex)
             {
