@@ -4,7 +4,7 @@
     {
         public static string GenerateToken(User user, string identifier, IConfiguration configuration, ref DateTime expirationDate)
         {
-            expirationDate = DateTime.UtcNow.AddSeconds(20);
+            expirationDate = DateTime.UtcNow.AddMinutes(Configurations.MINUTES);
 
             //Recupera as configurações JWT
             var key = Encoding.UTF8.GetBytes(JwtSettings.SecretKey);
