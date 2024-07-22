@@ -17,21 +17,15 @@
         }
 
         /// <summary>
-        /// Método que valida o usuário, recuperando seus dados a partir do email passado no token
-        /// e verificando se esse usuário tem o tipo informado igual ao do banco de dados.
-        /// Essa é uma segunda checagem de proteção, caso um alguém tente recriar o token manualmente.
-        /// TODO: COM O FRONT PRONT, QUE VAI GRAVAR O TOKEN EM COOKIE COM MAIS INFORMAÇÃO, 
-        /// MODIFICAR ESSE MÉTODO PRA RECEBER TB O VALOR GERADO NO COOKIE, QUE PODERÁ SER UMA GUID
-        /// 
+        /// Método que faz uma 2a validação de acesso aos endpoints
         /// </summary>
         /// <param name="identity"></param>
         /// <returns></returns>
-        protected bool IsUserClaimsValid(ClaimsIdentity identity)
+        protected bool IsUserClaimsValid()
         {
-            if (identity == null)
-                return false;
+            ClaimsIdentity? _claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
 
-            var claims = identity.Claims;
+            var claims = _claimsIdentity!.Claims;
             var role = claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault()!.Value;
             var identifier = claims.Where(x => x.Type == ClaimTypes.Hash).FirstOrDefault()!.Value;
 

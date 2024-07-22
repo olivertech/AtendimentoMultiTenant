@@ -9,8 +9,7 @@
         private readonly ILogger<ConfigurationController>? _logger;
         private readonly IValidator<ConfigurationRequest>? _configurationRequestValidator;
         private readonly IValidator<ContainerDbRequest>? _containerDbRequestValidator;
-        private readonly ClaimsIdentity? _claimsIdentity;
-
+        
         public ConfigurationController(IUnitOfWork unitOfWork,
                                        IMapper? mapper,
                                        IConfiguration configuration,
@@ -25,8 +24,6 @@
             _logger = logger;
             _configurationRequestValidator = configurationRequestValidator;
             _containerDbRequestValidator = containerDbRequestValidator;
-
-            _claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
         }
 
         [HttpPost]
@@ -40,7 +37,7 @@
         {
             try
             {
-                if (!IsUserClaimsValid(_claimsIdentity!))
+                if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
@@ -70,7 +67,7 @@
         {
             try
             {
-                if (!IsUserClaimsValid(_claimsIdentity!))
+                if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
@@ -112,7 +109,7 @@
         {
             try
             {
-                if (!IsUserClaimsValid(_claimsIdentity!))
+                if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
@@ -151,7 +148,7 @@
         {
             try
             {
-                if (!IsUserClaimsValid(_claimsIdentity!))
+                if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
@@ -179,7 +176,7 @@
         {
             try
             {
-                if (!IsUserClaimsValid(_claimsIdentity!))
+                if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
@@ -281,7 +278,7 @@
         {
             try
             {
-                if (!IsUserClaimsValid(_claimsIdentity!))
+                if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
@@ -355,7 +352,7 @@
         {
             try
             {
-                if (!IsUserClaimsValid(_claimsIdentity!))
+                if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
