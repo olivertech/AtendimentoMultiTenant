@@ -9,6 +9,7 @@
         private readonly ILogger<ConfigurationController>? _logger;
         private readonly IValidator<ConfigurationRequest>? _configurationRequestValidator;
         private readonly IValidator<ContainerDbRequest>? _containerDbRequestValidator;
+        private readonly ClaimsIdentity? _claimsIdentity;
 
         public ConfigurationController(IUnitOfWork unitOfWork,
                                        IMapper? mapper,
@@ -24,6 +25,8 @@
             _logger = logger;
             _configurationRequestValidator = configurationRequestValidator;
             _containerDbRequestValidator = containerDbRequestValidator;
+
+            _claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
         }
 
         [HttpPost]
@@ -37,12 +40,7 @@
         {
             try
             {
-                var identity = HttpContext.User.Identity as ClaimsIdentity;
-
-                //TODO:QDO TIVER O FRONT PRONTO, INCLUIR NESSE MÉTODO O REQUEST COM VALOR RECUPERADO DE COOKIE
-                //PARA CHECAR SE O COOKIE RECEBIDO AQUI, É IGUAL A UM DETERMINADO DADO DO BANCO. TALVEZ USAR
-                //UMA GUID GERADA POR SESSÃO
-                if (!IsUserClaimsValid(identity!))
+                if (!IsUserClaimsValid(_claimsIdentity!))
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
@@ -72,6 +70,12 @@
         {
             try
             {
+                if (!IsUserClaimsValid(_claimsIdentity!))
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
+                }
+
                 if (!Guid.TryParse(id.ToString(), out _))
                 {
                     _logger!.LogWarning("Id inválido!");
@@ -108,6 +112,12 @@
         {
             try
             {
+                if (!IsUserClaimsValid(_claimsIdentity!))
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
+                }
+
                 if (name is null)
                 {
                     _logger!.LogWarning("Nome inválido!");
@@ -141,6 +151,12 @@
         {
             try
             {
+                if (!IsUserClaimsValid(_claimsIdentity!))
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
+                }
+
                 var result = await _unitOfWork!.ContainerRepository.Count();
                 return Ok(ResponseFactory<int>.Success(true, "Consulta realizada com sucesso.", result)); ;
 
@@ -163,6 +179,12 @@
         {
             try
             {
+                if (!IsUserClaimsValid(_claimsIdentity!))
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
+                }
+
                 if (request is null)
                 {
                     _logger!.LogWarning("Request inválido!");
@@ -259,6 +281,12 @@
         {
             try
             {
+                if (!IsUserClaimsValid(_claimsIdentity!))
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
+                }
+
                 if (request is null || !Guid.TryParse(request.Id.ToString(), out _))
                 {
                     _logger!.LogWarning("Id informado inválido!");
@@ -327,11 +355,18 @@
         {
             try
             {
+                if (!IsUserClaimsValid(_claimsIdentity!))
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
+                }
+
                 if (id.ToString().Length == 0)
                 {
                     _logger!.LogWarning("Id informado igual a 0!");
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado igual a 0!"));
                 }
+
                 var entity = _unitOfWork!.ContainerRepository.GetById(id).Result;
 
                 if (entity is null)
