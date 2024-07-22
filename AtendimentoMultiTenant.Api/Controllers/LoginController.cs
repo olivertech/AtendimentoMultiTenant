@@ -80,14 +80,25 @@ namespace AtendimentoMultiTenant.Api.Controllers
         [Route(nameof(Logout))]
         [Produces("application/json")]
         [AllowAnonymous]
-        public async Task<IActionResult> Logout([FromBody] Guid userId)
+        public async Task<IActionResult> Logout([FromBody] LogoutRequest request)
         {
-            var user = await _unitOfWork!.UserRepository.GetById(userId);
-            await _unitOfWork.UserTokenRepository.Delete(user!.UserTokenId!);
+            if (request is null)
+                return BadRequest(new { Message = "Request inválido!" });
 
-            var response = _mapper!.Map<UserLoginResponse>(user);
+            try
+            {
+                var user = await _unitOfWork!.UserRepository.GetById(request.UserId);
+                await _unitOfWork.UserTokenRepository.Delete(user!.UserTokenId!);
 
-            return Ok(ResponseFactory<UserLoginResponse>.Success(true, "Usuário deslogado com sucesso.", response));
+                var response = _mapper!.Map<UserLoginResponse>(user);
+
+                return Ok(ResponseFactory<UserLoginResponse>.Success(true, "Usuário deslogado com sucesso.", response));
+            }
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "Logout");
+                return BadRequest(new { Message = "Não foi possível realizar o logout!" });
+            }
         }
 
         private async Task<UserToken> SetUserToken(string token, DateTime expirationDateTime, User user)
