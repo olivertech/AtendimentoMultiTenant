@@ -1,6 +1,9 @@
 //=============================================================================================
 // Inicialização do NLog para permitir seu funcionamento, antes que a aplicação seja levantada
 //=============================================================================================
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 
@@ -30,20 +33,52 @@ try
         x.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtSettings.SecretKey)),
-            ValidateIssuer = false,
+            ValidateIssuer = true,
             ValidateAudience = false,
-            RequireExpirationTime = true,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
+            ValidIssuer = JwtSettings.JwtIssuer,
+            ValidAudience = JwtSettings.JwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(JwtSettings.SecretKey)),
+            RequireExpirationTime = true,
+            ClockSkew = TimeSpan.Zero,
         };
+        //x.Events = new JwtBearerEvents
+        //{
+        //    OnChallenge = context =>
+        //    {
+        //        // Customize challenge behavior (e.g., redirect to login page)
+        //        return Task.CompletedTask;
+        //    },
+        //    OnTokenValidated = context =>
+        //    {
+        //        //var userservice = context.HttpContext.RequestServices.GetRequiredService<iapiuserservice>();
+        //        //var userid = int.Parse(context.Principal.identity.name);
+        //        //var user = userservice.getbyid(userid);
+        //        //if (user == null)
+        //        //{
+        //        //    // return unauthorized if user no longer exists
+        //        //    context.Fail("unauthorized");
+        //        //}
+
+        //        if (context.Principal == null)
+        //            context.Fail("Usuário inválido ou inexistente!");
+
+        //        var unitofWork = context.HttpContext.RequestServices.GetRequiredService<IUnitOfWork>();
+
+        //        //var userId = User.(ClaimTypes.NameIdentifier).Value;
+
+        //        //PAREI AQUI... COMO RECUPERAR OS CLAINS DA TOKEN
+        //        //unitofWork.UserRepository.GetByEmail(context.Principal.Identity.GetType())
+        //        return Task.CompletedTask;
+        //    }
+        //};
     });
 
     //=============================
     // Referenciando o appsettings
     //=============================
     IConfiguration config = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
+        .AddJsonFile("appsettings.json", false, true)
         .AddEnvironmentVariables()
         .Build();
 
@@ -58,13 +93,14 @@ try
         })
         .ConfigureOptions<PostgreSqlContainerCreationJobSetup>()
         .AddEndpointsApiExplorer()
+        //Cria o botão de autorização no Swagger
         .AddSwaggerGen(option =>
         {
             option.SwaggerDoc("v1", new OpenApiInfo { Title = "AtendimentoMultiTenant.Api", Version = "v1" });
             option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {
                 In = ParameterLocation.Header,
-                Description = "Please enter a valid token",
+                Description = "JWT Authorization header using the Bearer scheme.",
                 Name = "Authorization",
                 Type = SecuritySchemeType.Http,
                 BearerFormat = "JWT",
@@ -72,17 +108,17 @@ try
             });
             option.AddSecurityRequirement(new OpenApiSecurityRequirement
             {
-            {
-                new OpenApiSecurityScheme
                 {
-                    Reference = new OpenApiReference
+                    new OpenApiSecurityScheme
                     {
-                        Type=ReferenceType.SecurityScheme,
-                        Id="Bearer"
-                    }
-                },
-                new string[]{}
-            }
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
             });
         })
         .AddAutoMapper(typeof(Program))

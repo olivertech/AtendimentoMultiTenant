@@ -23,3 +23,5 @@ global using NLog;
 global using NLog.Web;
 global using FluentValidation;
 global using Microsoft.Net.Http.Headers;
+global using AtendimentoMultiTenant.Cross.Helpers;
+global using System.Security.Claims;

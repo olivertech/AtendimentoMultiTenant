@@ -21,7 +21,7 @@
     ///    networks:
     ///        - <NETWORK>
     /// </summary>
-    public sealed class ContainerDb : ConfigurationEntityBase
+    public class ContainerDb : ConfigurationEntityBase
     {
         public string? ContainerDbName { get; set; } = null;
         public string? ContainerDbImage { get; set; } = null;

@@ -7,6 +7,19 @@
     /// </summary>
     public static class JwtSettings
     {
+        /// <summary>
+        /// JWT Authentication Secret Key
+        /// </summary>
         public static string SecretKey = "8ykjeycuknBEuP8PZUYUpQftxtEa7fHx";
+
+        /// <summary>
+        /// Authentication Development Server Domain URL Base Address
+        /// </summary>
+        public static string JwtIssuer = "https://localhost:7168";
+
+        /// <summary>
+        /// Client Application Development Domain URL Base Address
+        /// </summary>
+        public static string JwtAudience = "https://localhost:7061"; 
     }
 }

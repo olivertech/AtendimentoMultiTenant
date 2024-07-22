@@ -13,7 +13,18 @@
             
             return await _context!.Users
                 .Include(ut => ut.UserType)
-                .Where(ut => ut.Email == email)
+                .Where(u => u.Email == email)
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task<User?> ValidateLogin(string email, string password)
+        {
+            if (email == null || password == null)
+                return null;
+
+            return await _context!.Users
+                .Include(ut => ut.UserType)
+                .Where(u => u.Email == email && u.Password == password)
                 .FirstOrDefaultAsync();
         }
     }

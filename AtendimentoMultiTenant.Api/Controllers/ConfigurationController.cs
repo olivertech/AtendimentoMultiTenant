@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace AtendimentoMultiTenant.Api.Controllers
+﻿namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Configuration")]
     [SwaggerTag("Configuration")]
@@ -28,16 +26,28 @@ namespace AtendimentoMultiTenant.Api.Controllers
             _containerDbRequestValidator = containerDbRequestValidator;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route(nameof(GetAll))]
         [Produces("application/json")]
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof(ContainerDbResponse))]
-        public async Task<IActionResult> GetAll(ContainerDbPagedRequest request)
+        [ProducesResponseType(typeof(int), StatusCodes.Status401Unauthorized, Type = typeof(ContainerDbResponse))]
+        public async Task<IActionResult> GetAll([FromBody] ContainerDbPagedRequest request)
         {
             try
             {
+                var identity = HttpContext.User.Identity as ClaimsIdentity;
+
+                //TODO:QDO TIVER O FRONT PRONTO, INCLUIR NESSE MÉTODO O REQUEST COM VALOR RECUPERADO DE COOKIE
+                //PARA CHECAR SE O COOKIE RECEBIDO AQUI, É IGUAL A UM DETERMINADO DADO DO BANCO. TALVEZ USAR
+                //UMA GUID GERADA POR SESSÃO
+                if (!IsUserClaimsValid(identity!))
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error(false, "Usuário não autorizado!"));
+                }
+
                 var list = await _unitOfWork!.ContainerRepository.GetPagedList(request.PageSize, request.PageNumber);
                 var total = await _unitOfWork!.ContainerRepository.Count();
 

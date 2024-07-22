@@ -76,6 +76,24 @@ namespace AtendimentoMultiTenant.Infra.Repositories.Base
             }
         }
 
+        public async virtual Task<IEnumerable<T?>> GetPagedList(Expression<Func<T, bool>> predicate, int pageSize, int pageNumber)
+        {
+            try
+            {
+                var list = await _entities!
+                                .Skip(pageNumber)
+                                .Take(pageSize)
+                                .Where(predicate)
+                                .ToListAsync();
+
+                return list ?? Enumerable.Empty<T>();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RepositoryError - Não foi possível recuperar a lista paginada.", ex);
+            }
+        }
+
         public async virtual Task<int> Count()
         {
             try

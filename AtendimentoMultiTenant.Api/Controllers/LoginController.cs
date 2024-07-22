@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Api.Controllers
+﻿using Newtonsoft.Json.Linq;
+
+namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Login")]
     [SwaggerTag("Login")]
@@ -41,31 +43,30 @@
                 if (request is null)
                     return BadRequest(new { Message = "Request inválido!" });
 
-                var userExists = _unitOfWork!.UserRepository.GetByEmail(request!.Email!).Result;
+                var user = _unitOfWork!.UserRepository.ValidateLogin(request!.Email!, request!.Password!).Result;
 
-                if (userExists == null)
+                if (user == null)
                     return BadRequest(new { Message = "Email e/ou senha inválido(s)!" });
 
-                if (request.Password != userExists.Password)
-                    return BadRequest(new { Message = "Email e/ou senha inválido(s)!" });
+                //Gera o identificador que vai servir como mais um item de validação do token
+                var identifier = IdentifierHelper.SetIdentifier(user.Id, user.UserTokenId);
+                var token = JwtAuth.GenerateToken(user, identifier, _configuration!, ref expirationDateTime);
+                
+                var userToken = SetUserToken(token, expirationDateTime, user);
 
-                var token = JwtAuth.GenerateToken(userExists, _configuration!, ref expirationDateTime);
-
-                var userToken = SetUserToken(token, expirationDateTime, userExists);
-
-                userExists.UserTokenId = userToken.Result.Id;
+                user.UserTokenId = userToken.Result.Id;
 
                 //Atualiza o token do usuário
-                await _unitOfWork.UserRepository.Update(userExists);
+                await _unitOfWork.UserRepository.Update(user);
 
-                var response = _mapper!.Map<UserLoginResponse>(userExists);
+                var response = _mapper!.Map<UserLoginResponse>(user);
 
                 _unitOfWork.CommitAsync().Wait();
 
                 return Ok(new
                 {
                     Token = token,
-                    Usuario = response
+                    Identifier = identifier
                 });
             }
             catch (Exception ex)
@@ -73,6 +74,20 @@
                 _logger!.LogError(ex, "Auth");
                 return BadRequest(new { Message = "Não foi possível autenticar. Ocorreu algum erro interno na aplicação, por favor tente novamente." });
             }
+        }
+
+        [HttpPost]
+        [Route(nameof(Logout))]
+        [Produces("application/json")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Logout([FromBody] Guid userId)
+        {
+            var user = await _unitOfWork!.UserRepository.GetById(userId);
+            await _unitOfWork.UserTokenRepository.Delete(user!.UserTokenId!);
+
+            var response = _mapper!.Map<UserLoginResponse>(user);
+
+            return Ok(ResponseFactory<UserLoginResponse>.Success(true, "Usuário deslogado com sucesso.", response));
         }
 
         private async Task<UserToken> SetUserToken(string token, DateTime expirationDateTime, User user)
@@ -90,6 +105,8 @@
                 //Recupera o Token associado ao usuário
                 var result = _unitOfWork!.UserTokenRepository.GetToken(user).Result;
 
+                //TODO: DEPOIS QUE TIVER O FRONT, ENVIAR NO REQUEST DO FRONT, UM GUID
+                //QUE DEVERÁ SER VALIDADO NO BACK
                 if (result == null)
                     //Se não existir registro de token associado ao usuário, insere
                     userToken = await _unitOfWork.UserTokenRepository.Insert(newUserToken);
