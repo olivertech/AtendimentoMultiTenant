@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="Layout\MainLayout.razor" />
+    <Content Remove="Layout\NavMenu.razor" />
+    <Content Remove="Pages\Login.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Layout\MainLayout.razor.css" />
+    <None Remove="Layout\NavMenu.razor.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.6" PrivateAssets="all" />
+    <PackageReference Include="MudBlazor" Version="7.3.0" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\AtendimentoMultiTenant.Cross\AtendimentoMultiTenant.Cross.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Layout\" />
+  </ItemGroup>
+
+</Project>

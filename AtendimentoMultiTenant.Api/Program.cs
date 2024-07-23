@@ -3,6 +3,7 @@
 //=============================================================================================
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using Microsoft.AspNetCore.ResponseCompression;
 
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -122,8 +123,13 @@ try
             });
         })
         .AddAutoMapper(typeof(Program))
-        .AddControllers()
+        .AddControllersWithViews()
         .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+
+    //==================================
+    // Add to permit to work with razor
+    //==================================
+    //builder.Services.AddRazorPages(); //For Blazor
 
     // Register HTTP Client for OneSignal
     builder.Services.AddHttpClient("OneSignal", client =>
@@ -153,14 +159,20 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
         app.UseDeveloperExceptionPage();
+        //app.UseWebAssemblyDebugging(); //For Blazor
     }
 
     app.UseHttpsRedirection();
 
+    //app.UseBlazorFrameworkFiles(); //For Blazor
+    //app.UseStaticFiles(); //For Blazor
+
     app.UseAuthentication();
     app.UseAuthorization();
 
+    //app.MapRazorPages(); //For Blazor
     app.MapControllers();
+    app.MapFallbackToFile("index.html"); //For Blazor
 
     //app.MapGet("/", () => "Hello, World!");
     //app.MapPost("/api/Configuration/Insert", (ClaimsPrincipal user) => $"Hello {user.Identity?.Name}. My secret").RequireAuthorization();
