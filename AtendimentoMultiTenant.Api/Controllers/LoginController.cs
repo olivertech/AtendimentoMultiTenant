@@ -57,15 +57,14 @@
                 //Atualiza o token do usuário
                 await _unitOfWork.UserRepository.Update(user);
 
-                var response = _mapper!.Map<UserLoginResponse>(user);
+                var response = _mapper!.Map<LoginResponse>(user);
 
                 _unitOfWork.CommitAsync().Wait();
 
-                return Ok(new
-                {
-                    Token = token,
-                    Identifier = identifier
-                });
+                response.Token = token;
+                response.Identifier = identifier;
+
+                return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário logado com sucesso.", response));
             }
             catch (Exception ex)
             {
@@ -88,9 +87,9 @@
                 var user = await _unitOfWork!.UserRepository.GetById(request.UserId);
                 await _unitOfWork.UserTokenRepository.Delete(user!.UserTokenId!);
 
-                var response = _mapper!.Map<UserLoginResponse>(user);
+                var response = _mapper!.Map<LoginResponse>(user);
 
-                return Ok(ResponseFactory<UserLoginResponse>.Success(true, "Usuário deslogado com sucesso.", response));
+                return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário deslogado com sucesso.", response));
             }
             catch (Exception ex)
             {

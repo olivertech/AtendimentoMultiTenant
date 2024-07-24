@@ -3,11 +3,10 @@
     [Route("api/Configuration")]
     [SwaggerTag("Configuration")]
     [ApiController]
-    public class ConfigurationController : Base.ControllerBase, IController
+    public class ConfigurationController : Base.ControllerBase, IController<ContainerDbRequest, ContainerDbPagedRequest>
     {
         private readonly IPortFinder _portFinder;
         private readonly ILogger<ConfigurationController>? _logger;
-        private readonly IValidator<ConfigurationRequest>? _configurationRequestValidator;
         private readonly IValidator<ContainerDbRequest>? _containerDbRequestValidator;
         
         public ConfigurationController(IUnitOfWork unitOfWork,
@@ -15,14 +14,12 @@
                                        IConfiguration configuration,
                                        IPortFinder portFinder,
                                        ILogger<ConfigurationController>? logger,
-                                       IValidator<ConfigurationRequest> configurationRequestValidator,
                                        IValidator<ContainerDbRequest> containerDbRequestValidator)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Container";
             _portFinder = portFinder;
             _logger = logger;
-            _configurationRequestValidator = configurationRequestValidator;
             _containerDbRequestValidator = containerDbRequestValidator;
         }
 
@@ -172,7 +169,7 @@
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
-        public async Task<IActionResult> Insert([FromBody] ConfigurationRequest request)
+        public async Task<IActionResult> Insert([FromBody] ContainerDbRequest request)
         {
             try
             {
@@ -188,7 +185,7 @@
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Request inválido!"));
                 }
 
-                var validation = await _configurationRequestValidator!.ValidateAsync(request);
+                var validation = await _containerDbRequestValidator!.ValidateAsync(request);
 
                 if (!validation.IsValid)
                 {
@@ -309,8 +306,8 @@
                 var search = _unitOfWork!.ContainerRepository.GetAll().Result;
 
                 if (search!.Any(x => x.ContainerDbName == request.ContainerDbName) ||
-                    search!.Any(x => x.ContainerDbVolume == request.ContainerVolume) ||
-                    search!.Any(x => x.ContainerDbNetwork == request.ContainerNetwork))
+                    search!.Any(x => x.ContainerDbVolume == request.ContainerDbVolume) ||
+                    search!.Any(x => x.ContainerDbNetwork == request.ContainerDbNetwork))
                 {
                     _logger!.LogWarning(String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade));
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(false, String.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));

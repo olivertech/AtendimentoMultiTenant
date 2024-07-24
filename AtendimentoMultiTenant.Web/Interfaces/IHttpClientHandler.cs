@@ -4,12 +4,12 @@
         where TReq : IRequest
         where TResp : IResponse
     {
-        Task<TResp> GetAll(TReq request);
-        Task<TResp> GetById(Guid id);
-        Task<TResp> GetListByName(string name);
-        Task<TResp> GetCount();
-        Task<TResp> Insert(TReq request);
-        Task<TResp> Update(TReq request);
-        Task<TResp> Delete(Guid id);
+        Task<ResponsePagedFactory<IEnumerable<TResp>>> GetAll(TReq request);
+        Task<ResponseFactory<TResp>> GetById(Guid id);
+        Task<ResponseFactory<IEnumerable<TResp>>> GetListByName(string name);
+        Task<int> GetCount();
+        Task<ResponseFactory<TResp>> Insert(TReq request);
+        Task<ResponseFactory<TResp>> Update(TReq request);
+        Task<ResponseFactory<TResp>> Delete(Guid id);
     }
 }

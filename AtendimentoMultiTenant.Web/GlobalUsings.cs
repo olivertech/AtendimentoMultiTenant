@@ -6,3 +6,8 @@ global using AtendimentoMultiTenant.Shared.Interfaces;
 global using AtendimentoMultiTenant.Shared.Requests;
 global using AtendimentoMultiTenant.Shared.Responses;
 global using AtendimentoMultiTenant.Web.Interfaces;
+global using AtendimentoMultiTenant.Web.Classes;
+global using AtendimentoMultiTenant.Web.HttpClientHandlers.Base;
+global using System.Net.Http.Json;
+global using AtendimentoMultiTenant.Core.Classes;
+global using AtendimentoMultiTenant.Web.HttpClientHandlers;

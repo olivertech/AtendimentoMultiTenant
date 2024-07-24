@@ -14,7 +14,6 @@
             services.AddScoped<IValidator<TenantRequest>, TenantRequestValidator>();
             services.AddScoped<IValidator<LoginRequest>, LoginRequestValidator>();
             services.AddScoped<IValidator<ContainerDbRequest>, ContainerDbRequestValidator>();
-            services.AddScoped<IValidator<ConfigurationRequest>, ConfigurationRequestValidator>();
 
             return services;
         }

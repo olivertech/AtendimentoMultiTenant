@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Shared.Validators
 {
-    public class ConfigurationRequestValidator : AbstractValidator<ConfigurationRequest>
+    public class ConfigurationRequestValidator : AbstractValidator<ContainerDbRequest>
     {
         public ConfigurationRequestValidator()
         {
