@@ -10,12 +10,13 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="8.0.7" PrivateAssets="all" />
-    <PackageReference Include="MudBlazor" Version="7.3.0" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
+    <PackageReference Include="MudBlazor" Version="7.4.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AtendimentoMultiTenant.Svc\AtendimentoMultiTenant.Svc.csproj" />
+    <ProjectReference Include="..\AtendimentoMultiTenant.Shared\AtendimentoMultiTenant.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

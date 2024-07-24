@@ -1,6 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Cross.Responses
+﻿namespace AtendimentoMultiTenant.Shared.Responses
 {
-    public abstract class ConfigurationResponse
+    public abstract class ConfigurationResponse : IResponse
     {
         [JsonProperty(PropertyName = "client_name")]
         public string? ClientName { get; set; } = null;

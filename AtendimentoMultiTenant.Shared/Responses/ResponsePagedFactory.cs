@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Cross.Responses
+﻿namespace AtendimentoMultiTenant.Shared.Responses
 {
     public sealed class ResponsePagedFactory<T> : ResponsePagedBase
     {

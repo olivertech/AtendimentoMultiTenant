@@ -1,13 +1,13 @@
-﻿namespace AtendimentoMultiTenant.Cross.Helpers
+﻿namespace AtendimentoMultiTenant.Core.Classes
 {
     /// <summary>
     /// Classe que auxilia na busca por uma nova porta
     /// </summary>
-    public class PortHelper : IPortHelper
+    public class PortFinder : IPortFinder
     {
         protected readonly IUnitOfWork? _unitOfWork;
 
-        public PortHelper(IUnitOfWork unitOfWork)
+        public PortFinder(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

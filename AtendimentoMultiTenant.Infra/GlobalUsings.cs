@@ -10,3 +10,7 @@ global using AtendimentoMultiTenant.Infra.Context;
 global using AtendimentoMultiTenant.Infra.Repositories.Base;
 global using System.Diagnostics.CodeAnalysis;
 global using Microsoft.EntityFrameworkCore.ValueGeneration;
+global using AtendimentoMultiTenant.Core.Classes;
+global using AtendimentoMultiTenant.Infra.Repositories;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;

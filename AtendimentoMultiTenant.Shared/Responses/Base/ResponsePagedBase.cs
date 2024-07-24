@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Cross.Responses.Base
+﻿namespace AtendimentoMultiTenant.Shared.Responses.Base
 {
     public class ResponsePagedBase
     {
@@ -9,7 +9,7 @@
         public int TotalPages => (int)Math.Ceiling(TotalCount / (double)PageSize);
 
         [JsonProperty(PropertyName = "page_size")]
-        public int PageSize{ get; set; } = Configurations.PAGESIZE;
+        public int PageSize{ get; set; } = CoreConfigurations.PAGESIZE;
 
         [JsonProperty(PropertyName = "total_count")]
         public int TotalCount { get; set; }

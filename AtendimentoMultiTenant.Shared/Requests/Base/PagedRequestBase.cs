@@ -1,11 +1,11 @@
-﻿namespace AtendimentoMultiTenant.Cross.Requests.Base
+﻿namespace AtendimentoMultiTenant.Shared.Requests.Base
 {
     public class PagedRequestBase
     {
         [JsonPropertyName("page_size")]
         [JsonProperty(PropertyName = "page_size")]
-        [DefaultValue(Configurations.PAGESIZE)]
-        public int PageSize { get; set; } = Configurations.PAGESIZE;
+        [DefaultValue(CoreConfigurations.PAGESIZE)]
+        public int PageSize { get; set; } = CoreConfigurations.PAGESIZE;
 
         [JsonPropertyName("page_number")]
         [JsonProperty(PropertyName = "page_number")]

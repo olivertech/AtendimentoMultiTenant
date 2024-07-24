@@ -3,9 +3,9 @@
     [Route("api/Configuration")]
     [SwaggerTag("Configuration")]
     [ApiController]
-    public class ConfigurationController : Base.ControllerBase
+    public class ConfigurationController : Base.ControllerBase, IController
     {
-        private readonly IPortHelper _portHelper;
+        private readonly IPortFinder _portFinder;
         private readonly ILogger<ConfigurationController>? _logger;
         private readonly IValidator<ConfigurationRequest>? _configurationRequestValidator;
         private readonly IValidator<ContainerDbRequest>? _containerDbRequestValidator;
@@ -13,14 +13,14 @@
         public ConfigurationController(IUnitOfWork unitOfWork,
                                        IMapper? mapper,
                                        IConfiguration configuration,
-                                       IPortHelper portHelper,
+                                       IPortFinder portFinder,
                                        ILogger<ConfigurationController>? logger,
                                        IValidator<ConfigurationRequest> configurationRequestValidator,
                                        IValidator<ContainerDbRequest> containerDbRequestValidator)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Container";
-            _portHelper = portHelper;
+            _portFinder = portFinder;
             _logger = logger;
             _configurationRequestValidator = configurationRequestValidator;
             _containerDbRequestValidator = containerDbRequestValidator;
@@ -172,7 +172,7 @@
         [Authorize(Roles = "Administrador")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
-        public async Task<ActionResult<ContainerDbResponse>> Insert([FromBody] ConfigurationRequest request)
+        public async Task<IActionResult> Insert([FromBody] ConfigurationRequest request)
         {
             try
             {
@@ -211,7 +211,7 @@
 
                 entity.ContainerDbImage = _configuration!.GetSection("ContainerDatabaseImage").Value!;
                 entity.ContainerDbCreatedAt = DateOnly.FromDateTime(DateTime.Now);
-                entity.ContainerDbPort = _portHelper.GetNewPortNumber();
+                entity.ContainerDbPort = _portFinder.GetNewPortNumber();
                 entity.IsUp = false;
 
                 //Insere o novo Port e associa o id
@@ -274,7 +274,7 @@
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(ContainerDbResponse))]
         [Authorize(Roles = "Administrador")]
-        public async Task<ActionResult<ContainerDbResponse>> Update(ContainerDbRequest request)
+        public async Task<IActionResult> Update(ContainerDbRequest request)
         {
             try
             {
@@ -319,7 +319,7 @@
 
                 _mapper!.Map(request, entity);
 
-                var result = _unitOfWork.ContainerRepository.Update(entity).Result;
+                var result = await _unitOfWork.ContainerRepository.Update(entity);
 
                 _unitOfWork.CommitAsync().Wait();
 
@@ -348,7 +348,7 @@
         [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
         [Authorize(Roles = "Administrador")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {
@@ -372,7 +372,7 @@
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
                 }
 
-                var result = _unitOfWork.ContainerRepository.Delete(id).Result;
+                var result = await _unitOfWork.ContainerRepository.Delete(id);
 
                 _unitOfWork.CommitAsync().Wait();
 

@@ -143,7 +143,8 @@ try
     //============================
     // Add Injection Dependencies
     //============================
-    builder.Services.AddDependenciesInjection(builder.Configuration);
+    builder.Services.AddRepositoryDependenciesInjection(builder.Configuration);
+    builder.Services.AddValidatorDependenciesInjection();
 
     //==================
     // Add a Quartz Job
