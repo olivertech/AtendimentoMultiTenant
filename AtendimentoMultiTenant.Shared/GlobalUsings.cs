@@ -9,7 +9,6 @@ global using AtendimentoMultiTenant.Shared.Validators;
 global using AtendimentoMultiTenant.Shared.Requests.Base;
 global using AtendimentoMultiTenant.Shared.CustomValidators;
 global using System.ComponentModel;
-global using AtendimentoMultiTenant.Core.Classes;
-global using AtendimentoMultiTenant.Core.Entities.ConfigurationEntities;
 global using AtendimentoMultiTenant.Shared.Responses.Base;
 global using AtendimentoMultiTenant.Shared.Interfaces;
+global using AtendimentoMultiTenant.Shared.Classes;

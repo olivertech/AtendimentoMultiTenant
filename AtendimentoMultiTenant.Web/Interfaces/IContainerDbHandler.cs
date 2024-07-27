@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Web.Interfaces
 {
-    public interface IContainerDbHttpClientHandler
+    public interface IContainerDbHandler
     {
     }
 }

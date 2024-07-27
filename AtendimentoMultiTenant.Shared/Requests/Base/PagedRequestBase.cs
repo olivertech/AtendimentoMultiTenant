@@ -4,8 +4,8 @@
     {
         [JsonPropertyName("page_size")]
         [JsonProperty(PropertyName = "page_size")]
-        [DefaultValue(CoreConfigurations.PAGESIZE)]
-        public int PageSize { get; set; } = CoreConfigurations.PAGESIZE;
+        [DefaultValue(SharedConfigurations.PAGESIZE)]
+        public int PageSize { get; set; } = SharedConfigurations.PAGESIZE;
 
         [JsonPropertyName("page_number")]
         [JsonProperty(PropertyName = "page_number")]

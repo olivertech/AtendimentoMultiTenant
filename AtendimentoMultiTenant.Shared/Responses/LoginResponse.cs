@@ -6,10 +6,10 @@
     /// </summary>
     public class LoginResponse : IResponse
     {
-        public string? Name { get; set; } = null;
-        public string? Email { get; set; } = null;
+        public string Name { get; set; } = null!;
+        public string Email { get; set; } = null!;
         public bool IsActive { get; set; } = true;
-        public string? Token { get; set; } = null;
-        public string? Identifier { get; set; } = null;
+        public string Token { get; set; } = null!;
+        public string Identifier { get; set; } = null!;
     }
 }

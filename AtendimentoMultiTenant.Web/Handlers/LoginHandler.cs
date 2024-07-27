@@ -1,28 +1,32 @@
-﻿
+﻿using AtendimentoMultiTenant.Shared.Interfaces;
+
 namespace AtendimentoMultiTenant.Web.HttpClientHandlers
 {
-    public class LoginHttpClientHandler : HttpClientHandlerBase, ILoginHttpClientHandler
+    public class LoginHandler : ILoginHandler
     {
+        private readonly HttpClient _httpClient;
+
         /// <summary>
         /// TODO: PESQUISAR SOBRE RETRY PATTERN / BIBLIOTECA POLLY
         /// </summary>
         /// <param name="httpClientFactory"></param>
-        public LoginHttpClientHandler(IHttpClientFactory httpClientFactory)
-            : base(httpClientFactory)
+        public LoginHandler(IHttpClientFactory httpClientFactory)
         {
+            _httpClient = httpClientFactory.CreateClient(SharedConfigurations.HttpClientName);
         }
 
         public async Task<ResponseFactory<LoginResponse>> Auth(LoginRequest request)
         {
             try
             {
-                var result = await _httpClient.PostAsJsonAsync("Login/Auth", request);
+                //var result = await _httpClient.PostAsJsonAsync("https://localhost:7168/Api/Login/Auth", request);
+                var response = await _httpClient.PostAsJsonAsync("Api/Login/Auth", request);
+                var returnValue = await response.Content.ReadFromJsonAsync<ResponseFactory<LoginResponse>>();
 
-                if (result == null)
+                if (!returnValue!.IsSuccess)
                     return null!;
 
-                return await result.Content.ReadFromJsonAsync<ResponseFactory<LoginResponse>>() ??
-                              new ResponseFactory<LoginResponse>();
+                return returnValue ?? new ResponseFactory<LoginResponse>();
             }
             catch (Exception ex)
             {

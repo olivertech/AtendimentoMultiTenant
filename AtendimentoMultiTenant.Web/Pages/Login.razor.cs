@@ -15,7 +15,7 @@ namespace AtendimentoMultiTenant.Web.Pages
         #region Services
 
         [Inject]
-        public ILoginHttpClientHandler Handler { get; set; } = null!;
+        public ILoginHandler Handler { get; set; } = null!;
 
         [Inject]
         public NavigationManager NavigationManager { get; set; } = null!;
@@ -35,13 +35,18 @@ namespace AtendimentoMultiTenant.Web.Pages
             {
                 var result = await Handler.Auth(InputModel);
 
-                if (result.IsSuccess)
+                if (result != null)
                 {
-                    Snackbar.Add(result.Message, Severity.Success);
-                    NavigationManager.NavigateTo("/home");
+                    if (result.IsSuccess)
+                    {
+                        Snackbar.Add(result.Message, Severity.Success);
+                        NavigationManager.NavigateTo("/home");
+                    }
+                    else
+                        Snackbar.Add(result.Message, Severity.Warning);
                 }
                 else
-                    Snackbar.Add(result.Message, Severity.Warning);
+                    Snackbar.Add("Não foi possível realizar o login.", Severity.Error);
             }
             catch (Exception ex)
             {

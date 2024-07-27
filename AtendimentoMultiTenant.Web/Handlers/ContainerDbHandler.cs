@@ -1,12 +1,12 @@
 ﻿namespace AtendimentoMultiTenant.Web.HttpClientHandlers
 {
-    public class ContainerDbHttpClientHandler : HttpClientHandlerBase, IHttpClientHandler<ContainerDbRequest, ContainerDbResponse>, IContainerDbHttpClientHandler
+    public class ContainerDbHandler : HandlerBase, IHandler<ContainerDbRequest, ContainerDbResponse>, IContainerDbHandler
     {
         /// <summary>
         /// TODO: PESQUISAR SOBRE RETRY PATTERN / BIBLIOTECA POLLY
         /// </summary>
         /// <param name="httpClientFactory"></param>
-        public ContainerDbHttpClientHandler(IHttpClientFactory httpClientFactory)
+        public ContainerDbHandler(IHttpClientFactory httpClientFactory)
             : base(httpClientFactory)
         {
         }

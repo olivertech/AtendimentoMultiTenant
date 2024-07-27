@@ -7,12 +7,12 @@ builder.Services.AddMudServices();
 //======================
 // Configuração do Http
 //======================
-builder.Services.AddHttpClient(WebConfigurations.HttpClientName, opt =>
+builder.Services.AddHttpClient(SharedConfigurations.HttpClientName, opt =>
 {
-    opt.BaseAddress = new Uri(CoreConfigurations.BackendUrl);
+    opt.BaseAddress = new Uri(SharedConfigurations.BackendUrl);
 });
 
-builder.Services.AddTransient<IContainerDbHttpClientHandler, ContainerDbHttpClientHandler>();
-builder.Services.AddTransient<ILoginHttpClientHandler, LoginHttpClientHandler>();
+builder.Services.AddTransient<IContainerDbHandler, ContainerDbHandler>();
+builder.Services.AddTransient<ILoginHandler, LoginHandler>();
 
 await builder.Build().RunAsync();

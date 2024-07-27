@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Web.Interfaces
 {
-    public interface IHttpClientHandler<TReq, TResp> 
+    public interface IHandler<TReq, TResp> 
         where TReq : IRequest
         where TResp : IResponse
     {

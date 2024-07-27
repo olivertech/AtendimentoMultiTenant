@@ -148,6 +148,15 @@ try
     //==================
     //builder.Services.ConfigureOptions<PostgreSqlContainerCreationJobSetup>();
 
+    builder.Services.AddCors(
+                options => options.AddPolicy("MyCorsPolicy",
+                    policy => 
+                        policy.WithOrigins([SharedConfigurations.BackendUrl, SharedConfigurations.FrontendUrl])
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                ));
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -163,6 +172,8 @@ try
 
     //app.UseBlazorFrameworkFiles(); //For Blazor
     //app.UseStaticFiles(); //For Blazor
+
+    app.UseCors("MyCorsPolicy");
 
     app.UseAuthentication();
     app.UseAuthorization();
