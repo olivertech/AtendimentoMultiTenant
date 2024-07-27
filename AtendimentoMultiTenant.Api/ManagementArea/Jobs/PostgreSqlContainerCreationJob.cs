@@ -131,7 +131,7 @@
                                 RemoveFolderAndFiles(folderCliente, folder);
 
                                 container!.IsUp = true;
-                                container.ContainerDbCreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
+                                container.CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
 
                                 await _unitOfWork.ContainerRepository.Update(container);
                             }

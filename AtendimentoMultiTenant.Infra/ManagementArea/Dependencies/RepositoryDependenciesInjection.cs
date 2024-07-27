@@ -24,6 +24,7 @@
             services.AddScoped<IPortRepository, PortRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IUserFeatureRepository, UserFeatureRepository>();
+            services.AddScoped<ILogAccessRepository, LogAccessRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IPortFinder, PortFinderHelper>();
 

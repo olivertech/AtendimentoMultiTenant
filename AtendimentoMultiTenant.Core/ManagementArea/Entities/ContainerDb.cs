@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
-
-namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
+﻿namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
 {
     /// <summary>
     /// Classe que vai conter as propriedades que formarão o arquivo docker-compose.yml
@@ -34,7 +32,8 @@ namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
         public string? ContainerDbVolume { get; set; }
         public string? ContainerDbNetwork { get; set; }
         public bool IsUp { get; set; } = false;
-        public DateOnly? ContainerDbCreatedAt { get; set; }
+        public DateOnly? CreatedAt { get; set; }
+        public bool IsActive { get; set; }
 
         public Guid TenantId { get; set; }
         public Guid PortId { get; set; }

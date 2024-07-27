@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Core.ManagementArea.Entities;
-
-namespace AtendimentoMultiTenant.Infra.ManagementArea.Context
+﻿namespace AtendimentoMultiTenant.Infra.ManagementArea.Context
 {
     public class ManagementAreaDbContext : DbContext
     {
@@ -21,6 +19,7 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Context
         public DbSet<UserToken> UserTokens { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<UserFeature> UserFeatures { get; set; }
+        public DbSet<LogAccess> LogAccesses { get; set; }
 
         /// <summary>
         /// Faz referencia as classes de configurações das entidades
@@ -36,6 +35,7 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Context
             modelBuilder.ApplyConfiguration(new ContainerDbConfiguration());
             modelBuilder.ApplyConfiguration(new FeatureConfiguration());
             modelBuilder.ApplyConfiguration(new UserFeatureConfiguration());
+            modelBuilder.ApplyConfiguration(new LogAccessConfiguration());
         }
     }
 }

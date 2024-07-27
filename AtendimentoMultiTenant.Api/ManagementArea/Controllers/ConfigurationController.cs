@@ -207,7 +207,7 @@
                 var entity = _mapper!.Map<ContainerDb>(request);
 
                 entity.ContainerDbImage = _configuration!.GetSection("ContainerDatabaseImage").Value!;
-                entity.ContainerDbCreatedAt = DateOnly.FromDateTime(DateTime.Now);
+                entity.CreatedAt = DateOnly.FromDateTime(DateTime.Now);
                 entity.ContainerDbPort = _portFinder.GetNewPortNumber();
                 entity.IsUp = false;
 

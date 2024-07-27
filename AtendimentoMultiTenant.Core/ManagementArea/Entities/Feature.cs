@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
-
-namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
+﻿namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
 {
     public sealed class Feature : ConfigurationEntityBase
     {

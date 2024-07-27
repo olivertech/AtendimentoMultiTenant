@@ -111,8 +111,8 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                 UserToken newUserToken = new UserToken
                 {
                     Token = token,
-                    ExpirationDate = expirationDateTime,
-                    CreationDate = DateTime.UtcNow,
+                    CreatedAt = DateTime.Today,
+                    ExpiringAt = expirationDateTime,
                 };
 
                 //Recupera o Token associado ao usuário

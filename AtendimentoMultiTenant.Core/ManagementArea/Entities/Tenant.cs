@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
-
-namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
+﻿namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
 {
     /// <summary>
     /// Classe que representa os "inquilinos" do SaaS, ou seja,
@@ -13,5 +11,6 @@ namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
         public string? ConnectionString { get; set; } = null;
         public string? InitialUrl { get; set; } = null;
         public bool IsActive { get; set; }
+        public DateTime? CreatedAt { get; set; }
     }
 }

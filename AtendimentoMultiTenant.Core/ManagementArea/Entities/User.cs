@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
-
-namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
+﻿namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
 {
     /// <summary>
     /// Classe que representa os usuários que podem acessar os sistemas "inquilinos",
@@ -11,8 +9,8 @@ namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
         public string? Name { get; set; } = null;
         public string? Email { get; set; } = null;
         public string? Password { get; set; } = null;
-
         public bool IsActive { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         public Guid TenantId { get; set; }
         public Guid? UserTypeId { get; set; }
