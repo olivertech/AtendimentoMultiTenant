@@ -1,7 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
-using AtendimentoMultiTenant.Shared.ManagementArea.Responses;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Interfaces
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Interfaces
 {
     public interface IHandler<TReq, TResp>
         where TReq : IRequest

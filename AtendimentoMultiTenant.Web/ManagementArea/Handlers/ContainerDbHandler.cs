@@ -1,9 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Requests;
-using AtendimentoMultiTenant.Shared.ManagementArea.Responses;
-using AtendimentoMultiTenant.Web.ManagementArea.Handlers.Base;
-using AtendimentoMultiTenant.Web.ManagementArea.Interfaces;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Handlers
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Handlers
 {
     public class ContainerDbHandler : HandlerBase, IHandler<ContainerDbRequest, ContainerDbResponse>, IContainerDbHandler
     {

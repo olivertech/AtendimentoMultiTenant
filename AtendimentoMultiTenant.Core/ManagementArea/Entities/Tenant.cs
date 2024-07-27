@@ -11,6 +11,7 @@
         public string? ConnectionString { get; set; } = null;
         public string? InitialUrl { get; set; } = null;
         public bool IsActive { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public DateOnly? CreatedAt { get; set; }
+        public TimeOnly? TimedAt { get; set; }
     }
 }

@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CommonArea\" />
     <Folder Include="TenantArea\CustomValidators\" />
     <Folder Include="TenantArea\Dependencies\" />
     <Folder Include="TenantArea\Interfaces\" />

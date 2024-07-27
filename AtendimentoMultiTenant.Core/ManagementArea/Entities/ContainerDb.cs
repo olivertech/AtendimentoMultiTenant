@@ -33,6 +33,7 @@
         public string? ContainerDbNetwork { get; set; }
         public bool IsUp { get; set; } = false;
         public DateOnly? CreatedAt { get; set; }
+        public TimeOnly? TimedAt { get; set; }
         public bool IsActive { get; set; }
 
         public Guid TenantId { get; set; }

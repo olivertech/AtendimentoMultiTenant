@@ -30,8 +30,6 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Auth([FromBody] LoginRequest request)
         {
-            DateTime expirationDateTime = DateTime.MinValue;
-
             try
             {
                 var validation = await _validator.ValidateAsync(request);
@@ -52,9 +50,9 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 
                 //Gera o identificador que vai servir como mais um item de validação do token
                 var identifier = IdentifierHelper.SetIdentifier(user.Id, user.UserTokenId);
-                var token = JwtAuth.GenerateToken(user, identifier, _configuration!, ref expirationDateTime);
+                var newToken = JwtAuth.GenerateToken(user, identifier, _configuration!);
 
-                var userToken = SetUserToken(token, expirationDateTime, user);
+                var userToken = SetUserToken(newToken.Token, newToken.ExpirationDate, user);
 
                 user.UserTokenId = userToken.Result.Id;
 
@@ -65,7 +63,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 
                 _unitOfWork.CommitAsync().Wait();
 
-                response.Token = token;
+                response.Token = newToken.Token;
                 response.Identifier = identifier;
 
                 return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário logado com sucesso.", response));
@@ -102,7 +100,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
             }
         }
 
-        private async Task<UserToken> SetUserToken(string token, DateTime expirationDateTime, User user)
+        private async Task<UserToken> SetUserToken(string token, DateOnly expirationDateTime, User user)
         {
             UserToken? userToken = null;
 
@@ -111,7 +109,6 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                 UserToken newUserToken = new UserToken
                 {
                     Token = token,
-                    CreatedAt = DateTime.Today,
                     ExpiringAt = expirationDateTime,
                 };
 

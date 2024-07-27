@@ -15,4 +15,8 @@ global using Morris.Blazor.Validation;
 global using AtendimentoMultiTenant.Shared.ManagementArea.Validators;
 global using AtendimentoMultiTenant.Web.ManagementArea.Dependencies;
 global using Blazored.SessionStorage;
+global using AtendimentoMultiTenant.Web.CommonArea;
+global using AtendimentoMultiTenant.Web.ManagementArea.Pages.Base;
+global using AtendimentoMultiTenant.Shared.CommonArea.Enumerators;
+global using AtendimentoMultiTenant.Shared.CommonArea.Extensions;
 global using MudBlazor;

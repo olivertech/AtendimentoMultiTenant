@@ -1,8 +1,6 @@
-﻿using AtendimentoMultiTenant.Web.CommonArea;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Pages
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages
 {
-    public partial class LoginPage : ComponentBase
+    public partial class LoginPage : PageBase
     {
         #region Properties
 
@@ -52,7 +50,7 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages
                         await StorageService.SetListItem(listItems);
  
                         Snackbar.Add(result.Message, Severity.Success);
-                        NavigationManager.NavigateTo("/home");
+                        NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription());
                     }
                     else
                         Snackbar.Add(result.Message, Severity.Warning);

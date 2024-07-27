@@ -10,7 +10,9 @@
         public string? Email { get; set; } = null;
         public string? Password { get; set; } = null;
         public bool IsActive { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public DateOnly? CreatedAt { get; set; }
+        public TimeOnly? TimedAt { get; set; }
+
 
         public Guid TenantId { get; set; }
         public Guid? UserTypeId { get; set; }

@@ -1,7 +1,4 @@
-﻿using AtendimentoMultiTenant.Web.ManagementArea.Interfaces;
-using Microsoft.JSInterop;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Handlers
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Handlers
 {
     public class LoginHandler : ILoginHandler
     {
@@ -20,7 +17,6 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Handlers
         {
             try
             {
-                //var result = await _httpClient.PostAsJsonAsync("https://localhost:7168/Api/Login/Auth", request);
                 var response = await _httpClient.PostAsJsonAsync("Api/Login/Auth", request);
                 var returnValue = await response.Content.ReadFromJsonAsync<ResponseFactory<LoginResponse>>();
 

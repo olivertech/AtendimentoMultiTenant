@@ -14,7 +14,8 @@
             builder.Property(x => x.ContainerDbPort).HasColumnName("container_db_port").HasMaxLength(4).IsRequired();
             builder.Property(x => x.ContainerDbVolume).HasColumnName("container_db_volume").HasMaxLength(50).IsRequired();
             builder.Property(x => x.ContainerDbNetwork).HasColumnName("container_db_network").HasMaxLength(50).IsRequired();
-            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
+            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false).HasDefaultValue(TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")));
             builder.Property(x => x.IsUp).HasColumnName("is_up").IsRequired();
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.PortId).HasColumnName("port_id").IsRequired();
@@ -44,7 +45,6 @@
                     ContainerDbNetwork = "db_tenant_network",
                     TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
                     PortId = Guid.Parse("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
                     IsUp = true
                 },
                 //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
@@ -61,7 +61,6 @@
                     ContainerDbNetwork = "cliente1_network",
                     TenantId = Guid.Parse("f6a2372a-b146-45f9-be70-a0be13736dd8"),
                     PortId = Guid.Parse("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
-                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
                     IsUp = false
                 },
                 new ContainerDb
@@ -77,7 +76,6 @@
                     ContainerDbNetwork = "cliente2_network",
                     TenantId = Guid.Parse("64210b12-a8d4-44ae-b35e-b13b762c4179"),
                     PortId = Guid.Parse("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
-                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
                     IsUp = false
                 },
                 new ContainerDb
@@ -93,7 +91,6 @@
                     ContainerDbNetwork = "cliente3_network",
                     TenantId = Guid.Parse("25ae8570-56b6-4a9d-9616-c15862613525"),
                     PortId = Guid.Parse("39715917-a829-41c4-8da1-64029a0c6364"),
-                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
                     IsUp = false
                 }
             });

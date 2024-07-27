@@ -2,9 +2,9 @@
 {
     public static class JwtAuth
     {
-        public static string GenerateToken(User user, string identifier, IConfiguration configuration, ref DateTime expirationDate)
+        public static NewToken GenerateToken(User user, string identifier, IConfiguration configuration)
         {
-            expirationDate = DateTime.UtcNow.AddMinutes(SharedConfigurations.Minutes);
+            var expirationDate = DateTime.UtcNow.AddMinutes(SharedConfigurations.Minutes);
 
             //Recupera as configurações JWT
             var key = Encoding.UTF8.GetBytes(JwtSettings.SecretKey);
@@ -32,8 +32,20 @@
             var tokenHandler = new JwtSecurityTokenHandler();
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
+            NewToken newToken = new()
+            { 
+                Token = tokenHandler.WriteToken(token),
+                ExpirationDate = DateOnly.FromDateTime(DateTime.Now)
+            };
+
             //TODO: ENCRIPTAR O TOKEN POSTERIORMENTE
-            return tokenHandler.WriteToken(token);
+            return newToken;
         }
+    }
+
+    public class NewToken
+    {
+        public string Token { get; set; } = null!;
+        public DateOnly ExpirationDate { get; set; }
     }
 }

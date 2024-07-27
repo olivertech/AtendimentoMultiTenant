@@ -9,3 +9,4 @@ global using System.ComponentModel;
 global using AtendimentoMultiTenant.Shared.Configurations;
 global using AtendimentoMultiTenant.Shared.ManagementArea.Requests;
 global using AtendimentoMultiTenant.Shared.ManagementArea.Validators;
+global using System.Reflection;

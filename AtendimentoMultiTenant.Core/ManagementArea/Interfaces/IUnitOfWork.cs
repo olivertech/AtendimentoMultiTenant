@@ -10,6 +10,7 @@
         IPortRepository PortRepository { get; }
         IFeatureRepository FeatureRepository { get; }
         IUserFeatureRepository UserFeatureRepository { get; }
+        ILogAccessRepository LogAccessRepository { get; }
 
         Task CommitAsync();
     }

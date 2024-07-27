@@ -14,7 +14,8 @@
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.UserTypeId).HasColumnName("user_type_id").IsRequired(false);
             builder.Property(x => x.UserTokenId).HasColumnName("user_token_id").IsRequired(false);
-            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
+            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false).HasDefaultValue(TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")));
             builder.HasOne(x => x.Tenant);
             builder.HasOne(x => x.UserType);
             builder.HasOne(x => x.UserToken);

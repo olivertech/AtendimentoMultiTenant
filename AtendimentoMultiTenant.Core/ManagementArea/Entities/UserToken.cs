@@ -7,7 +7,8 @@
     public sealed class UserToken : ConfigurationEntityBase
     {
         public string? Token { get; set; }
-        public DateTime? CreatedAt { get; set; }
-        public DateTime? ExpiringAt { get; set; }
+        public DateOnly? CreatedAt { get; set; }
+        public TimeOnly? TimedAt { get; set; }
+        public DateOnly? ExpiringAt { get; set; }
     }
 }

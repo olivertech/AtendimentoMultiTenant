@@ -11,7 +11,9 @@
             builder.Property(x => x.ConnectionString).HasColumnName("connection_string").IsRequired();
             builder.Property(x => x.InitialUrl).HasColumnName("initial_url").IsRequired();
             builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
-            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateTime.Now);
+            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
+            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false).HasDefaultValue(TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")));
+
             builder.ToTable("Tenant");
 
             builder.HasData(new[]

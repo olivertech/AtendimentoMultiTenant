@@ -12,75 +12,30 @@
         private IPortRepository? _portRepository;
         private IFeatureRepository? _featureRepository;
         private IUserFeatureRepository? _userFeatureRepository;
+        private ILogAccessRepository? _logAccessRepository;
 
         public UnitOfWork(ManagementAreaDbContext context)
         {
             _context = context;
         }
 
-        public IContainerDbRepository ContainerRepository
-        {
-            get
-            {
-                return _containerRepository ??= new ContainerDbRepository(_context);
-            }
-        }
+        public IContainerDbRepository ContainerRepository => _containerRepository ??= new ContainerDbRepository(_context);
 
-        public ITenantRepository TenantRepository
-        {
-            get
-            {
-                return _tenantRepository ??= new TenantRepository(_context);
-            }
-        }
+        public ITenantRepository TenantRepository => _tenantRepository ??= new TenantRepository(_context);
 
-        public IUserRepository UserRepository
-        {
-            get
-            {
-                return _userRepository ??= new UserRepository(_context);
-            }
-        }
+        public IUserRepository UserRepository => _userRepository ??= new UserRepository(_context);
 
-        public IPortRepository PortRepository
-        {
-            get
-            {
-                return _portRepository ??= new PortRepository(_context);
-            }
-        }
+        public IPortRepository PortRepository => _portRepository ??= new PortRepository(_context);
 
-        public IUserTypeRepository UserTypeRepository
-        {
-            get
-            {
-                return _userTypeRepository ??= new UserTypeRepository(_context);
-            }
-        }
+        public IUserTypeRepository UserTypeRepository => _userTypeRepository ??= new UserTypeRepository(_context);
+        
+        public IUserTokenRepository UserTokenRepository => _userTokenRepository ??= new UserTokenRepository(_context);
 
-        public IUserTokenRepository UserTokenRepository
-        {
-            get
-            {
-                return _userTokenRepository ??= new UserTokenRepository(_context);
-            }
-        }
+        public IFeatureRepository FeatureRepository => _featureRepository ??= new FeatureRepository(_context);
+        
+        public IUserFeatureRepository UserFeatureRepository => _userFeatureRepository ??= new UserFeatureRepository(_context);
 
-        public IFeatureRepository FeatureRepository
-        {
-            get
-            {
-                return _featureRepository ??= new FeatureRepository(_context);
-            }
-        }
-
-        public IUserFeatureRepository UserFeatureRepository
-        {
-            get
-            {
-                return _userFeatureRepository ??= new UserFeatureRepository(_context);
-            }
-        }
+        public ILogAccessRepository LogAccessRepository => _logAccessRepository ??= new LogAccessRepository(_context);
 
         public async Task CommitAsync()
         {

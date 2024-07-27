@@ -60,8 +60,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnName("container_db_volume");
 
                     b.Property<DateOnly?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasColumnName("container_db_created_at");
+                        .HasDefaultValue(new DateOnly(2024, 7, 27))
+                        .HasColumnName("created_at");
 
                     b.Property<string>("EnvironmentDbName")
                         .IsRequired()
@@ -96,6 +98,12 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("tenant_id");
 
+                    b.Property<TimeOnly?>("TimedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time without time zone")
+                        .HasDefaultValue(new TimeOnly(19, 25, 5))
+                        .HasColumnName("timed_at");
+
                     b.HasKey("Id");
 
                     b.HasIndex("PortId");
@@ -113,7 +121,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             ContainerDbNetwork = "db_tenant_network",
                             ContainerDbPort = "5432",
                             ContainerDbVolume = "db_config_volume",
-                            CreatedAt = new DateOnly(2024, 7, 27),
                             EnvironmentDbName = "AtendimentoConfigDB",
                             EnvironmentDbPwd = "atendimento@config",
                             EnvironmentDbUser = "postgresconfiguser",
@@ -130,7 +137,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             ContainerDbNetwork = "cliente1_network",
                             ContainerDbPort = "5434",
                             ContainerDbVolume = "cliente1_volume",
-                            CreatedAt = new DateOnly(2024, 7, 27),
                             EnvironmentDbName = "Cliente1DB",
                             EnvironmentDbPwd = "pwdcliente1",
                             EnvironmentDbUser = "usercliente1",
@@ -147,7 +153,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             ContainerDbNetwork = "cliente2_network",
                             ContainerDbPort = "5435",
                             ContainerDbVolume = "cliente2_volume",
-                            CreatedAt = new DateOnly(2024, 7, 27),
                             EnvironmentDbName = "Cliente2DB",
                             EnvironmentDbPwd = "pwdcliente2",
                             EnvironmentDbUser = "usercliente2",
@@ -164,7 +169,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             ContainerDbNetwork = "cliente3_network",
                             ContainerDbPort = "5436",
                             ContainerDbVolume = "cliente3_volume",
-                            CreatedAt = new DateOnly(2024, 7, 27),
                             EnvironmentDbName = "Cliente3DB",
                             EnvironmentDbPwd = "pwdcliente3",
                             EnvironmentDbUser = "usercliente3",
@@ -203,9 +207,16 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnName("Id");
 
                     b.Property<DateOnly?>("CreatedAt")
-                        .IsRequired()
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasColumnName("access_datetime");
+                        .HasDefaultValue(new DateOnly(2024, 7, 27))
+                        .HasColumnName("created_at");
+
+                    b.Property<TimeOnly?>("TimedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time without time zone")
+                        .HasDefaultValue(new TimeOnly(19, 25, 5))
+                        .HasColumnName("timed_at");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
@@ -271,7 +282,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnName("connection_string");
 
                     b.Property<DateOnly?>("CreatedAt")
-                        .HasColumnType("date");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValue(new DateOnly(2024, 7, 27))
+                        .HasColumnName("created_at");
 
                     b.Property<string>("InitialUrl")
                         .IsRequired()
@@ -295,6 +309,12 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)")
                         .HasColumnName("secret");
+
+                    b.Property<TimeOnly?>("TimedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time without time zone")
+                        .HasDefaultValue(new TimeOnly(19, 25, 5))
+                        .HasColumnName("timed_at");
 
                     b.HasKey("Id");
 
@@ -347,7 +367,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnName("Id");
 
                     b.Property<DateOnly?>("CreatedAt")
-                        .HasColumnType("date");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValue(new DateOnly(2024, 7, 27))
+                        .HasColumnName("created_at");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -377,6 +400,12 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("tenant_id");
 
+                    b.Property<TimeOnly?>("TimedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time without time zone")
+                        .HasDefaultValue(new TimeOnly(19, 25, 5))
+                        .HasColumnName("timed_at");
+
                     b.Property<Guid?>("UserTokenId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_token_id");
@@ -402,7 +431,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("91b35c63-49d0-44ce-9eec-6f95a48d52d2"),
+                            Id = new Guid("ddc76226-1024-48eb-bf7c-b7a78b175032"),
                             Email = "marcelo@sys.com",
                             IsActive = true,
                             Name = "Marcelo de Oliveira",
@@ -412,7 +441,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("9802e62a-899b-4b55-87e6-cb56038010f6"),
+                            Id = new Guid("c8387aeb-1875-491e-aaf1-d015a9f33594"),
                             Email = "joao@sys.com",
                             IsActive = true,
                             Name = "João da Silva",
@@ -422,7 +451,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("c3013462-1855-4fda-a20b-21a44b6cfc74"),
+                            Id = new Guid("aca5a564-9f86-43fa-9b79-9888534a98fb"),
                             Email = "maria@sys.com",
                             IsActive = true,
                             Name = "maria da Silva",
@@ -432,7 +461,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("8454e2ce-bcce-4c9d-b0b4-c65f4eb65d37"),
+                            Id = new Guid("a17e29f8-9c85-4c3c-b5c6-2eb2195cc32f"),
                             Email = "paulo@tenant1.com",
                             IsActive = true,
                             Name = "Paulo da Silva",
@@ -442,7 +471,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            Id = new Guid("ecf810fb-c01d-4fe8-8e87-d39e1f262143"),
+                            Id = new Guid("9a150059-614b-47c3-b56f-59deededd8d6"),
                             Email = "jorge@tenant2.com",
                             IsActive = true,
                             Name = "Jorge da Silva",
@@ -481,15 +510,21 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("uuid")
                         .HasColumnName("Id");
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("creation_date");
+                    b.Property<DateOnly?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValue(new DateOnly(2024, 7, 27))
+                        .HasColumnName("created_at");
 
-                    b.Property<DateTime?>("ExpiringAt")
-                        .IsRequired()
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expiration_date");
+                    b.Property<DateOnly?>("ExpiringAt")
+                        .HasColumnType("date")
+                        .HasColumnName("expiring_at");
+
+                    b.Property<TimeOnly?>("TimedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time without time zone")
+                        .HasDefaultValue(new TimeOnly(19, 25, 5))
+                        .HasColumnName("timed_at");
 
                     b.Property<string>("Token")
                         .IsRequired()
@@ -507,6 +542,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("Id");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
