@@ -13,13 +13,13 @@
                 <MudTextField @bind-Value="InputModel.Email"
                               Label="Email"
                               HelperText="Campo obrigatório"
-                              Variant="Variant.Text"
-                              For="@(() => InputModel.Email)" />
+                              Variant="Variant.Outlined"
+                              For="@(() => InputModel.Email)" AdornmentColor="Color.Primary" />
                 <MudTextField @bind-Value="InputModel.Password"
                               Class="mt-5"
                               Label="Senha"
                               HelperText="Campo obrigatório"
-                              Variant="Variant.Text"
+                              Variant="Variant.Outlined"
                               InputType="@PasswordInput"
                               Adornment="Adornment.End"
                               AdornmentIcon="@PasswordInputIcon"

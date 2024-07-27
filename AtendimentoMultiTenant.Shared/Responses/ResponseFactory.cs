@@ -5,7 +5,7 @@
         /// <summary>
         /// Inidicador booleano de sucesso ou não da resposta
         /// </summary>
-        [JsonProperty(PropertyName = "issuccess")]
+        [JsonProperty(PropertyName = "is_success")]
         public bool IsSuccess { get; set; }
 
         /// <summary>
@@ -43,7 +43,6 @@
         {
             return new ResponseFactory<T>()
             {
-                //StatusCode = statusCode,
                 Message = message,
                 IsSuccess = isSuccess
             };

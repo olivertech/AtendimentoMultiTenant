@@ -148,14 +148,14 @@ try
     //==================
     //builder.Services.ConfigureOptions<PostgreSqlContainerCreationJobSetup>();
 
-    builder.Services.AddCors(
-                options => options.AddPolicy("MyCorsPolicy",
-                    policy => 
-                        policy.WithOrigins([SharedConfigurations.BackendUrl, SharedConfigurations.FrontendUrl])
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()
-                ));
+    builder.Services.AddCors(options => 
+        options.AddPolicy("MyCorsPolicy",
+            policy => 
+                policy.WithOrigins([SharedConfigurations.BackendUrl, SharedConfigurations.FrontendUrl])
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials()
+        ));
 
     var app = builder.Build();
 

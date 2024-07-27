@@ -10,8 +10,8 @@
         /// <summary>
         /// Inidicador booleano de sucesso ou não da resposta
         /// </summary>
-        [JsonProperty(PropertyName = "result")]
-        public bool Result { get; private set; }
+        [JsonProperty(PropertyName = "is_success")]
+        public bool IsSuccess { get; private set; }
 
         /// <summary>
         /// Mensagem de retorno
@@ -30,7 +30,7 @@
         /// Métodos que criam o objeto de retorno
         /// </summary>
         /// <returns></returns>
-        public static ResponsePagedFactory<T> Success(bool result, string message, T content, int currentPage, int totalCount)
+        public static ResponsePagedFactory<T> Success(bool isSuccess, string message, T content, int currentPage, int totalCount)
         {
             return new ResponsePagedFactory<T>()
             {
@@ -38,7 +38,7 @@
                 TotalCount = totalCount,
                 Message = message,
                 Content = content,
-                Result = result
+                IsSuccess = isSuccess
             };
         }
 
@@ -46,13 +46,13 @@
         /// Métodos que criam o objeto de retorno para erros
         /// </summary>
         /// <returns></returns>
-        public static ResponsePagedFactory<T> Error(bool result, string message)
+        public static ResponsePagedFactory<T> Error(bool isSuccess, string message)
         {
             return new ResponsePagedFactory<T>()
             {
                 //StatusCode = statusCode,
                 Message = message,
-                Result = result
+                IsSuccess = isSuccess
             };
         }
     }
