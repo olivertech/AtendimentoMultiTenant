@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Api.Controllers.Base
+﻿using AtendimentoMultiTenant.Api.Helpers;
+
+namespace AtendimentoMultiTenant.Api.Controllers.Base
 {
     public abstract class ControllerBase : Controller
     {
@@ -37,7 +39,7 @@
             
             if (user != null && token != null)
             {
-                if (userType!.Name!.ToLower() == role.ToLower())
+                if (userType!.Name!.Equals(role, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return true;
                 }

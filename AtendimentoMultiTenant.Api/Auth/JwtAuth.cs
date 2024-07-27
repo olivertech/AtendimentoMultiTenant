@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Cross.Auth
+﻿namespace AtendimentoMultiTenant.Api.Auth
 {
     public static class JwtAuth
     {

@@ -9,7 +9,7 @@
         public const string CRYPTOKEY = "Myx2szzzdBJQ65UD"; //Encrypt and Decrypt key
         public const int MINUTES = 1440; //1 Day
 
-        public static string FrontendUrl { get; } = "https://localhost:7282";
-        public static string BackendUrl { get; } = "https://localhost:7168";
+        public static readonly string FrontendUrl = "https://localhost:7282";
+        public static readonly string BackendUrl = "https://localhost:7168";
     }
 }

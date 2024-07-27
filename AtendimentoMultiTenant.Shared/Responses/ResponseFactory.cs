@@ -11,7 +11,7 @@
         /// Inidicador booleano de sucesso ou não da resposta
         /// </summary>
         [JsonProperty(PropertyName = "result")]
-        public bool Result { get; private set; }
+        public bool IsSuccess { get; private set; }
 
         /// <summary>
         /// Mensagem de retorno
@@ -30,13 +30,13 @@
         /// Métodos que criam o objeto de retorno
         /// </summary>
         /// <returns></returns>
-        public static ResponseFactory<T> Success(bool result, string message, T content)
+        public static ResponseFactory<T> Success(bool isSuccess, string message, T content)
         {
             return new ResponseFactory<T>()
             {
                 Message = message,
                 Content = content,
-                Result = result
+                IsSuccess = isSuccess
             };
         }
 
@@ -44,13 +44,13 @@
         /// Métodos que criam o objeto de retorno para erros
         /// </summary>
         /// <returns></returns>
-        public static ResponseFactory<T> Error(bool result, string message)
+        public static ResponseFactory<T> Error(bool isSuccess, string message)
         {
             return new ResponseFactory<T>()
             {
                 //StatusCode = statusCode,
                 Message = message,
-                Result = result
+                IsSuccess = isSuccess
             };
         }
     }

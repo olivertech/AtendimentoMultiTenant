@@ -1,10 +1,13 @@
-﻿namespace AtendimentoMultiTenant.Api.Controllers
+﻿using AtendimentoMultiTenant.Api.Helpers;
+
+namespace AtendimentoMultiTenant.Api.Controllers
 {
     [Route("api/Login")]
     [SwaggerTag("Login")]
     [ApiController]
     public class LoginController : Base.ControllerBase
     {
+        private const string _msgPrefixError = "Request inválido! - ";
         private readonly ILogger<LoginController>? _logger;
         private readonly IValidator<LoginRequest> _validator;
 
@@ -34,7 +37,7 @@
 
                 if (!validation.IsValid)
                 {
-                    _logger!.LogWarning("Request inválido! - " + validation.Errors);
+                    _logger!.LogWarning(_msgPrefixError + validation.Errors);
                     return BadRequest(new { Message = validation.Errors });
                 }
 

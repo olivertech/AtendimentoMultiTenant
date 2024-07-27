@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Cross.Auth
+﻿namespace AtendimentoMultiTenant.Api.Auth
 {
     /// <summary>
     /// Secret Key usada para gerar os tokens de autorização e autenticação

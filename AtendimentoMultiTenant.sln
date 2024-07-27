@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Web"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-AtendimentoMultiTenant.Shared", "5-AtendimentoMultiTenant.Shared", "{9A93A3F3-E26B-4093-B4E6-8D8BA2CECE23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoMultiTenant.Shared", "AtendimentoMultiTenant.Shared\AtendimentoMultiTenant.Shared.csproj", "{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Shared", "AtendimentoMultiTenant.Shared\AtendimentoMultiTenant.Shared.csproj", "{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,10 +1,6 @@
 //=============================================================================================
 // Inicialização do NLog para permitir seu funcionamento, antes que a aplicação seja levantada
 //=============================================================================================
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
-using Microsoft.AspNetCore.ResponseCompression;
-
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 

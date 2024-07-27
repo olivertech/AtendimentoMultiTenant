@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Core.Dependencies
+﻿namespace AtendimentoMultiTenant.Infra.Dependencies
 {
     /// <summary>
     /// Classe estática que concentra as configurações

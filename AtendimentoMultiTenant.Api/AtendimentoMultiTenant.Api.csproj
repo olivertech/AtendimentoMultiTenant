@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AtendimentoMultiTenant.Core\AtendimentoMultiTenant.Core.csproj" />
-    <ProjectReference Include="..\AtendimentoMultiTenant.Cross\AtendimentoMultiTenant.Cross.csproj" />
+    <ProjectReference Include="..\AtendimentoMultiTenant.Infra\AtendimentoMultiTenant.Infra.csproj" />
     <ProjectReference Include="..\AtendimentoMultiTenant.Shared\AtendimentoMultiTenant.Shared.csproj" />
   </ItemGroup>
 
