@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-AtendimentoMultiTenant.Api", "1-AtendimentoMultiTenant.Api", "{0AB17EED-DAEA-45A5-9004-C5E04672EE34}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-AtendimentoMultiTenant.Api", "2-AtendimentoMultiTenant.Api", "{0AB17EED-DAEA-45A5-9004-C5E04672EE34}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-AtendimentoMultiTenant.Core", "2-AtendimentoMultiTenant.Core", "{5C1AB320-B656-42B4-A031-0117513ABD3B}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-AtendimentoMultiTenant.Core", "4-AtendimentoMultiTenant.Core", "{5C1AB320-B656-42B4-A031-0117513ABD3B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3-AtendimentoMultiTenant.Infra", "3-AtendimentoMultiTenant.Infra", "{317BBEDD-B501-4FF5-A36B-68AC2A6C1DBD}"
 EndProject
@@ -15,13 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Core
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Infra", "AtendimentoMultiTenant.Infra\AtendimentoMultiTenant.Infra.csproj", "{E5FD6B2C-19E8-4140-825D-C0164B55B986}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0-AtendimentoMultiTenant.Web", "0-AtendimentoMultiTenant.Web", "{DDE74747-19FA-41B7-85B8-9AABE9B8B6D8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-AtendimentoMultiTenant.Web", "1-AtendimentoMultiTenant.Web", "{DDE74747-19FA-41B7-85B8-9AABE9B8B6D8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Web", "AtendimentoMultiTenant.Web\AtendimentoMultiTenant.Web.csproj", "{BC976D1F-2755-42FD-A70F-4FE75E3FE09F}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4-AtendimentoMultiTenant.Shared", "4-AtendimentoMultiTenant.Shared", "{9A93A3F3-E26B-4093-B4E6-8D8BA2CECE23}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5-AtendimentoMultiTenant.Shared", "5-AtendimentoMultiTenant.Shared", "{9A93A3F3-E26B-4093-B4E6-8D8BA2CECE23}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Shared", "AtendimentoMultiTenant.Shared\AtendimentoMultiTenant.Shared.csproj", "{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Shared", "AtendimentoMultiTenant.Shared\AtendimentoMultiTenant.Shared.csproj", "{3C8FC76B-B6A8-4FA2-A348-7876D72776FC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,10 +45,10 @@ Global
 		{BC976D1F-2755-42FD-A70F-4FE75E3FE09F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC976D1F-2755-42FD-A70F-4FE75E3FE09F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC976D1F-2755-42FD-A70F-4FE75E3FE09F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C8FC76B-B6A8-4FA2-A348-7876D72776FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C8FC76B-B6A8-4FA2-A348-7876D72776FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C8FC76B-B6A8-4FA2-A348-7876D72776FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C8FC76B-B6A8-4FA2-A348-7876D72776FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,7 +58,7 @@ Global
 		{1E664257-4E09-4CCE-9B58-2764488DB3F6} = {5C1AB320-B656-42B4-A031-0117513ABD3B}
 		{E5FD6B2C-19E8-4140-825D-C0164B55B986} = {317BBEDD-B501-4FF5-A36B-68AC2A6C1DBD}
 		{BC976D1F-2755-42FD-A70F-4FE75E3FE09F} = {DDE74747-19FA-41B7-85B8-9AABE9B8B6D8}
-		{6F3ECD39-6CFA-4404-AC27-DBDAF99C0ED0} = {9A93A3F3-E26B-4093-B4E6-8D8BA2CECE23}
+		{3C8FC76B-B6A8-4FA2-A348-7876D72776FC} = {9A93A3F3-E26B-4093-B4E6-8D8BA2CECE23}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {17CAE811-6164-4160-A6CC-51090CF5800B}
