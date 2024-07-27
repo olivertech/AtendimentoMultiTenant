@@ -1,5 +1,4 @@
-﻿global using AtendimentoMultiTenant.Core.Entities.Base;
+﻿global using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
 global using System.Linq.Expressions;
-global using AtendimentoMultiTenant.Core.Interfaces.Base;
-global using AtendimentoMultiTenant.Core.Entities.ConfigurationEntities;
-global using AtendimentoMultiTenant.Core.Interfaces;
+global using AtendimentoMultiTenant.Core.ManagementArea.Interfaces.Base;
+global using AtendimentoMultiTenant.Core.ManagementArea.Interfaces;

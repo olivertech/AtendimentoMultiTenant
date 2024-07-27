@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Requests\ConfigurationRequest.cs" />
-    <Compile Remove="Responses\ConfigurationResponse.cs" />
-    <Compile Remove="Validators\ConfigurationRequestValidator.cs" />
+    <Compile Remove="ManagementArea\Requests\ConfigurationRequest.cs" />
+    <Compile Remove="ManagementArea\Responses\ConfigurationResponse.cs" />
+    <Compile Remove="ManagementArea\Validators\ConfigurationRequestValidator.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,6 +21,16 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AtendimentoMultiTenant.Core\AtendimentoMultiTenant.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="CommonArea\" />
+    <Folder Include="TenantArea\CustomValidators\" />
+    <Folder Include="TenantArea\Dependencies\" />
+    <Folder Include="TenantArea\Interfaces\" />
+    <Folder Include="TenantArea\Validators\" />
+    <Folder Include="TenantArea\Responses\" />
+    <Folder Include="TenantArea\Requests\" />
   </ItemGroup>
 
 </Project>

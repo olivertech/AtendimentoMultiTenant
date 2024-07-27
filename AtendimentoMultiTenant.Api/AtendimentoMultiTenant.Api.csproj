@@ -35,4 +35,11 @@
     <ProjectReference Include="..\AtendimentoMultiTenant.Shared\AtendimentoMultiTenant.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TenantArea\Controllers\" />
+    <Folder Include="TenantArea\Helpers\" />
+    <Folder Include="TenantArea\Interfaces\" />
+    <Folder Include="TenantArea\Mappings\" />
+  </ItemGroup>
+
 </Project>

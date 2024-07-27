@@ -106,3 +106,9 @@ code {
 .custom-textfield-background-color {
     background-color: #fff;
 }
+
+input[type="text"]::selection
+input[type="text"]::after
+input[type="text"]::before {
+    background-color: #fff; /* Light gray background */
+}

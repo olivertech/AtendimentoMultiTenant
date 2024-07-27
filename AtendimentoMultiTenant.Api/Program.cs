@@ -151,7 +151,7 @@ try
     builder.Services.AddCors(options => 
         options.AddPolicy("MyCorsPolicy",
             policy => 
-                policy.WithOrigins([SharedConfigurations.BackendUrl, SharedConfigurations.FrontendUrl])
+                policy.WithOrigins([SharedConfigurations.BackEndUrl, SharedConfigurations.FrontEndUrl])
                 .AllowAnyMethod()
                 .AllowAnyHeader()
                 .AllowCredentials()

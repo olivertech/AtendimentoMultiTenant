@@ -25,6 +25,10 @@
 
   <ItemGroup>
     <Folder Include="Migrations\" />
+    <Folder Include="TenantArea\Context\" />
+    <Folder Include="TenantArea\Dependencies\" />
+    <Folder Include="TenantArea\EntityConfigurations\" />
+    <Folder Include="TenantArea\Repositories\" />
   </ItemGroup>
 
 </Project>

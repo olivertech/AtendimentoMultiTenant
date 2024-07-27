@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="TenantArea\Helpers\" />
+    <Folder Include="TenantArea\Interfaces\" />
+  </ItemGroup>
+
 </Project>
