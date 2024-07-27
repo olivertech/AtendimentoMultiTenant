@@ -101,3 +101,8 @@ a, .btn-link {
 code {
     color: #c02d76;
 }
+
+/* Application Styles */
+.custom-textfield-background-color {
+    background-color: #fff;
+}
