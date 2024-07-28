@@ -11,12 +11,14 @@ Na parte de tecnologias, temos até o momento as seguintes stacks:
 FRONTEND
 - Blazor WebAssembly (Wasm)
 - MudBlazor
+- Session Storage
 
 BACKEND
 - Aspnet core (.Net 8) com C#
 - Entity Framework core
 - Automapper
-- FluentValidation
+- Fluent Validation
+- JWT Authentication
 
 BANCO DE DADOS
 - PostgreSql rodando em containers, com isolamento a nível de banco de dados
