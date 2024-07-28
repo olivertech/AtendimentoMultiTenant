@@ -39,16 +39,6 @@
                 {
                     if (result.IsSuccess)
                     {
-                        List<Item> listItems = new()
-                        {
-                            new Item { Key = "token", Data = result.Content!.Token },
-                            new Item { Key = "name", Data = result.Content!.Name },
-                            new Item { Key = "email", Data = result.Content!.Email },
-                            new Item { Key = "identifier", Data = result.Content!.Identifier },
-                        };
-
-                        await StorageService.SetListItem(listItems);
- 
                         Snackbar.Add(result.Message, Severity.Success);
                         NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription());
                     }

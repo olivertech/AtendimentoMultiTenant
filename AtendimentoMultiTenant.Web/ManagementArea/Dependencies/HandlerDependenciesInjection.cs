@@ -4,9 +4,12 @@
     {
         public static IServiceCollection AddHandlerDependenciesInjection(this IServiceCollection services)
         {
-            //Repositories injections
+            //Handler injections
             services.AddScoped<ILoginHandler, LoginHandler>();
             services.AddScoped<IContainerDbHandler, ContainerDbHandler>();
+
+            //Services injections
+            services.AddScoped<IStorageService, StorageService>();
 
             return services;
         }

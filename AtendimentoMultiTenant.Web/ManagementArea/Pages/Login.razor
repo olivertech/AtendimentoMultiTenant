@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inherits LoginPage
+@inject Blazored.SessionStorage.ISyncSessionStorageService sessionStorage
 
 <MudContainer MaxWidth="MaxWidth.Small" Class="mt-10">
     <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">

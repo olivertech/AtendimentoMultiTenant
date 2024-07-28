@@ -1,7 +1,4 @@
-﻿using AtendimentoMultiTenant.Api.ManagementArea.Auth;
-using AtendimentoMultiTenant.Api.ManagementArea.Helpers;
-
-namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
+﻿namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 {
     [Route("api/Login")]
     [SwaggerTag("Login")]
@@ -58,6 +55,9 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 
                 //Atualiza o token do usuário
                 await _unitOfWork.UserRepository.Update(user);
+
+                //Insere log de acesso do usuário
+                await _unitOfWork.LogAccessRepository.Insert(new LogAccess() { UserId = user.Id });
 
                 var response = _mapper!.Map<LoginResponse>(user);
 

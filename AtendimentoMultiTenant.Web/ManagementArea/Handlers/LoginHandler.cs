@@ -3,14 +3,16 @@
     public class LoginHandler : ILoginHandler
     {
         private readonly HttpClient _httpClient;
+        private readonly IStorageService _storageService;
 
         /// <summary>
         /// TODO: PESQUISAR SOBRE RETRY PATTERN / BIBLIOTECA POLLY
         /// </summary>
         /// <param name="httpClientFactory"></param>
-        public LoginHandler(IHttpClientFactory httpClientFactory)
+        public LoginHandler(IHttpClientFactory httpClientFactory, IStorageService storageService)
         {
             _httpClient = httpClientFactory.CreateClient(SharedConfigurations.HttpClientName);
+            _storageService = storageService;
         }
 
         public async Task<ResponseFactory<LoginResponse>> Auth(LoginRequest request)
@@ -22,6 +24,17 @@
 
                 if (!returnValue!.IsSuccess)
                     return null!;
+
+                // Salva os valores retornados do login em session
+                List<Item> listItems = new()
+                {
+                    new Item { Key = "token", Data = returnValue.Content!.Token },
+                    new Item { Key = "name", Data = returnValue.Content!.Name },
+                    new Item { Key = "email", Data = returnValue.Content!.Email },
+                    new Item { Key = "identifier", Data = returnValue.Content!.Identifier },
+                };
+
+                await _storageService.SetListItem(listItems);
 
                 return returnValue ?? new ResponseFactory<LoginResponse>();
             }
@@ -50,16 +63,5 @@
                 return null!;
             }
         }
-
-        //private async Task WriteSingleSignOnData(string key)
-        //{
-        //    await JsRuntime.InvokeVoidAsync("WriteCookie", "cookieName", "cookieValue", 7);
-        //}
-
-        //private async Task ReadSingleSignOnData()
-        //{
-        //    var cookieValue = await JsRuntime.InvokeAsync<string>("ReadCookie", "cookieName");
-        //    // Use o valor do cookie conforme necessário
-        //}
     }
 }

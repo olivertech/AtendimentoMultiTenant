@@ -7,11 +7,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 //==================
 builder.Services.AddMudServices();
 
-//================================
-// Adding Session Storage Handler
-//================================
-builder.Services.AddBlazoredSessionStorage();
-
 //======================
 // Configuração do Http
 //======================
@@ -29,5 +24,12 @@ builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(L
 // Handler Injections
 //====================
 builder.Services.AddHandlerDependenciesInjection();
+
+//================================
+// Adding Session Storage Handler
+//================================
+builder.Services.AddBlazoredSessionStorage(config =>
+    config.JsonSerializerOptions.WriteIndented = true
+);
 
 await builder.Build().RunAsync();
