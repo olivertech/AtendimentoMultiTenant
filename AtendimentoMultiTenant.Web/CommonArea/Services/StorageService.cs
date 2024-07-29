@@ -32,9 +32,9 @@
             }
         }
 
-        public async Task GetItem(string key)
+        public async Task<string> GetItem(string key)
         {
-            await _sessionStorageService!.GetItemAsync<string>(key);
+            return await _sessionStorageService!.GetItemAsync<string>(key);
         }
 
         #endregion

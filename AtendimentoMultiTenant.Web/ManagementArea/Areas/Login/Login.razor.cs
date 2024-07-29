@@ -1,10 +1,9 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
 {
     public partial class LoginPage : PageBase
     {
         #region Properties
 
-        public bool IsBusy { get; set; } = false;
         public LoginRequest InputModel { get; set; } = new();
 
         #endregion
@@ -13,15 +12,6 @@
 
         [Inject]
         public ILoginHandler Handler { get; set; } = null!;
-
-        [Inject]
-        public NavigationManager NavigationManager { get; set; } = null!;
-
-        [Inject]
-        public ISnackbar Snackbar { get; set; } = null!;
-
-        [Inject]
-        public ISessionStorageService sessionStorageService { get; set; } = null!;
 
         #endregion
 

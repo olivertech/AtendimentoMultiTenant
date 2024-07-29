@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Handlers
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
 {
     public class LoginHandler : ILoginHandler
     {
@@ -37,25 +37,6 @@
                 await _storageService.SetListItem(listItems);
 
                 return returnValue ?? new ResponseFactory<LoginResponse>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return null!;
-            }
-        }
-
-        public async Task<ResponseFactory<LoginResponse>> Logout(LoginRequest request)
-        {
-            try
-            {
-                var result = await _httpClient.PostAsJsonAsync("Login/Logout", request);
-
-                if (result == null)
-                    return null!;
-
-                return await result.Content.ReadFromJsonAsync<ResponseFactory<LoginResponse>>() ??
-                              new ResponseFactory<LoginResponse>();
             }
             catch (Exception ex)
             {

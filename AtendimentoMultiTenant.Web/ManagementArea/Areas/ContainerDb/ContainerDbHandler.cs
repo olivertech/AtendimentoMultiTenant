@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Handlers
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.ContainerDb
 {
     public class ContainerDbHandler : HandlerBase, IHandler<ContainerDbRequest, ContainerDbResponse>, IContainerDbHandler
     {

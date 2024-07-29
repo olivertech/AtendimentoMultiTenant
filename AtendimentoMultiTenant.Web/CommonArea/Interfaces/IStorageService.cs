@@ -4,6 +4,6 @@
     {
         Task SetItem(string key, string data);
         Task SetListItem(IEnumerable<Item> listItems);
-        Task GetItem(string key);
+        Task<string> GetItem(string key);
     }
 }

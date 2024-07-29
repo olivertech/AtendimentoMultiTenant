@@ -3,8 +3,16 @@
     public enum RoutesEnumerator
     {
         [Description("/")]
+        Index,
+        [Description("/login")]
         Login,
-        [Description("/dashboard")]
+        [Description("/configdashboard")]
         Dashboard,
+        [Description("/ticketlist")]
+        TicketList,
+        [Description("/userlist")]
+        UserList,
+        [Description("/containerlist")]
+        ContainerList,
     }
 }

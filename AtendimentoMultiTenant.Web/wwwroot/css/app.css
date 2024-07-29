@@ -1,5 +1,7 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    height: 100%;
+    margin: 0;
 }
 
 h1:focus {
@@ -110,5 +112,21 @@ code {
 input[type="text"]::selection
 input[type="text"]::after
 input[type="text"]::before {
-    background-color: #fff; /* Light gray background */
+    background-color: #fff;
+}
+
+/*.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -1;
+    background-image: url(../index_welcome_art.png);
+}*/
+
+body {
+    background: url('../index_welcome_art.png') no-repeat center center fixed;
+    background-size: cover;
 }

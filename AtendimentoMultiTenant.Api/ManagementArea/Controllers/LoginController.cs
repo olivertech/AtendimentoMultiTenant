@@ -57,7 +57,12 @@
                 await _unitOfWork.UserRepository.Update(user);
 
                 //Insere log de acesso do usuário
-                await _unitOfWork.LogAccessRepository.Insert(new LogAccess() { UserId = user.Id });
+                await _unitOfWork.LogAccessRepository.Insert(new LogAccess() 
+                { 
+                    UserId = user.Id,
+                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"))
+                });
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
