@@ -6,13 +6,14 @@
     /// </summary>
     public sealed class User : ConfigurationEntityBase
     {
-        public string? Name { get; set; } = null;
-        public string? Email { get; set; } = null;
-        public string? Password { get; set; } = null;
+        public string? Name { get; set; } = null!;
+        public string? Email { get; set; } = null!;
+        public string? Password { get; set; } = null!;
         public bool IsActive { get; set; }
         public DateOnly? CreatedAt { get; set; }
         public TimeOnly? TimedAt { get; set; }
-
+        public DateOnly? DeativatedAt { get; set; }
+        public TimeOnly? DeactivatedTimedAt { get; set; }
 
         public Guid TenantId { get; set; }
         public Guid? UserTypeId { get; set; }
@@ -25,5 +26,6 @@
 
         // Many-to-many relation
         public IList<UserFeature>? UserFeatures { get; set; }
+        public IList<UserRole>? UserRoles { get; set; }
     }
 }

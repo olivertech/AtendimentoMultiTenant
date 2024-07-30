@@ -6,7 +6,7 @@
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
-            builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(50).IsRequired();
+            builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(250).IsRequired();
             builder.ToTable("User_Type");
 
             //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido

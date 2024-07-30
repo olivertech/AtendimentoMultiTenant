@@ -1,14 +1,14 @@
 ﻿namespace AtendimentoMultiTenant.Infra.ManagementArea.EntityConfigurations
 {
-    public class PortConfiguration : IEntityTypeConfiguration<Port>
+    public class RoleConfiguration : IEntityTypeConfiguration<Role>
     {
-        public void Configure(EntityTypeBuilder<Port> builder)
+        public void Configure(EntityTypeBuilder<Role> builder)
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
-            builder.Property(x => x.PortNumber).HasColumnName("port_number").HasMaxLength(4).IsRequired();
-            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
-            builder.ToTable("Port");
+            builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(250).IsRequired();
+            builder.Property(x => x.Description).HasColumnName("description").HasMaxLength(1500).IsRequired();
+            builder.ToTable("Role");
 
             builder.HasData(new[]
             {
@@ -19,26 +19,24 @@
                 //QUE ARMAZENAM DADOS RELACIONADOS A GESTÃO DE TODOS OS CLIENTES, SEM MANTER AQUI OS DADOS DOS CLIENTES
                 //QUE FICARÃO RESTRITOS AOS CONTAINERS DE CADA CLIENTE
                 //=======================================================================================================
-                new Port
+                new Role
                 {
                     Id = Guid.Parse("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                    PortNumber = "5432"
+                    Name = "Adminstrator",
+                    Description = "Description",
                 },
                 //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
-                new Port
+                new Role
                 {
                     Id = Guid.Parse("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
-                    PortNumber = "5434"
+                    Name = "Operator",
+                    Description = "Description",
                 },
-                new Port
+                new Role
                 {
                     Id = Guid.Parse("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
-                    PortNumber = "5435"
-                },
-                new Port
-                {
-                    Id = Guid.Parse("39715917-a829-41c4-8da1-64029a0c6364"),
-                    PortNumber = "5436"
+                    Name = "Client",
+                    Description = "Description",
                 }
             });
         }

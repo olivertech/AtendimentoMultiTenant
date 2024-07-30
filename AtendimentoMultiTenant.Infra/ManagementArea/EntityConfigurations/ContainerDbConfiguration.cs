@@ -11,11 +11,14 @@
             builder.Property(x => x.EnvironmentDbName).HasColumnName("environment_db_name").HasMaxLength(250).IsRequired();
             builder.Property(x => x.EnvironmentDbUser).HasColumnName("environment_db_user").HasMaxLength(50).IsRequired();
             builder.Property(x => x.EnvironmentDbPwd).HasColumnName("environment_db_pwd").HasMaxLength(50).IsRequired();
-            builder.Property(x => x.ContainerDbPort).HasColumnName("container_db_port").HasMaxLength(4).IsRequired();
             builder.Property(x => x.ContainerDbVolume).HasColumnName("container_db_volume").HasMaxLength(50).IsRequired();
             builder.Property(x => x.ContainerDbNetwork).HasColumnName("container_db_network").HasMaxLength(50).IsRequired();
-            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
-            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false).HasDefaultValue(TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")));
+            builder.Property(x => x.ContainerDbPort).HasColumnName("container_db_port").HasMaxLength(4).IsRequired();
+            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false);
+            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false);
+            builder.Property(x => x.DeativatedAt).HasColumnName("deactivated_at").IsRequired(false);
+            builder.Property(x => x.DeactivatedTimedAt).HasColumnName("deactivated_timed_at").IsRequired(false);
+            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired();
             builder.Property(x => x.IsUp).HasColumnName("is_up").IsRequired();
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.PortId).HasColumnName("port_id").IsRequired();

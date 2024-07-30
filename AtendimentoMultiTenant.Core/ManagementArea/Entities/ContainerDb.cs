@@ -23,18 +23,20 @@
     /// </summary>
     public class ContainerDb : ConfigurationEntityBase
     {
-        public string? ContainerDbName { get; set; } = null;
-        public string? ContainerDbImage { get; set; } = null;
-        public string? EnvironmentDbName { get; set; }
-        public string? EnvironmentDbUser { get; set; }
-        public string? EnvironmentDbPwd { get; set; }
-        public string? ContainerDbPort { get; set; }
-        public string? ContainerDbVolume { get; set; }
-        public string? ContainerDbNetwork { get; set; }
+        public string? ContainerDbName { get; set; } = null!;
+        public string? ContainerDbImage { get; set; } = null!;
+        public string? EnvironmentDbName { get; set; } = null!;
+        public string? EnvironmentDbUser { get; set; } = null!;
+        public string? EnvironmentDbPwd { get; set; } = null!;
+        public string? ContainerDbPort { get; set; } = null!;
+        public string? ContainerDbVolume { get; set; } = null!;
+        public string? ContainerDbNetwork { get; set; } = null!;
         public bool IsUp { get; set; } = false;
+        public bool IsActive { get; set; }
         public DateOnly? CreatedAt { get; set; }
         public TimeOnly? TimedAt { get; set; }
-        public bool IsActive { get; set; }
+        public DateOnly? DeativatedAt { get; set; }
+        public TimeOnly? DeactivatedTimedAt { get; set; }
 
         public Guid TenantId { get; set; }
         public Guid PortId { get; set; }

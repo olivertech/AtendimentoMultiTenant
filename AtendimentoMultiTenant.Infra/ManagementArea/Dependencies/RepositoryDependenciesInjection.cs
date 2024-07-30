@@ -14,7 +14,6 @@
                                                 options.UseNpgsql(
                                                     configuration.GetConnectionString("ConfigConnection"))
                                                 );
-
             //Repositories injections
             services.AddScoped<IContainerDbRepository, ContainerDbRepository>();
             services.AddScoped<ITenantRepository, TenantRepository>();
@@ -25,6 +24,10 @@
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IUserFeatureRepository, UserFeatureRepository>();
             services.AddScoped<ILogAccessRepository, LogAccessRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
+            services.AddScoped<IMenuRepository, MenuRepository>();
+            services.AddScoped<IMenuRoleRepository, MenuRoleRepository>();
 
             //Others
             services.AddScoped<IUnitOfWork, UnitOfWork>();

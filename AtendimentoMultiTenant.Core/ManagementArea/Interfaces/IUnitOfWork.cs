@@ -11,6 +11,10 @@
         IFeatureRepository FeatureRepository { get; }
         IUserFeatureRepository UserFeatureRepository { get; }
         ILogAccessRepository LogAccessRepository { get; }
+        IMenuRepository MenuRepository { get; }
+        IMenuRoleRepository MenuRoleRepository { get; }
+        IRoleRepository RoleRepository { get; }
+        IUserRoleRepository UserRoleRepository { get; }
 
         Task CommitAsync();
     }

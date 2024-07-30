@@ -14,8 +14,10 @@
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.UserTypeId).HasColumnName("user_type_id").IsRequired(false);
             builder.Property(x => x.UserTokenId).HasColumnName("user_token_id").IsRequired(false);
-            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
-            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false).HasDefaultValue(TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")));
+            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false);
+            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false);
+            builder.Property(x => x.DeativatedAt).HasColumnName("deactivated_at").IsRequired(false);
+            builder.Property(x => x.DeactivatedTimedAt).HasColumnName("deactivates_timed_at").IsRequired(false);
             builder.HasOne(x => x.Tenant);
             builder.HasOne(x => x.UserType);
             builder.HasOne(x => x.UserToken);
@@ -32,7 +34,7 @@
                 //=======================================================================================================
                 new User
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.Parse("9a150059-614b-47c3-b56f-59deededd8d6"),
                     Name = "Marcelo de Oliveira",
                     Email = "marcelo@sys.com",
                     Password = "123",
@@ -60,7 +62,6 @@
                     TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
                     UserTypeId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
                 },
-                //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
                 new User
                 {
                     Id = Guid.NewGuid(),

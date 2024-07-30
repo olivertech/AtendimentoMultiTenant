@@ -6,14 +6,15 @@
         {
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
-            builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(50).IsRequired();
+            builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(250).IsRequired();
             builder.Property(x => x.Secret).HasColumnName("secret").HasMaxLength(20).IsRequired();
             builder.Property(x => x.ConnectionString).HasColumnName("connection_string").IsRequired();
             builder.Property(x => x.InitialUrl).HasColumnName("initial_url").IsRequired();
+            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false);
+            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false);
+            builder.Property(x => x.DeativatedAt).HasColumnName("deactivated_at").IsRequired(false);
+            builder.Property(x => x.DeactivatedTimedAt).HasColumnName("deactivated_timed_at").IsRequired(false);
             builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
-            builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
-            builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false).HasDefaultValue(TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")));
-
             builder.ToTable("Tenant");
 
             builder.HasData(new[]

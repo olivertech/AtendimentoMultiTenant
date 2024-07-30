@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Requests;
-
-namespace AtendimentoMultiTenant.Shared.ManagementArea.Validators
+﻿namespace AtendimentoMultiTenant.Shared.ManagementArea.Validators
 {
     public class ContainerDbRequestValidator : AbstractValidator<ContainerDbRequest>
     {

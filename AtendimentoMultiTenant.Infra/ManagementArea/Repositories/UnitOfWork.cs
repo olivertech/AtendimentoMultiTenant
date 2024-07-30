@@ -13,6 +13,10 @@
         private IFeatureRepository? _featureRepository;
         private IUserFeatureRepository? _userFeatureRepository;
         private ILogAccessRepository? _logAccessRepository;
+        private IMenuRepository? _menuRepository;
+        private IRoleRepository? _roleRepository;
+        private IMenuRoleRepository? _menuRoleRepository;
+        private IUserRoleRepository? _userRoleRepository;
 
         public UnitOfWork(ManagementAreaDbContext context)
         {
@@ -36,6 +40,14 @@
         public IUserFeatureRepository UserFeatureRepository => _userFeatureRepository ??= new UserFeatureRepository(_context);
 
         public ILogAccessRepository LogAccessRepository => _logAccessRepository ??= new LogAccessRepository(_context);
+
+        public IMenuRepository MenuRepository => _menuRepository ??= new MenuRepository(_context);
+
+        public IMenuRoleRepository MenuRoleRepository => _menuRoleRepository ??= new MenuRoleRepository(_context);
+
+        public IRoleRepository RoleRepository => _roleRepository ??= new RoleRepository(_context);
+
+        public IUserRoleRepository UserRoleRepository => _userRoleRepository ??= new UserRoleRepository(_context);
 
         public async Task CommitAsync()
         {
