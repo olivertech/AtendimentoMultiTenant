@@ -16,16 +16,16 @@
         public TimeOnly? DeactivatedTimedAt { get; set; }
 
         public Guid TenantId { get; set; }
-        public Guid? UserTypeId { get; set; }
-        public Guid? UserTokenId { get; set; }
+        public Guid? RoleId { get; set; }
+        public Guid? TokenAccessId { get; set; }
 
         //Navigation Property
         public Tenant? Tenant { get; set; }
-        public UserType? UserType { get; set; }
-        public UserToken? UserToken { get; set; }
+        public Role? Role { get; set; }
+        public TokenAccess? TokenAccess { get; set; }
 
         // Many-to-many relation
-        public IList<UserFeature>? UserFeatures { get; set; }
-        public IList<UserRole>? UserRoles { get; set; }
+        public List<UserFeature>? UserFeatures { get; set; }
+        //public List<UserRole>? UserRoles { get; set; }
     }
 }

@@ -10,3 +10,6 @@ global using AtendimentoMultiTenant.Shared.Configurations;
 global using AtendimentoMultiTenant.Shared.ManagementArea.Requests;
 global using AtendimentoMultiTenant.Shared.ManagementArea.Validators;
 global using System.Reflection;
+global using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
+global using AtendimentoMultiTenant.Shared.ManagementArea.Requests.Base;
+global using AtendimentoMultiTenant.Core.ManagementArea.Entities;

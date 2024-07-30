@@ -7,6 +7,6 @@
         public bool IsActive { get; set; }
 
         // Many-to-many relation
-        public IList<MenuRole>? RoleMenus { get; set; }
+        public IList<RoleMenu>? RoleMenus { get; set; }
     }
 }

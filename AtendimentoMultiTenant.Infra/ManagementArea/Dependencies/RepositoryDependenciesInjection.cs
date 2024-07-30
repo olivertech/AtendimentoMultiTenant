@@ -18,16 +18,14 @@
             services.AddScoped<IContainerDbRepository, ContainerDbRepository>();
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserTokenRepository, UserTokenRepository>();
-            services.AddScoped<IUserTypeRepository, UserTypeRepository>();
+            services.AddScoped<ITokenAccessRepository, TokenAccessRepository>();
             services.AddScoped<IPortRepository, PortRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IUserFeatureRepository, UserFeatureRepository>();
             services.AddScoped<ILogAccessRepository, LogAccessRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
-            services.AddScoped<IMenuRoleRepository, MenuRoleRepository>();
+            services.AddScoped<IRoleMenuRepository, RoleMenuRepository>();
 
             //Others
             services.AddScoped<IUnitOfWork, UnitOfWork>();

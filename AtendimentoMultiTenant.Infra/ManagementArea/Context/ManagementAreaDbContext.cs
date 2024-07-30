@@ -17,15 +17,13 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Context
         public DbSet<User> Users { get; set; }
         public DbSet<ContainerDb> Containers { get; set; }
         public DbSet<Port> Ports { get; set; }
-        public DbSet<UserType> UserTypes { get; set; }
-        public DbSet<UserToken> UserTokens { get; set; }
+        public DbSet<TokenAccess> TokenAccesses { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<UserFeature> UserFeatures { get; set; }
         public DbSet<LogAccess> LogAccesses { get; set; }
-        public DbSet<Role> Roles { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<Role> UserRoles { get; set; }
         public DbSet<Menu> Menus { get; set; }
-        public DbSet<MenuRole> MenuRoles { get; set; }
+        public DbSet<RoleMenu> RoleMenus { get; set; }
 
         /// <summary>
         /// Faz referencia as classes de configurações das entidades

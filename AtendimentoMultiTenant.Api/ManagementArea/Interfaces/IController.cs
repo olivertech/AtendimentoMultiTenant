@@ -5,6 +5,7 @@
         where TReqPaged : IRequest
     {
         Task<IActionResult> GetAll([FromBody] TReqPaged request);
+        Task<IActionResult> GetAll();
         Task<IActionResult> GetById(Guid id);
         Task<IActionResult> GetListByName(string name);
         Task<IActionResult> GetCount();

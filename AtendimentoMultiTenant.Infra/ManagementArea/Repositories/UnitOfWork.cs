@@ -7,16 +7,14 @@
         private IContainerDbRepository? _containerRepository;
         private ITenantRepository? _tenantRepository;
         private IUserRepository? _userRepository;
-        private IUserTypeRepository? _userTypeRepository;
-        private IUserTokenRepository? _userTokenRepository;
+        private ITokenAccessRepository? _tokenAccessRepository;
         private IPortRepository? _portRepository;
         private IFeatureRepository? _featureRepository;
         private IUserFeatureRepository? _userFeatureRepository;
         private ILogAccessRepository? _logAccessRepository;
         private IMenuRepository? _menuRepository;
+        private IRoleMenuRepository? _menuRoleRepository;
         private IRoleRepository? _roleRepository;
-        private IMenuRoleRepository? _menuRoleRepository;
-        private IUserRoleRepository? _userRoleRepository;
 
         public UnitOfWork(ManagementAreaDbContext context)
         {
@@ -28,12 +26,10 @@
         public ITenantRepository TenantRepository => _tenantRepository ??= new TenantRepository(_context);
 
         public IUserRepository UserRepository => _userRepository ??= new UserRepository(_context);
-
+        
         public IPortRepository PortRepository => _portRepository ??= new PortRepository(_context);
 
-        public IUserTypeRepository UserTypeRepository => _userTypeRepository ??= new UserTypeRepository(_context);
-        
-        public IUserTokenRepository UserTokenRepository => _userTokenRepository ??= new UserTokenRepository(_context);
+        public ITokenAccessRepository TokenAccessRepository => _tokenAccessRepository ??= new TokenAccessRepository(_context);
 
         public IFeatureRepository FeatureRepository => _featureRepository ??= new FeatureRepository(_context);
         
@@ -43,11 +39,9 @@
 
         public IMenuRepository MenuRepository => _menuRepository ??= new MenuRepository(_context);
 
-        public IMenuRoleRepository MenuRoleRepository => _menuRoleRepository ??= new MenuRoleRepository(_context);
+        public IRoleMenuRepository MenuRoleRepository => _menuRoleRepository ??= new RoleMenuRepository(_context);
 
         public IRoleRepository RoleRepository => _roleRepository ??= new RoleRepository(_context);
-
-        public IUserRoleRepository UserRoleRepository => _userRoleRepository ??= new UserRoleRepository(_context);
 
         public async Task CommitAsync()
         {

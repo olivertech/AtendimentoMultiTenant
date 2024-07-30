@@ -15,7 +15,7 @@
              * Mapping Responses ( Response <- Model )
              */
             CreateMap<ContainerDb, ContainerDbResponse>();
-            CreateMap<User, LoginResponse>();
+            CreateMap<User, LoginResponse>(); //.ForMember(dest => dest., opt => opt.Ignore());
         }
     }
 }

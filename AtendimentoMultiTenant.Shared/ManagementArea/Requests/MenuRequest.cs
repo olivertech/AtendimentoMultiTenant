@@ -1,9 +1,9 @@
 ﻿namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests
 {
-    public class UserRequest : RequestBase, IRequest
+    public class MenuRequest : RequestBase, IRequest
     {
-        [JsonPropertyName("user_name")]
-        [JsonProperty(PropertyName = "user_name")]
+        [JsonPropertyName("name")]
+        [JsonProperty(PropertyName = "name")]
         public string? Name
         {
             get
@@ -19,13 +19,9 @@
 
         private string? _name;
 
-        [JsonPropertyName("email")]
-        [JsonProperty(PropertyName = "email")]
-        public string? Email { get; set; } = null;
-
-        [JsonPropertyName("password")]
-        [JsonProperty(PropertyName = "password")]
-        public string? Password { get; set; } = null;
+        [JsonPropertyName("description")]
+        [JsonProperty(PropertyName = "description")]
+        public string? Description { get; set; } = null;
 
         [JsonPropertyName("is_active")]
         [JsonProperty(PropertyName = "is_active")]

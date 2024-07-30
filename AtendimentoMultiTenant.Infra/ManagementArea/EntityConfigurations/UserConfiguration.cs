@@ -12,15 +12,15 @@
             builder.Property(x => x.Password).HasColumnName("password").HasMaxLength(50).IsRequired();
             builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
-            builder.Property(x => x.UserTypeId).HasColumnName("user_type_id").IsRequired(false);
-            builder.Property(x => x.UserTokenId).HasColumnName("user_token_id").IsRequired(false);
+            builder.Property(x => x.RoleId).HasColumnName("role_id").IsRequired(false);
+            builder.Property(x => x.TokenAccessId).HasColumnName("token_access_id").IsRequired(false);
             builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false);
             builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false);
             builder.Property(x => x.DeativatedAt).HasColumnName("deactivated_at").IsRequired(false);
             builder.Property(x => x.DeactivatedTimedAt).HasColumnName("deactivates_timed_at").IsRequired(false);
             builder.HasOne(x => x.Tenant);
-            builder.HasOne(x => x.UserType);
-            builder.HasOne(x => x.UserToken);
+            builder.HasOne(x => x.Role);
+            builder.HasOne(x => x.TokenAccess);
             builder.ToTable("User");
 
             builder.HasData(new[]
@@ -40,48 +40,48 @@
                     Password = "123",
                     IsActive = true,
                     TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                    UserTypeId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
+                    RoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
                 },
-                new User
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "João da Silva",
-                    Email = "joao@sys.com",
-                    Password = "123",
-                    IsActive = true,
-                    TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                    UserTypeId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "maria da Silva",
-                    Email = "maria@sys.com",
-                    Password = "123",
-                    IsActive = true,
-                    TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                    UserTypeId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Paulo da Silva",
-                    Email = "paulo@tenant1.com",
-                    Password = "123",
-                    IsActive = true,
-                    TenantId = Guid.Parse("64210b12-a8d4-44ae-b35e-b13b762c4179"),
-                    UserTypeId = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002")
-                },
-                new User
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "Jorge da Silva",
-                    Email = "jorge@tenant2.com",
-                    Password = "123",
-                    IsActive = true,
-                    TenantId = Guid.Parse("25ae8570-56b6-4a9d-9616-c15862613525"),
-                    UserTypeId = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002")
-                }
+                //new User
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Name = "João da Silva",
+                //    Email = "joao@sys.com",
+                //    Password = "123",
+                //    IsActive = true,
+                //    TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
+                //    UserRoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
+                //},
+                //new User
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Name = "maria da Silva",
+                //    Email = "maria@sys.com",
+                //    Password = "123",
+                //    IsActive = true,
+                //    TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
+                //    UserRoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
+                //},
+                //new User
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Name = "Paulo da Silva",
+                //    Email = "paulo@tenant1.com",
+                //    Password = "123",
+                //    IsActive = true,
+                //    TenantId = Guid.Parse("64210b12-a8d4-44ae-b35e-b13b762c4179"),
+                //    UserRoleId = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002")
+                //},
+                //new User
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Name = "Jorge da Silva",
+                //    Email = "jorge@tenant2.com",
+                //    Password = "123",
+                //    IsActive = true,
+                //    TenantId = Guid.Parse("25ae8570-56b6-4a9d-9616-c15862613525"),
+                //    UserRoleId = Guid.Parse("6c9b91d0-3ba5-11ef-9476-0242ac130002")
+                //}
             });
         }
     }

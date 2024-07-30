@@ -12,7 +12,7 @@
                 return null;
 
             return await _context!.Users
-                .Include(ut => ut.UserType)
+                .Include(ut => ut.Role)
                 .Where(u => u.Email == email)
                 .FirstOrDefaultAsync();
         }
@@ -22,8 +22,9 @@
             if (email == null || password == null)
                 return null;
 
-            return await _context!.Users
-                .Include(ut => ut.UserType)
+            return await _context!.Users!
+                .Include(ur => ur.Role!)
+                    //.ThenInclude(rl => rl.Role)
                 .Where(u => u.Email == email && u.Password == password)
                 .FirstOrDefaultAsync();
         }

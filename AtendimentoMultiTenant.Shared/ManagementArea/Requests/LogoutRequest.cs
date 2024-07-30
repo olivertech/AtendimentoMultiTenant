@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
-
-namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests
+﻿namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests
 {
     public class LogoutRequest : IRequest
     {

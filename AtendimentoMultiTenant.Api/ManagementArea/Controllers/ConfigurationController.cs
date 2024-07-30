@@ -23,6 +23,12 @@
             _containerDbRequestValidator = containerDbRequestValidator;
         }
 
+        [NonAction]
+        public Task<IActionResult> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpPost]
         [Route(nameof(GetAll))]
         [Produces("application/json")]
@@ -235,7 +241,7 @@
                     Password = "123",
                     IsActive = true,
                     TenantId = entity.TenantId,
-                    UserTypeId = _unitOfWork.UserTypeRepository.GetList(x => x.Name!.ToLower().Equals("administrador")).Result!.FirstOrDefault()!.Id
+                    //UserTypeId = _unitOfWork.UserTypeRepository.GetList(x => x.Name!.ToLower().Equals("administrador")).Result!.FirstOrDefault()!.Id
 
                 }).Result!;
 

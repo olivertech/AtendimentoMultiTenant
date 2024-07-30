@@ -6,7 +6,6 @@
         public string? Description { get; set; } = null!;
 
         // Many-to-many relation
-        public IList<UserRole>? UserRoles { get; set; }
-        public IList<MenuRole>? MenuRoles { get; set; }
+        public IList<RoleMenu>? MenuRoles { get; set; }
     }
 }

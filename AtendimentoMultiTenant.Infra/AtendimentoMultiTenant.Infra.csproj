@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ManagementArea\EntityConfigurations\UserRoleOLDConfiguration.cs" />
+    <Compile Remove="ManagementArea\EntityConfigurations\UserTypeConfiguration.cs" />
+    <Compile Remove="ManagementArea\Repositories\UserTypeRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <PrivateAssets>all</PrivateAssets>

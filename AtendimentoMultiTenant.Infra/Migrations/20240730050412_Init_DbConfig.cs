@@ -59,7 +59,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false)
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -87,35 +87,22 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "User_Token",
+                name: "Token_Access",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     token = table.Column<string>(type: "text", nullable: false),
-                    created_at = table.Column<DateOnly>(type: "date", nullable: true, defaultValue: new DateOnly(2024, 7, 29)),
-                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(23, 1, 31)),
+                    created_at = table.Column<DateOnly>(type: "date", nullable: true, defaultValue: new DateOnly(2024, 7, 30)),
+                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(2, 4, 12)),
                     expiring_at = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User_Token", x => x.Id);
+                    table.PrimaryKey("PK_Token_Access", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "User_Type",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User_Type", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Menu_Role",
+                name: "Role_Menu",
                 columns: table => new
                 {
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
@@ -125,15 +112,15 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Menu_Role", x => new { x.MenuId, x.RoleId });
+                    table.PrimaryKey("PK_Role_Menu", x => new { x.MenuId, x.RoleId });
                     table.ForeignKey(
-                        name: "menu_id",
+                        name: "menu_Id",
                         column: x => x.MenuId,
                         principalTable: "Menu",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "role_id",
+                        name: "role_Id",
                         column: x => x.RoleId,
                         principalTable: "Role",
                         principalColumn: "Id",
@@ -193,12 +180,17 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     deactivated_at = table.Column<DateOnly>(type: "date", nullable: true),
                     deactivates_timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    user_type_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    user_token_id = table.Column<Guid>(type: "uuid", nullable: true)
+                    role_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    token_access_id = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Role_role_id",
+                        column: x => x.role_id,
+                        principalTable: "Role",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_User_Tenant_tenant_id",
                         column: x => x.tenant_id,
@@ -206,14 +198,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_User_User_Token_user_token_id",
-                        column: x => x.user_token_id,
-                        principalTable: "User_Token",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_User_User_Type_user_type_id",
-                        column: x => x.user_type_id,
-                        principalTable: "User_Type",
+                        name: "FK_User_Token_Access_token_access_id",
+                        column: x => x.token_access_id,
+                        principalTable: "Token_Access",
                         principalColumn: "Id");
                 });
 
@@ -263,32 +250,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "User_Role",
-                columns: table => new
-                {
-                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    is_active = table.Column<bool>(type: "boolean", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_User_Role", x => new { x.UserId, x.RoleId });
-                    table.ForeignKey(
-                        name: "role_id",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "user_id",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "Menu",
                 columns: new[] { "Id", "description", "is_active", "name" },
@@ -319,12 +280,12 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             migrationBuilder.InsertData(
                 table: "Role",
-                columns: new[] { "Id", "description", "name" },
+                columns: new[] { "Id", "Description", "name" },
                 values: new object[,]
                 {
-                    { new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), "Description", "Client" },
-                    { new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), "Description", "Adminstrator" },
-                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), "Description", "Operator" }
+                    { new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), null, "Administrador" },
+                    { new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002"), null, "Operador" },
+                    { new Guid("740cf11e-4e2b-11ef-9dcf-0242ac1c0002"), null, "Cliente" }
                 });
 
             migrationBuilder.InsertData(
@@ -339,15 +300,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "User_Type",
-                columns: new[] { "Id", "Description", "name" },
-                values: new object[,]
-                {
-                    { new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), null, "Administrador" },
-                    { new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002"), null, "Cliente" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "Container_Db",
                 columns: new[] { "Id", "container_db_image", "container_db_name", "container_db_network", "container_db_port", "container_db_volume", "created_at", "deactivated_timed_at", "deactivated_at", "environment_db_name", "environment_db_pwd", "environment_db_user", "is_active", "is_up", "port_id", "tenant_id", "timed_at" },
                 values: new object[,]
@@ -359,38 +311,26 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Menu_Role",
+                table: "Role_Menu",
                 columns: new[] { "MenuId", "RoleId", "Id", "is_active" },
                 values: new object[,]
                 {
-                    { new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("b5d27120-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("47ed36c2-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("73ad14e4-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("7add512a-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("83235528-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("8b104688-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("67a1a5c0-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"), new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"), true }
+                    { new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("b5d27120-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("47ed36c2-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("73ad14e4-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("7add512a-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("83235528-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("8b104688-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("67a1a5c0-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"), true }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "created_at", "deactivates_timed_at", "deactivated_at", "email", "is_active", "name", "password", "tenant_id", "timed_at", "user_token_id", "user_type_id" },
-                values: new object[,]
-                {
-                    { new Guid("0d46ebbc-048a-46ef-95d5-4150e39f2340"), null, null, null, "maria@sys.com", true, "maria da Silva", "123", new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), null, null, new Guid("45533ff6-3ba5-11ef-9476-0242ac130002") },
-                    { new Guid("57083947-c1df-4089-ac1d-dd9be3ac1bf8"), null, null, null, "paulo@tenant1.com", true, "Paulo da Silva", "123", new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"), null, null, new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002") },
-                    { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), null, null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), null, null, new Guid("45533ff6-3ba5-11ef-9476-0242ac130002") },
-                    { new Guid("a2a9cfa8-04f9-4a15-8a07-2dbefb20d702"), null, null, null, "joao@sys.com", true, "João da Silva", "123", new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), null, null, new Guid("45533ff6-3ba5-11ef-9476-0242ac130002") },
-                    { new Guid("b2ea916f-5a1c-435d-8fef-123da972f5bf"), null, null, null, "jorge@tenant2.com", true, "Jorge da Silva", "123", new Guid("25ae8570-56b6-4a9d-9616-c15862613525"), null, null, new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "User_Role",
-                columns: new[] { "RoleId", "UserId", "Id", "is_active" },
-                values: new object[] { new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), new Guid("714ed304-8c21-4878-9c26-f5c56289b6f5"), true });
+                columns: new[] { "Id", "created_at", "deactivates_timed_at", "deactivated_at", "email", "is_active", "name", "password", "role_id", "tenant_id", "timed_at", "token_access_id" },
+                values: new object[] { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), null, null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), null, null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Container_Db_port_id",
@@ -408,9 +348,14 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 column: "user_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Menu_Role_RoleId",
-                table: "Menu_Role",
+                name: "IX_Role_Menu_RoleId",
+                table: "Role_Menu",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_User_role_id",
+                table: "User",
+                column: "role_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_tenant_id",
@@ -418,14 +363,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 column: "tenant_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_user_token_id",
+                name: "IX_User_token_access_id",
                 table: "User",
-                column: "user_token_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_user_type_id",
-                table: "User",
-                column: "user_type_id");
+                column: "token_access_id");
 
             migrationBuilder.CreateIndex(
                 name: "user_email",
@@ -437,11 +377,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 name: "IX_User_Feature_FeatureId",
                 table: "User_Feature",
                 column: "FeatureId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_Role_RoleId",
-                table: "User_Role",
-                column: "RoleId");
         }
 
         /// <inheritdoc />
@@ -454,13 +389,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 name: "Log_Access");
 
             migrationBuilder.DropTable(
-                name: "Menu_Role");
+                name: "Role_Menu");
 
             migrationBuilder.DropTable(
                 name: "User_Feature");
-
-            migrationBuilder.DropTable(
-                name: "User_Role");
 
             migrationBuilder.DropTable(
                 name: "Port");
@@ -472,19 +404,16 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 name: "Feature");
 
             migrationBuilder.DropTable(
-                name: "Role");
+                name: "User");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Tenant");
 
             migrationBuilder.DropTable(
-                name: "User_Token");
-
-            migrationBuilder.DropTable(
-                name: "User_Type");
+                name: "Token_Access");
         }
     }
 }

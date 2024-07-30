@@ -28,7 +28,7 @@
                 // Salva os valores retornados do login em session
                 List<Item> listItems = new()
                 {
-                    new Item { Key = "token", Data = returnValue.Content!.Token },
+                    new Item { Key = "token", Data = returnValue.Content!.TokenAccess!.Token! },
                     new Item { Key = "name", Data = returnValue.Content!.Name },
                     new Item { Key = "email", Data = returnValue.Content!.Email },
                     new Item { Key = "identifier", Data = returnValue.Content!.Identifier },

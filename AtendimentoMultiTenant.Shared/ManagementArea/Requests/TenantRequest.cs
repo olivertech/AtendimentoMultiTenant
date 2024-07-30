@@ -1,7 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
-using AtendimentoMultiTenant.Shared.ManagementArea.Requests.Base;
-
-namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests
+﻿namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests
 {
     public class TenantRequest : RequestBase, IRequest
     {
@@ -34,8 +31,8 @@ namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests
         [JsonProperty(PropertyName = "id")]
         public string? InitialUrl { get; set; } = null;
 
-        [JsonPropertyName("id")]
-        [JsonProperty(PropertyName = "id")]
+        [JsonPropertyName("is_active")]
+        [JsonProperty(PropertyName = "is_active")]
         public bool IsActive { get; set; } = true;
     }
 }

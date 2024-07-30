@@ -336,102 +336,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         });
                 });
 
-            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.MenuRole", b =>
-                {
-                    b.Property<Guid>("MenuId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true)
-                        .HasColumnName("is_active");
-
-                    b.HasKey("MenuId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("Menu_Role", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            MenuId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("47ed36c2-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("67a1a5c0-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("73ad14e4-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("7add512a-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("83235528-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("8b104688-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
-                            MenuId = new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("b5d27120-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        });
-                });
-
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.Port", b =>
                 {
                     b.Property<Guid>("Id")
@@ -490,10 +394,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnName("Id");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1500)
-                        .HasColumnType("character varying(1500)")
-                        .HasColumnName("description");
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -508,21 +409,114 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Description = "Description",
-                            Name = "Adminstrator"
+                            Id = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Name = "Administrador"
                         },
                         new
                         {
-                            Id = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
-                            Description = "Description",
-                            Name = "Operator"
+                            Id = new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002"),
+                            Name = "Operador"
                         },
                         new
                         {
-                            Id = new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
-                            Description = "Description",
-                            Name = "Client"
+                            Id = new Guid("740cf11e-4e2b-11ef-9dcf-0242ac1c0002"),
+                            Name = "Cliente"
+                        });
+                });
+
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.RoleMenu", b =>
+                {
+                    b.Property<Guid>("MenuId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("RoleId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.HasKey("MenuId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Role_Menu", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            MenuId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("47ed36c2-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("67a1a5c0-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("73ad14e4-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("7add512a-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("83235528-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("8b104688-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
+                        },
+                        new
+                        {
+                            MenuId = new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"),
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            Id = new Guid("b5d27120-4e15-11ef-9dcf-0242ac1c0002"),
+                            IsActive = true
                         });
                 });
 
@@ -620,6 +614,39 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.TokenAccess", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<DateOnly?>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValue(new DateOnly(2024, 7, 30))
+                        .HasColumnName("created_at");
+
+                    b.Property<DateOnly?>("ExpiringAt")
+                        .HasColumnType("date")
+                        .HasColumnName("expiring_at");
+
+                    b.Property<TimeOnly?>("TimedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("time without time zone")
+                        .HasDefaultValue(new TimeOnly(2, 4, 12))
+                        .HasColumnName("timed_at");
+
+                    b.Property<string>("Token")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("token");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Token_Access", (string)null);
+                });
+
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -663,6 +690,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("character varying(50)")
                         .HasColumnName("password");
 
+                    b.Property<Guid?>("RoleId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("role_id");
+
                     b.Property<Guid>("TenantId")
                         .HasColumnType("uuid")
                         .HasColumnName("tenant_id");
@@ -671,13 +702,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("time without time zone")
                         .HasColumnName("timed_at");
 
-                    b.Property<Guid?>("UserTokenId")
+                    b.Property<Guid?>("TokenAccessId")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_token_id");
-
-                    b.Property<Guid?>("UserTypeId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("user_type_id");
+                        .HasColumnName("token_access_id");
 
                     b.HasKey("Id");
 
@@ -685,11 +712,11 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .IsUnique()
                         .HasDatabaseName("user_email");
 
+                    b.HasIndex("RoleId");
+
                     b.HasIndex("TenantId");
 
-                    b.HasIndex("UserTokenId");
-
-                    b.HasIndex("UserTypeId");
+                    b.HasIndex("TokenAccessId");
 
                     b.ToTable("User", (string)null);
 
@@ -701,48 +728,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             IsActive = true,
                             Name = "Marcelo de Oliveira",
                             Password = "123",
-                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                            UserTypeId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002")
-                        },
-                        new
-                        {
-                            Id = new Guid("a2a9cfa8-04f9-4a15-8a07-2dbefb20d702"),
-                            Email = "joao@sys.com",
-                            IsActive = true,
-                            Name = "João da Silva",
-                            Password = "123",
-                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                            UserTypeId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002")
-                        },
-                        new
-                        {
-                            Id = new Guid("0d46ebbc-048a-46ef-95d5-4150e39f2340"),
-                            Email = "maria@sys.com",
-                            IsActive = true,
-                            Name = "maria da Silva",
-                            Password = "123",
-                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                            UserTypeId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002")
-                        },
-                        new
-                        {
-                            Id = new Guid("57083947-c1df-4089-ac1d-dd9be3ac1bf8"),
-                            Email = "paulo@tenant1.com",
-                            IsActive = true,
-                            Name = "Paulo da Silva",
-                            Password = "123",
-                            TenantId = new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"),
-                            UserTypeId = new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002")
-                        },
-                        new
-                        {
-                            Id = new Guid("b2ea916f-5a1c-435d-8fef-123da972f5bf"),
-                            Email = "jorge@tenant2.com",
-                            IsActive = true,
-                            Name = "Jorge da Silva",
-                            Password = "123",
-                            TenantId = new Guid("25ae8570-56b6-4a9d-9616-c15862613525"),
-                            UserTypeId = new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002")
+                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002")
                         });
                 });
 
@@ -766,103 +753,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.HasIndex("FeatureId");
 
                     b.ToTable("User_Feature", (string)null);
-                });
-
-            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserRole", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("boolean")
-                        .HasColumnName("is_active");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("User_Role", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("9a150059-614b-47c3-b56f-59deededd8d6"),
-                            RoleId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            Id = new Guid("714ed304-8c21-4878-9c26-f5c56289b6f5"),
-                            IsActive = true
-                        });
-                });
-
-            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserToken", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("Id");
-
-                    b.Property<DateOnly?>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("date")
-                        .HasDefaultValue(new DateOnly(2024, 7, 29))
-                        .HasColumnName("created_at");
-
-                    b.Property<DateOnly?>("ExpiringAt")
-                        .HasColumnType("date")
-                        .HasColumnName("expiring_at");
-
-                    b.Property<TimeOnly?>("TimedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("time without time zone")
-                        .HasDefaultValue(new TimeOnly(23, 1, 31))
-                        .HasColumnName("timed_at");
-
-                    b.Property<string>("Token")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("token");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User_Token", (string)null);
-                });
-
-            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserType", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("Id");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("character varying(250)")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("User_Type", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
-                            Name = "Administrador"
-                        },
-                        new
-                        {
-                            Id = new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002"),
-                            Name = "Cliente"
-                        });
                 });
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.ContainerDb", b =>
@@ -895,21 +785,21 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.MenuRole", b =>
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.RoleMenu", b =>
                 {
                     b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.Menu", "Menu")
                         .WithMany("RoleMenus")
                         .HasForeignKey("MenuId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("menu_id");
+                        .HasConstraintName("menu_Id");
 
                     b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.Role", "Role")
                         .WithMany("MenuRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("role_id");
+                        .HasConstraintName("role_Id");
 
                     b.Navigation("Menu");
 
@@ -918,25 +808,25 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.User", b =>
                 {
+                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId");
+
                     b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.Tenant", "Tenant")
                         .WithMany()
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserToken", "UserToken")
+                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.TokenAccess", "TokenAccess")
                         .WithMany()
-                        .HasForeignKey("UserTokenId");
+                        .HasForeignKey("TokenAccessId");
 
-                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserType", "UserType")
-                        .WithMany()
-                        .HasForeignKey("UserTypeId");
+                    b.Navigation("Role");
 
                     b.Navigation("Tenant");
 
-                    b.Navigation("UserToken");
-
-                    b.Navigation("UserType");
+                    b.Navigation("TokenAccess");
                 });
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserFeature", b =>
@@ -960,27 +850,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserRole", b =>
-                {
-                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("role_id");
-
-                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("user_id");
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.Feature", b =>
                 {
                     b.Navigation("UserFeatures");
@@ -994,15 +863,11 @@ namespace AtendimentoMultiTenant.Infra.Migrations
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.Role", b =>
                 {
                     b.Navigation("MenuRoles");
-
-                    b.Navigation("UserRoles");
                 });
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.User", b =>
                 {
                     b.Navigation("UserFeatures");
-
-                    b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618
         }

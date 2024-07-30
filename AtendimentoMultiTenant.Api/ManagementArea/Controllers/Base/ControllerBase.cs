@@ -34,12 +34,12 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers.Base
             Dictionary<string, Guid> guids = IdentifierHelper.GetIdentifier(identifier);
 
             var user = _unitOfWork!.UserRepository.GetById(guids["USERID"]).Result;
-            var token = _unitOfWork!.UserTokenRepository.GetById(guids["TOKENID"]).Result;
-            var userType = _unitOfWork!.UserTypeRepository.GetById(user!.UserTypeId).Result;
+            var token = _unitOfWork!.TokenAccessRepository.GetById(guids["TOKENID"]).Result;
+            var userRole = _unitOfWork!.RoleRepository.GetById(user!.RoleId).Result;
 
             if (user != null && token != null)
             {
-                if (userType!.Name!.Equals(role, StringComparison.CurrentCultureIgnoreCase))
+                if (userRole!.Name!.Equals(role, StringComparison.CurrentCultureIgnoreCase))
                 {
                     return true;
                 }

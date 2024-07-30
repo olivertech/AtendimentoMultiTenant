@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
-
-namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
+﻿namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
 {
     /// <summary>
     /// Response que retorna apenas algumas propriedades do user
@@ -17,10 +15,13 @@ namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
         [JsonProperty(PropertyName = "is_active")]
         public bool IsActive { get; set; } = true;
 
-        [JsonProperty(PropertyName = "token")]
-        public string Token { get; set; } = null!;
-
         [JsonProperty(PropertyName = "identifier")]
         public string Identifier { get; set; } = null!;
+
+        [JsonProperty(PropertyName = "user_role")]
+        public Role UserRole { get; set; } = null!;
+
+        [JsonProperty(PropertyName = "user_token")]
+        public TokenAccess TokenAccess { get; set; } = null!;
     }
 }

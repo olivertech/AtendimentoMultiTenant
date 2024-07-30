@@ -46,12 +46,12 @@
                     return BadRequest(new { Message = "Email e/ou senha inválido(s)!" });
 
                 //Gera o identificador que vai servir como mais um item de validação do token
-                var identifier = IdentifierHelper.SetIdentifier(user.Id, user.UserTokenId);
+                var identifier = IdentifierHelper.SetIdentifier(user.Id, user.TokenAccessId);
                 var newToken = JwtAuth.GenerateToken(user, identifier, _configuration!);
 
                 var userToken = SetUserToken(newToken.Token, newToken.ExpirationDate, user);
 
-                user.UserTokenId = userToken.Result.Id;
+                user.TokenAccessId = userToken.Result.Id;
 
                 //Atualiza o token do usuário
                 await _unitOfWork.UserRepository.Update(user);
@@ -68,8 +68,8 @@
 
                 _unitOfWork.CommitAsync().Wait();
 
-                response.Token = newToken.Token;
                 response.Identifier = identifier;
+                response.UserRole = user!.Role!;
 
                 return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário logado com sucesso.", response));
             }
@@ -92,7 +92,7 @@
             try
             {
                 var user = await _unitOfWork!.UserRepository.GetById(request.UserId);
-                await _unitOfWork.UserTokenRepository.Delete(user!.UserTokenId!);
+                await _unitOfWork.TokenAccessRepository.Delete(user!.TokenAccessId!);
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
@@ -105,30 +105,30 @@
             }
         }
 
-        private async Task<UserToken> SetUserToken(string token, DateOnly expirationDateTime, User user)
+        private async Task<TokenAccess> SetUserToken(string token, DateOnly expirationDateTime, User user)
         {
-            UserToken? userToken = null;
+            TokenAccess? userToken = null;
 
             try
             {
-                UserToken newUserToken = new UserToken
+                TokenAccess newUserToken = new TokenAccess
                 {
                     Token = token,
                     ExpiringAt = expirationDateTime,
                 };
 
                 //Recupera o Token associado ao usuário
-                var result = _unitOfWork!.UserTokenRepository.GetToken(user).Result;
+                var result = _unitOfWork!.TokenAccessRepository.GetToken(user).Result;
 
                 //TODO: DEPOIS QUE TIVER O FRONT, ENVIAR NO REQUEST DO FRONT, UM GUID
                 //QUE DEVERÁ SER VALIDADO NO BACK
                 if (result == null)
                     //Se não existir registro de token associado ao usuário, insere
-                    userToken = await _unitOfWork.UserTokenRepository.Insert(newUserToken);
+                    userToken = await _unitOfWork.TokenAccessRepository.Insert(newUserToken);
                 else
                 {
                     //Se existir registro de token associado ao usuário, atualiza
-                    await _unitOfWork.UserTokenRepository.Update(newUserToken);
+                    await _unitOfWork.TokenAccessRepository.Update(newUserToken);
                     userToken = result;
                 }
             }

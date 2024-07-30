@@ -17,7 +17,7 @@
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, user.Name!.ToString()),
-                    new Claim(ClaimTypes.Role, user.UserType!.Name!.ToString()),
+                    new Claim(ClaimTypes.Role, user.Role!.Name!.ToString()),
                     new Claim(ClaimTypes.Hash, identifier!), //Identifier = UserId + "|" + TokenId
                 }),
                 Expires = expirationDate,
