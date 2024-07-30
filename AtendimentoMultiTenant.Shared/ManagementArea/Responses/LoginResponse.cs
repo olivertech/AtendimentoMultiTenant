@@ -18,10 +18,10 @@
         [JsonProperty(PropertyName = "identifier")]
         public string Identifier { get; set; } = null!;
 
-        [JsonProperty(PropertyName = "user_role")]
-        public Role UserRole { get; set; } = null!;
+        [JsonProperty(PropertyName = "role")]
+        public Role Role { get; set; } = null!;
 
-        [JsonProperty(PropertyName = "user_token")]
+        [JsonProperty(PropertyName = "token_access")]
         public TokenAccess TokenAccess { get; set; } = null!;
     }
 }

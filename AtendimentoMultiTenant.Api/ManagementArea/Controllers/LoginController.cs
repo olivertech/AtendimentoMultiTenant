@@ -69,7 +69,7 @@
                 _unitOfWork.CommitAsync().Wait();
 
                 response.Identifier = identifier;
-                response.UserRole = user!.Role!;
+                response.Role = user!.Role!;
 
                 return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário logado com sucesso.", response));
             }
