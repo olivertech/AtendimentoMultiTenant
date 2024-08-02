@@ -17,7 +17,7 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Context
         public DbSet<User> Users { get; set; }
         public DbSet<ContainerDb> Containers { get; set; }
         public DbSet<Port> Ports { get; set; }
-        public DbSet<TokenAccess> TokenAccesses { get; set; }
+        public DbSet<AccessToken> TokenAccesses { get; set; }
         public DbSet<Feature> Features { get; set; }
         public DbSet<UserFeature> UserFeatures { get; set; }
         public DbSet<LogAccess> LogAccesses { get; set; }

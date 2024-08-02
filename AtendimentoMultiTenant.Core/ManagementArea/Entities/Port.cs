@@ -1,7 +1,7 @@
 ﻿namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
 {
-    public sealed class Port : ConfigurationEntityBase
+    public class Port : ConfigurationEntityBase
     {
-        public string? PortNumber { get; set; }
+        public string? PortNumber { get; set; } = null!;
     }
 }

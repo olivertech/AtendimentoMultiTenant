@@ -1,8 +1,8 @@
 ﻿namespace AtendimentoMultiTenant.Infra.ManagementArea.EntityConfigurations
 {
-    public class TokenAccessConfiguration : IEntityTypeConfiguration<TokenAccess>
+    public class AccessTokenConfiguration : IEntityTypeConfiguration<AccessToken>
     {
-        public void Configure(EntityTypeBuilder<TokenAccess> builder)
+        public void Configure(EntityTypeBuilder<AccessToken> builder)
         {
             //Common columns
             builder.HasKey(x => x.Id);
@@ -14,10 +14,10 @@
             builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false).HasDefaultValue(DateOnly.FromDateTime(DateTime.Now));
             builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false).HasDefaultValue(TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")));
             builder.Property(x => x.ExpiringAt).HasColumnName("expiring_at").IsRequired(false);
-            builder.ToTable("Token_Access");
+            builder.ToTable("Access_Token");
 
             //Global filter
-            builder.HasQueryFilter(x => !x.IsActive);
+            builder.HasQueryFilter(x => x.IsActive);
         }
     }
 }

@@ -5,7 +5,7 @@
         IContainerDbRepository ContainerRepository { get; }
         ITenantRepository TenantRepository { get; }
         IUserRepository UserRepository { get; }
-        ITokenAccessRepository TokenAccessRepository { get; }
+        IAccessTokenRepository TokenAccessRepository { get; }
         IPortRepository PortRepository { get; }
         IFeatureRepository FeatureRepository { get; }
         IUserFeatureRepository UserFeatureRepository { get; }

@@ -21,7 +21,8 @@
         [JsonProperty(PropertyName = "role")]
         public Role Role { get; set; } = null!;
 
-        [JsonProperty(PropertyName = "token_access")]
-        public TokenAccess TokenAccess { get; set; } = null!;
+        [JsonPropertyName("access_token")]
+        [JsonProperty(PropertyName = "access_token")]
+        public AccessToken AccessToken { get; set; } = null!;
     }
 }

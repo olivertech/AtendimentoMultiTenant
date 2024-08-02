@@ -8,18 +8,35 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AtendimentoMultiTenant.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class Init_DbConfig : Migration
+    public partial class Init_ConfigDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Access_Token",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    token = table.Column<string>(type: "text", nullable: false),
+                    created_at = table.Column<DateOnly>(type: "date", nullable: true, defaultValue: new DateOnly(2024, 8, 1)),
+                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(22, 34, 0)),
+                    expiring_at = table.Column<DateOnly>(type: "date", nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Access_Token", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Feature",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false)
+                    description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -59,7 +76,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: true)
+                    Description = table.Column<string>(type: "text", nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -75,30 +93,15 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     secret = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     connection_string = table.Column<string>(type: "text", nullable: false),
                     initial_url = table.Column<string>(type: "text", nullable: false),
-                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     created_at = table.Column<DateOnly>(type: "date", nullable: true),
                     timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
                     deactivated_at = table.Column<DateOnly>(type: "date", nullable: true),
-                    deactivated_timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true)
+                    deactivated_timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tenant", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Token_Access",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    token = table.Column<string>(type: "text", nullable: false),
-                    created_at = table.Column<DateOnly>(type: "date", nullable: true, defaultValue: new DateOnly(2024, 7, 30)),
-                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(2, 4, 12)),
-                    expiring_at = table.Column<DateOnly>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Token_Access", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,8 +110,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 {
                     RoleId = table.Column<Guid>(type: "uuid", nullable: false),
                     MenuId = table.Column<Guid>(type: "uuid", nullable: false),
-                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -141,13 +144,13 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     container_db_volume = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     container_db_network = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     is_up = table.Column<bool>(type: "boolean", nullable: false),
-                    is_active = table.Column<bool>(type: "boolean", nullable: false),
                     created_at = table.Column<DateOnly>(type: "date", nullable: true),
                     timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
                     deactivated_at = table.Column<DateOnly>(type: "date", nullable: true),
                     deactivated_timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
-                    port_id = table.Column<Guid>(type: "uuid", nullable: false)
+                    port_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -174,18 +177,23 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     email = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     password = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     created_at = table.Column<DateOnly>(type: "date", nullable: true),
                     timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
                     deactivated_at = table.Column<DateOnly>(type: "date", nullable: true),
                     deactivates_timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
                     tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
                     role_id = table.Column<Guid>(type: "uuid", nullable: true),
-                    token_access_id = table.Column<Guid>(type: "uuid", nullable: true)
+                    access_token_id = table.Column<Guid>(type: "uuid", nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_User", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_User_Access_Token_access_token_id",
+                        column: x => x.access_token_id,
+                        principalTable: "Access_Token",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_User_Role_role_id",
                         column: x => x.role_id,
@@ -197,11 +205,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         principalTable: "Tenant",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_User_Token_Access_token_access_id",
-                        column: x => x.token_access_id,
-                        principalTable: "Token_Access",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -211,7 +214,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     user_id = table.Column<Guid>(type: "uuid", nullable: false),
                     created_at = table.Column<DateOnly>(type: "date", nullable: true),
-                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true)
+                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -230,8 +234,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 {
                     FeatureId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    is_active = table.Column<bool>(type: "boolean", nullable: false),
-                    Id = table.Column<Guid>(type: "uuid", nullable: false)
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
                 constraints: table =>
                 {
@@ -283,9 +287,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 columns: new[] { "Id", "Description", "name" },
                 values: new object[,]
                 {
-                    { new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), null, "Administrador" },
-                    { new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002"), null, "Operador" },
-                    { new Guid("740cf11e-4e2b-11ef-9dcf-0242ac1c0002"), null, "Cliente" }
+                    { new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), "Desciption", "Administrador" },
+                    { new Guid("6c9b91d0-3ba5-11ef-9476-0242ac130002"), "Desciption", "Operador" },
+                    { new Guid("740cf11e-4e2b-11ef-9dcf-0242ac1c0002"), "Desciption", "Cliente" }
                 });
 
             migrationBuilder.InsertData(
@@ -301,13 +305,13 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             migrationBuilder.InsertData(
                 table: "Container_Db",
-                columns: new[] { "Id", "container_db_image", "container_db_name", "container_db_network", "container_db_port", "container_db_volume", "created_at", "deactivated_timed_at", "deactivated_at", "environment_db_name", "environment_db_pwd", "environment_db_user", "is_active", "is_up", "port_id", "tenant_id", "timed_at" },
+                columns: new[] { "Id", "container_db_image", "container_db_name", "container_db_network", "container_db_port", "container_db_volume", "created_at", "deactivated_timed_at", "deactivated_at", "environment_db_name", "environment_db_pwd", "environment_db_user", "is_up", "port_id", "tenant_id", "timed_at" },
                 values: new object[,]
                 {
-                    { new Guid("2fb70bc4-3d70-11ef-a3ab-0242ac1c0002"), "postgres:16.2", "postgresql_configs", "db_tenant_network", "5432", "db_config_volume", null, null, null, "AtendimentoConfigDB", "atendimento@config", "postgresconfiguser", false, true, new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), null },
-                    { new Guid("39715917-a829-41c4-8da1-64029a0c6364"), "postgres:16.2", "postgresql_cliente3", "cliente3_network", "5436", "cliente3_volume", null, null, null, "Cliente3DB", "pwdcliente3", "usercliente3", false, false, new Guid("39715917-a829-41c4-8da1-64029a0c6364"), new Guid("25ae8570-56b6-4a9d-9616-c15862613525"), null },
-                    { new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), "postgres:16.2", "postgresql_cliente2", "cliente2_network", "5435", "cliente2_volume", null, null, null, "Cliente2DB", "pwdcliente2", "usercliente2", false, false, new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"), null },
-                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), "postgres:16.2", "postgresql_cliente1", "cliente1_network", "5434", "cliente1_volume", null, null, null, "Cliente1DB", "pwdcliente1", "usercliente1", false, false, new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"), null }
+                    { new Guid("2fb70bc4-3d70-11ef-a3ab-0242ac1c0002"), "postgres:16.2", "postgresql_configs", "db_tenant_network", "5432", "db_config_volume", null, null, null, "AtendimentoConfigDB", "atendimento@config", "postgresconfiguser", true, new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), null },
+                    { new Guid("39715917-a829-41c4-8da1-64029a0c6364"), "postgres:16.2", "postgresql_cliente3", "cliente3_network", "5436", "cliente3_volume", null, null, null, "Cliente3DB", "pwdcliente3", "usercliente3", false, new Guid("39715917-a829-41c4-8da1-64029a0c6364"), new Guid("25ae8570-56b6-4a9d-9616-c15862613525"), null },
+                    { new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), "postgres:16.2", "postgresql_cliente2", "cliente2_network", "5435", "cliente2_volume", null, null, null, "Cliente2DB", "pwdcliente2", "usercliente2", false, new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"), null },
+                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), "postgres:16.2", "postgresql_cliente1", "cliente1_network", "5434", "cliente1_volume", null, null, null, "Cliente1DB", "pwdcliente1", "usercliente1", false, new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"), null }
                 });
 
             migrationBuilder.InsertData(
@@ -329,8 +333,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             migrationBuilder.InsertData(
                 table: "User",
-                columns: new[] { "Id", "created_at", "deactivates_timed_at", "deactivated_at", "email", "is_active", "name", "password", "role_id", "tenant_id", "timed_at", "token_access_id" },
-                values: new object[] { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), null, null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), null, null });
+                columns: new[] { "Id", "created_at", "deactivates_timed_at", "deactivated_at", "email", "is_active", "name", "password", "role_id", "tenant_id", "timed_at", "access_token_id" },
+                values: new object[] { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), new DateOnly(2024, 8, 1), null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), new TimeOnly(22, 34, 0), null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Container_Db_port_id",
@@ -353,6 +357,11 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_User_access_token_id",
+                table: "User",
+                column: "access_token_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_User_role_id",
                 table: "User",
                 column: "role_id");
@@ -361,11 +370,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 name: "IX_User_tenant_id",
                 table: "User",
                 column: "tenant_id");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_User_token_access_id",
-                table: "User",
-                column: "token_access_id");
 
             migrationBuilder.CreateIndex(
                 name: "user_email",
@@ -407,13 +411,13 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 name: "User");
 
             migrationBuilder.DropTable(
+                name: "Access_Token");
+
+            migrationBuilder.DropTable(
                 name: "Role");
 
             migrationBuilder.DropTable(
                 name: "Tenant");
-
-            migrationBuilder.DropTable(
-                name: "Token_Access");
         }
     }
 }

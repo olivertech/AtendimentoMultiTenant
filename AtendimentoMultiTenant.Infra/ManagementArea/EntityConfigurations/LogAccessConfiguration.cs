@@ -17,7 +17,7 @@
             builder.ToTable("Log_Access");
 
             //Global filter
-            builder.HasQueryFilter(x => !x.IsActive);
+            builder.HasQueryFilter(x => x.IsActive);
         }
     }
 }

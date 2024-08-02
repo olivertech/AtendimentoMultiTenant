@@ -7,7 +7,7 @@
         private IContainerDbRepository? _containerRepository;
         private ITenantRepository? _tenantRepository;
         private IUserRepository? _userRepository;
-        private ITokenAccessRepository? _tokenAccessRepository;
+        private IAccessTokenRepository? _tokenAccessRepository;
         private IPortRepository? _portRepository;
         private IFeatureRepository? _featureRepository;
         private IUserFeatureRepository? _userFeatureRepository;
@@ -29,7 +29,7 @@
         
         public IPortRepository PortRepository => _portRepository ??= new PortRepository(_context);
 
-        public ITokenAccessRepository TokenAccessRepository => _tokenAccessRepository ??= new TokenAccessRepository(_context);
+        public IAccessTokenRepository TokenAccessRepository => _tokenAccessRepository ??= new AccessTokenRepository(_context);
 
         public IFeatureRepository FeatureRepository => _featureRepository ??= new FeatureRepository(_context);
         

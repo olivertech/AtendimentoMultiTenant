@@ -1,12 +1,12 @@
 ﻿namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories
 {
-    public class TokenAccessRepository : RepositoryConfigurationBase<TokenAccess>, ITokenAccessRepository
+    public class AccessTokenRepository : RepositoryConfigurationBase<AccessToken>, IAccessTokenRepository
     {
-        public TokenAccessRepository([NotNull] ManagementAreaDbContext context) : base(context)
+        public AccessTokenRepository([NotNull] ManagementAreaDbContext context) : base(context)
         {
         }
 
-        public async Task<TokenAccess?> GetToken(User user)
+        public async Task<AccessToken?> GetToken(User user)
         {
             if (user == null)
                 return null;

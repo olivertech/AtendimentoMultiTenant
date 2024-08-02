@@ -18,7 +18,7 @@
             services.AddScoped<IContainerDbRepository, ContainerDbRepository>();
             services.AddScoped<ITenantRepository, TenantRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<ITokenAccessRepository, TokenAccessRepository>();
+            services.AddScoped<IAccessTokenRepository, AccessTokenRepository>();
             services.AddScoped<IPortRepository, PortRepository>();
             services.AddScoped<IFeatureRepository, FeatureRepository>();
             services.AddScoped<IUserFeatureRepository, UserFeatureRepository>();

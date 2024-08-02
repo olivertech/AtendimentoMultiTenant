@@ -24,7 +24,6 @@
 
             return await _context!.Users!
                 .Include(ur => ur.Role!)
-                    //.ThenInclude(rl => rl.Role)
                 .Where(u => u.Email == email && u.Password == password)
                 .FirstOrDefaultAsync();
         }

@@ -15,6 +15,11 @@
   <ItemGroup>
     <Compile Remove="ManagementArea\Entities\UserRoleOLD.cs" />
     <Compile Remove="ManagementArea\Interfaces\IUserTypeRepository.cs" />
+    <Compile Remove="T4Templates\Core\InterfaceGenerator.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="T4Templates\Core\InterfaceGenerator.tt" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="T4Templates\Core\" />
     <Folder Include="T4Templates\Infra\" />
     <Folder Include="T4Templates\Api\" />
     <Folder Include="T4Templates\Shared\" />
@@ -34,22 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="T4Templates\Core\InterfaceGenerator.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>InterfaceGenerator.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Update="T4Templates\Core\InterfaceGenerator.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>InterfaceGenerator.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
 
 </Project>

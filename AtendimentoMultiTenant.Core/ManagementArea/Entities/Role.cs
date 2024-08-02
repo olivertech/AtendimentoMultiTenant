@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
 {
-    public sealed class Role : ConfigurationEntityBase
+    public class Role : ConfigurationEntityBase
     {
         public string? Name { get; set; } = null!;
         public string? Description { get; set; } = null!;

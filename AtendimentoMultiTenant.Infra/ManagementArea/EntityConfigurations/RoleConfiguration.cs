@@ -14,7 +14,7 @@
             builder.ToTable("Role");
 
             //Global filter
-            builder.HasQueryFilter(x => !x.IsActive);
+            builder.HasQueryFilter(x => x.IsActive);
 
             //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
             builder.HasData(new[]

@@ -375,7 +375,7 @@
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
                 }
 
-                var result = await _unitOfWork.ContainerRepository.Delete(id);
+                var result = await _unitOfWork.ContainerRepository.Delete(id, true);
 
                 _unitOfWork.CommitAsync().Wait();
 

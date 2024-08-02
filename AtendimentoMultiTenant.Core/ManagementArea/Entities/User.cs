@@ -4,7 +4,7 @@
     /// Classe que representa os usuários que podem acessar os sistemas "inquilinos",
     /// ou seja, todos que tem permissão de logar nos seus respectivos sistemas clientes
     /// </summary>
-    public sealed class User : ConfigurationEntityBase
+    public class User : ConfigurationEntityBase
     {
         public string? Name { get; set; } = null!;
         public string? Email { get; set; } = null!;
@@ -21,10 +21,9 @@
         //Navigation Property
         public Tenant? Tenant { get; set; }
         public Role? Role { get; set; }
-        public TokenAccess? TokenAccess { get; set; }
+        public AccessToken? TokenAccess { get; set; }
 
         // Many-to-many relation
         public List<UserFeature>? UserFeatures { get; set; }
-        //public List<UserRole>? UserRoles { get; set; }
     }
 }

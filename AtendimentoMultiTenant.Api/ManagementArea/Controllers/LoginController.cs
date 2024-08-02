@@ -45,6 +45,9 @@
                 if (user == null)
                     return BadRequest(new { Message = "Email e/ou senha inválido(s)!" });
 
+                //====================================================================
+                //PASSAR ESSA LOGICA ABAIXO PRA UMA CLASSE SEPARADA COMO UM HELPER...
+                //====================================================================
                 //Gera o identificador que vai servir como mais um item de validação do token
                 var identifier = IdentifierHelper.SetIdentifier(user.Id, user.TokenAccessId);
                 var newToken = JwtAuth.GenerateToken(user, identifier, _configuration!);
@@ -56,6 +59,14 @@
                 //Atualiza o token do usuário
                 await _unitOfWork.UserRepository.Update(user);
 
+                var tokenAccess = await _unitOfWork.TokenAccessRepository.Insert(new AccessToken()
+                {
+                    Token = userToken.Result.Token,
+                    IsActive = true,
+                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"))
+                });
+
                 //Insere log de acesso do usuário
                 await _unitOfWork.LogAccessRepository.Insert(new LogAccess() 
                 { 
@@ -66,10 +77,11 @@
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
-                _unitOfWork.CommitAsync().Wait();
-
                 response.Identifier = identifier;
                 response.Role = user!.Role!;
+                response.AccessToken = tokenAccess!;
+
+                _unitOfWork.CommitAsync().Wait();
 
                 return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário logado com sucesso.", response));
             }
@@ -92,7 +104,7 @@
             try
             {
                 var user = await _unitOfWork!.UserRepository.GetById(request.UserId);
-                await _unitOfWork.TokenAccessRepository.Delete(user!.TokenAccessId!);
+                await _unitOfWork.TokenAccessRepository.Delete(user!.TokenAccessId!, false);
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
@@ -105,13 +117,13 @@
             }
         }
 
-        private async Task<TokenAccess> SetUserToken(string token, DateOnly expirationDateTime, User user)
+        private async Task<AccessToken> SetUserToken(string token, DateOnly expirationDateTime, User user)
         {
-            TokenAccess? userToken = null;
+            AccessToken? userToken = null;
 
             try
             {
-                TokenAccess newUserToken = new TokenAccess
+                AccessToken newUserToken = new AccessToken
                 {
                     Token = token,
                     ExpiringAt = expirationDateTime,

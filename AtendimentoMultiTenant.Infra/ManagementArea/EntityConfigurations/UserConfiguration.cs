@@ -16,7 +16,7 @@
             builder.Property(x => x.Password).HasColumnName("password").HasMaxLength(50).IsRequired();
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.RoleId).HasColumnName("role_id").IsRequired(false);
-            builder.Property(x => x.TokenAccessId).HasColumnName("token_access_id").IsRequired(false);
+            builder.Property(x => x.TokenAccessId).HasColumnName("access_token_id").IsRequired(false);
             builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false);
             builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false);
             builder.Property(x => x.DeativatedAt).HasColumnName("deactivated_at").IsRequired(false);
@@ -27,7 +27,7 @@
             builder.ToTable("User");
 
             //Global filter
-            builder.HasQueryFilter(x => !x.IsActive);
+            builder.HasQueryFilter(x => x.IsActive);
 
             builder.HasData(new[]
             {
@@ -46,7 +46,9 @@
                     Password = "123",
                     IsActive = true,
                     TenantId = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                    RoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002")
+                    RoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002"),
+                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"))
                 },
                 //new User
                 //{

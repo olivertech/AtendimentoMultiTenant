@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Core.ManagementArea.Entities
 {
-    public sealed class LogAccess : ConfigurationEntityBase
+    public class LogAccess : ConfigurationEntityBase
     {
         public Guid UserId { get; set; }
         public DateOnly? CreatedAt { get; set; }
