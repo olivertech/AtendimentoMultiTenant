@@ -12,6 +12,6 @@ namespace AtendimentoMultiTenant.Core.ManagementArea.Interfaces.Base
         Task<int> Count();
         Task<T?> Insert(T entity);
         Task<bool> Update(T entity);
-        Task<bool> Delete(Guid? id);
+        Task<bool> Delete(Guid? id, bool isLogicalDelete);
     }
 }

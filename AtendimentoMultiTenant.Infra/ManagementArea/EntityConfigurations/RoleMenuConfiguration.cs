@@ -4,7 +4,11 @@
     {
         public void Configure(EntityTypeBuilder<RoleMenu> builder)
         {
+            //Common columns
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
+            
+            //Entity columns
             builder.Property(x => x.Id).IsRequired();
             builder.HasKey(x => new { x.MenuId, x.RoleId });
 
@@ -16,8 +20,10 @@
                 .WithMany(x => x.MenuRoles)
                 .HasForeignKey(x => x.RoleId).HasConstraintName("role_Id");
 
-            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
             builder.ToTable("Role_Menu");
+
+            //Global filter
+            builder.HasQueryFilter(x => !x.IsActive);
 
             builder.HasData(new[]
             {

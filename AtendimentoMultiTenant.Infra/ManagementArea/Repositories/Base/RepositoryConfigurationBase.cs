@@ -149,7 +149,7 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
             }
         }
 
-        public async virtual Task<bool> Delete(Guid? id)
+        public async virtual Task<bool> Delete(Guid? id, bool isLogicalDelete)
         {
             try
             {
@@ -158,7 +158,16 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
                 if (entity is null)
                     throw new InvalidOperationException("Registro não encontrado!");
 
-                _entities!.Remove(entity);
+                if (isLogicalDelete)
+                {
+                    entity.IsActive = false;
+                    await Update(entity);
+                }
+                else
+                {
+                    _entities!.Remove(entity);
+                }
+
                 await _context!.SaveChangesAsync();
 
                 return true;

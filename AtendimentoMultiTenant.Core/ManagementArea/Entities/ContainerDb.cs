@@ -32,7 +32,6 @@
         public string? ContainerDbVolume { get; set; } = null!;
         public string? ContainerDbNetwork { get; set; } = null!;
         public bool IsUp { get; set; } = false;
-        public bool IsActive { get; set; }
         public DateOnly? CreatedAt { get; set; }
         public TimeOnly? TimedAt { get; set; }
         public DateOnly? DeativatedAt { get; set; }

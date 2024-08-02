@@ -4,11 +4,17 @@
     {
         public void Configure(EntityTypeBuilder<Port> builder)
         {
+            //Common columns
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
+            
+            //Entity columns
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
             builder.Property(x => x.PortNumber).HasColumnName("port_number").HasMaxLength(4).IsRequired();
-            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
             builder.ToTable("Port");
+
+            //Global filter
+            builder.HasQueryFilter(x => !x.IsActive);
 
             builder.HasData(new[]
             {

@@ -4,7 +4,11 @@
     {
         public void Configure(EntityTypeBuilder<ContainerDb> builder)
         {
+            //Common columns
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
+            
+            //Entity columns
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
             builder.Property(x => x.ContainerDbName).HasColumnName("container_db_name").HasMaxLength(250).IsRequired();
             builder.Property(x => x.ContainerDbImage).HasColumnName("container_db_image").HasMaxLength(250).IsRequired();
@@ -18,13 +22,15 @@
             builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false);
             builder.Property(x => x.DeativatedAt).HasColumnName("deactivated_at").IsRequired(false);
             builder.Property(x => x.DeactivatedTimedAt).HasColumnName("deactivated_timed_at").IsRequired(false);
-            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired();
             builder.Property(x => x.IsUp).HasColumnName("is_up").IsRequired();
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.PortId).HasColumnName("port_id").IsRequired();
             builder.HasOne(x => x.Tenant);
             builder.HasOne(x => x.Port);
             builder.ToTable("Container_Db");
+
+            //Global filter
+            builder.HasQueryFilter(x => !x.IsActive);
 
             builder.HasData(new[]
             {

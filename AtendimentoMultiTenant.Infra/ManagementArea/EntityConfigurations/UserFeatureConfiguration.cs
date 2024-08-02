@@ -4,7 +4,11 @@
     {
         public void Configure(EntityTypeBuilder<UserFeature> builder)
         {
+            //Common columns
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
+            
+            //Entity columns
             builder.Property(x => x.Id).IsRequired();
             builder.HasKey(x => new { x.UserId, x.FeatureId });
 
@@ -16,8 +20,10 @@
                 .WithMany(x => x.UserFeatures)
                 .HasForeignKey(x => x.FeatureId).HasConstraintName("feature_id");
 
-            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired();
             builder.ToTable("User_Feature");
+
+            //Global filter
+            builder.HasQueryFilter(x => !x.IsActive);
         }
     }
 }

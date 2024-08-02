@@ -25,8 +25,31 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="T4Templates\Infra\" />
+    <Folder Include="T4Templates\Api\" />
+    <Folder Include="T4Templates\Shared\" />
+    <Folder Include="T4Templates\Web\" />
     <Folder Include="TenantArea\Helpers\" />
     <Folder Include="TenantArea\Interfaces\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="T4Templates\Core\InterfaceGenerator.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>InterfaceGenerator.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="T4Templates\Core\InterfaceGenerator.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InterfaceGenerator.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
 
 </Project>

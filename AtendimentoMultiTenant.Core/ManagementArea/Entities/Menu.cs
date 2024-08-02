@@ -4,7 +4,6 @@
     {
         public string? Name { get; set; } = null!;
         public string? Description { get; set; } = null!;
-        public bool IsActive { get; set; }
 
         // Many-to-many relation
         public IList<RoleMenu>? RoleMenus { get; set; }

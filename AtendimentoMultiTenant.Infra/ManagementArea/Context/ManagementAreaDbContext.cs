@@ -31,15 +31,17 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Context
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.ApplyConfiguration(new TenantConfiguration());
-            //modelBuilder.ApplyConfiguration(new PortConfiguration());
-            //modelBuilder.ApplyConfiguration(new UserTypeConfiguration());
-            //modelBuilder.ApplyConfiguration(new UserTokenConfiguration());
-            //modelBuilder.ApplyConfiguration(new UserConfiguration());
             //modelBuilder.ApplyConfiguration(new ContainerDbConfiguration());
             //modelBuilder.ApplyConfiguration(new FeatureConfiguration());
-            //modelBuilder.ApplyConfiguration(new UserFeatureConfiguration());
             //modelBuilder.ApplyConfiguration(new LogAccessConfiguration());
+            //modelBuilder.ApplyConfiguration(new MenuConfiguration());
+            //modelBuilder.ApplyConfiguration(new PortConfiguration());
+            //modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            //modelBuilder.ApplyConfiguration(new RoleMenuConfiguration());
+            //modelBuilder.ApplyConfiguration(new TenantConfiguration());
+            //modelBuilder.ApplyConfiguration(new TokenAccessConfiguration());
+            //modelBuilder.ApplyConfiguration(new UserConfiguration());
+            //modelBuilder.ApplyConfiguration(new UserFeatureConfiguration());
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }

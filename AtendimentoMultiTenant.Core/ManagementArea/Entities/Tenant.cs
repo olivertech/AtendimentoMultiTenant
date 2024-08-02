@@ -10,7 +10,6 @@
         public string? Secret { get; set; } = null!;
         public string? ConnectionString { get; set; } = null!;
         public string? InitialUrl { get; set; } = null!;
-        public bool IsActive { get; set; }
         public DateOnly? CreatedAt { get; set; }
         public TimeOnly? TimedAt { get; set; }
         public DateOnly? DeativatedAt { get; set; }

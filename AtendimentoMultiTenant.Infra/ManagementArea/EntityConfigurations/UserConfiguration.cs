@@ -4,13 +4,16 @@
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            //Common columns
             builder.HasKey(x => x.Id);
+            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
+            
+            //Entity columns
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
             builder.HasIndex(x => x.Email).HasDatabaseName("user_email").IsUnique();
             builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(250).IsRequired();
             builder.Property(x => x.Email).HasColumnName("email").HasMaxLength(250).IsRequired();
             builder.Property(x => x.Password).HasColumnName("password").HasMaxLength(50).IsRequired();
-            builder.Property(x => x.IsActive).HasColumnName("is_active").IsRequired().HasDefaultValue(true);
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.RoleId).HasColumnName("role_id").IsRequired(false);
             builder.Property(x => x.TokenAccessId).HasColumnName("token_access_id").IsRequired(false);
@@ -22,6 +25,9 @@
             builder.HasOne(x => x.Role);
             builder.HasOne(x => x.TokenAccess);
             builder.ToTable("User");
+
+            //Global filter
+            builder.HasQueryFilter(x => !x.IsActive);
 
             builder.HasData(new[]
             {

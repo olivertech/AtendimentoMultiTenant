@@ -9,7 +9,6 @@
         public string? Name { get; set; } = null!;
         public string? Email { get; set; } = null!;
         public string? Password { get; set; } = null!;
-        public bool IsActive { get; set; }
         public DateOnly? CreatedAt { get; set; }
         public TimeOnly? TimedAt { get; set; }
         public DateOnly? DeativatedAt { get; set; }
