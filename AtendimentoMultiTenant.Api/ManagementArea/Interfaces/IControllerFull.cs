@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Api.ManagementArea.Interfaces
 {
-    public interface IController<TReq, TReqPaged>
+    public interface IControllerFull<TReq, TReqPaged>
         where TReq : IRequest
         where TReqPaged : IRequest
     {

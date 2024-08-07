@@ -1,10 +1,10 @@
 ﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Base
 {
-    public class PageBase : ComponentBase
+    public class LayoutPageBase : LayoutComponentBase
     {
         #region Properties
 
-        public bool IsBusy { get; set; }
+        public bool IsBusy { get; set; } = false;
 
         #endregion
 

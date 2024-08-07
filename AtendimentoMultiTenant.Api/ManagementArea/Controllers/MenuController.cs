@@ -3,7 +3,7 @@
     [Route("api/Menu")]
     [SwaggerTag("Menu")]
     [ApiController]
-    public class MenuController : Base.ControllerBase, IController<MenuRequest, MenuPagedRequest>
+    public class MenuController : Base.ControllerBase, IControllerBasic<MenuRequest>
     {
         private readonly IPortFinder _portFinder;
         private readonly ILogger<ConfigurationController>? _logger;
@@ -23,16 +23,9 @@
             _containerDbRequestValidator = containerDbRequestValidator;
         }
 
-        [NonAction]
-        public Task<IActionResult> GetAll([FromBody] MenuPagedRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
         [HttpGet]
         [Route(nameof(GetAll))]
         [Produces("application/json")]
-        [Consumes("application/json")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof(MenuResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status401Unauthorized, Type = typeof(MenuResponse))]
@@ -41,13 +34,14 @@
         {
             try
             {
-                if (!IsUserClaimsValid())
-                {
-                    _logger!.LogWarning("Usuário não autorizado!");
-                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error(false, "Usuário não autorizado!"));
-                }
+                //if (!IsUserClaimsValid())
+                //{
+                //    _logger!.LogWarning("Usuário não autorizado!");
+                //    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error(false, "Usuário não autorizado!"));
+                //}
 
                 var list = await _unitOfWork!.MenuRepository.GetAllFull();
+                list = list.OrderBy(x => x.Name).ToList();
 
                 var responseList = _mapper!.Map<IEnumerable<Menu>, IEnumerable<MenuResponse>>(list!);
 
@@ -60,71 +54,54 @@
             }
         }
 
-        [HttpGet]
-        [Route("Get/{id:Guid}")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        [Authorize(Roles = "Administrador")]
+        [NonAction]
+        //[HttpGet]
+        //[Route("Get/{id:Guid}")]
+        //[Produces("application/json")]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
+        //[Authorize(Roles = "Administrador")]
         public Task<IActionResult> GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        [HttpGet]
-        [Route(nameof(GetCount))]
-        [Produces("application/json")]
-        [Authorize(Roles = "Administrador")]
-        public Task<IActionResult> GetCount()
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpGet]
-        [Route(nameof(GetListByName))]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
-        [Authorize(Roles = "Administrador")]
-        public Task<IActionResult> GetListByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
-        [HttpPost]
-        [Route(nameof(Insert))]
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        [Authorize(Roles = "Administrador")]
+        [NonAction]
+        //[HttpPost]
+        //[Route(nameof(Insert))]
+        //[Consumes("application/json")]
+        //[Produces("application/json")]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
+        //[Authorize(Roles = "Administrador")]
         public Task<IActionResult> Insert([FromBody] MenuRequest request)
         {
             throw new NotImplementedException();
         }
 
-        [HttpPut]
-        [Route(nameof(Update))]
-        [Consumes("application/json")]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status304NotModified, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
-        [Authorize(Roles = "Administrador")]
+        [NonAction]
+        //[HttpPut]
+        //[Route(nameof(Update))]
+        //[Consumes("application/json")]
+        //[Produces("application/json")]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status304NotModified, Type = typeof(MenuResponse))]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
+        //[Authorize(Roles = "Administrador")]
         public Task<IActionResult> Update(MenuRequest request)
         {
             throw new NotImplementedException();
         }
 
-        [HttpDelete]
-        [Route(nameof(Delete))]
-        [Produces("application/json")]
-        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
-        [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        [Authorize(Roles = "Administrador")]
+        [NonAction]
+        //[HttpDelete]
+        //[Route(nameof(Delete))]
+        //[Produces("application/json")]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
+        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
+        //[Authorize(Roles = "Administrador")]
         public Task<IActionResult> Delete(Guid id)
         {
             throw new NotImplementedException();

@@ -1,4 +1,4 @@
-﻿@inject NavigationManager Navigation
+﻿@using AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 @inherits DashboardMainLayoutPage
 
 <MudThemeProvider />
@@ -16,23 +16,18 @@
                  AnchorOrigin="Origin.BottomRight"
                  TransformOrigin="Origin.TopRight"
                  AriaLabel="Abrir Menu">
-            @foreach (var item in _topMenuItems)
+            @foreach (var item in TopMenuItems!)
             {
                 <MudMenuItem OnClick="() => OnTopMenuItemClick(item)">@item</MudMenuItem>
             }
         </MudMenu>
     </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="2" Color="Color.Primary">
-        <MudNavMenu>
-            <MudNavLink Style="font-size:medium" Href="/configdashboard" Match="NavLinkMatch.Prefix">Dashboard Administrativo</MudNavLink>
-            @* <MudText Typo="Typo.h6" Class="px-4">Dashboard Administrativo</MudText> *@
-            <MudText Typo="Typo.body2" Class="px-4 mud-text-secondary">Administrativo</MudText>
-            <MudDivider Class="my-2" />
-            @foreach (var item in _leftMenuItems)
-            {
-                <MudNavLink Style="font-size:medium" Href="item.Value" Match="NavLinkMatch.Prefix">@item.Key!.ToString()</MudNavLink>
-            }
-        </MudNavMenu>
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="2">
+        <MudDrawerHeader>
+            <MudText Typo="Typo.h5" Class="mt-1">Dashboard Administrativo</MudText>
+        </MudDrawerHeader>
+        @*Componente do menu esquerdo*@
+        <LeftMenu />
     </MudDrawer>
     <MudMainContent>
         @Body
@@ -42,47 +37,11 @@
 @code {
     #region Screen Code
 
-    [Inject]
-    public NavigationManager NavigationManager { get; set; } = null!;
-
     public bool _drawerOpen = true;
-    public string? _currentUrl;
-    public string? _cropedUrl;
-    public int _lastIndexOfBar;
-    public List<string> _topMenuItems = new();
-    public List<LeftMenuItem> _leftMenuItems = new();
-
-    public class LeftMenuItem
-    {
-        public string? Key { get; set; }
-        public string? Value { get; set; }
-    }
 
     protected override void OnInitialized()
     {
-        _topMenuItems.Add("Sair");
-        BuildLeftMenu();
-    }
-
-    public void OnTopMenuItemClick(string item)
-    {
-        if (item == "Sair")
-        {
-            NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription());
-        }
-    }
-
-    public void BuildLeftMenu()
-    {
-        _lastIndexOfBar = Navigation.Uri.Trim().ToLower().LastIndexOf("/");
-        _currentUrl = Navigation.Uri.Trim().ToLower().Replace("'", "");
-        _cropedUrl = Navigation.Uri.Trim().ToLower().Substring(_lastIndexOfBar + 1, _currentUrl.Length - _lastIndexOfBar - 1);
-
-        var menu2 = new LeftMenuItem { Key = "Chamados", Value = "/ticketlist" };
-        var menu1 = new LeftMenuItem { Key = "Usuários", Value = "/userlist" };
-
-        _leftMenuItems.Add(menu1);
-        _leftMenuItems.Add(menu2);
+        BuildTopMenu();
     }
 
     void DrawerToggle()

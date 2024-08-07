@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace AtendimentoMultiTenant.Infra.Migrations
 {
     [DbContext(typeof(ManagementAreaDbContext))]
-    [Migration("20240802013400_Init_ConfigDb")]
-    partial class Init_ConfigDb
+    [Migration("20240807031240_InitDbConfig")]
+    partial class InitDbConfig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,7 +35,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Property<DateOnly?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasDefaultValue(new DateOnly(2024, 8, 1))
+                        .HasDefaultValue(new DateOnly(2024, 8, 7))
                         .HasColumnName("created_at");
 
                     b.Property<DateOnly?>("ExpiringAt")
@@ -51,7 +51,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Property<TimeOnly?>("TimedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("time without time zone")
-                        .HasDefaultValue(new TimeOnly(22, 34, 0))
+                        .HasDefaultValue(new TimeOnly(0, 12, 39))
                         .HasColumnName("timed_at");
 
                     b.Property<string>("Token")
@@ -303,6 +303,12 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("character varying(1500)")
                         .HasColumnName("description");
 
+                    b.Property<string>("Icone")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
+                        .HasColumnName("icone");
+
                     b.Property<bool>("IsActive")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("boolean")
@@ -315,6 +321,12 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("character varying(250)")
                         .HasColumnName("name");
 
+                    b.Property<string>("Route")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)")
+                        .HasColumnName("route");
+
                     b.HasKey("Id");
 
                     b.ToTable("Menu", (string)null);
@@ -324,71 +336,82 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         {
                             Id = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "database",
                             IsActive = true,
-                            Name = "Containers"
+                            Name = "Containers",
+                            Route = "/containers"
                         },
                         new
                         {
                             Id = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
                             Description = "Description",
+                            Icone = "location_away",
                             IsActive = true,
-                            Name = "Tenants"
+                            Name = "Tenants",
+                            Route = "/tenants"
                         },
                         new
                         {
                             Id = new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "person",
                             IsActive = true,
-                            Name = "Users"
+                            Name = "Users",
+                            Route = "/users"
                         },
                         new
                         {
                             Id = new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "leak_add",
                             IsActive = true,
-                            Name = "Ports"
+                            Name = "Ports",
+                            Route = "/ports"
                         },
                         new
                         {
                             Id = new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "category",
                             IsActive = true,
-                            Name = "Features"
+                            Name = "Features",
+                            Route = "/features"
                         },
                         new
                         {
                             Id = new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "settings_accessibility",
                             IsActive = true,
-                            Name = "Roles"
-                        },
-                        new
-                        {
-                            Id = new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"),
-                            Description = "Description",
-                            IsActive = true,
-                            Name = "User Types"
+                            Name = "Roles",
+                            Route = "/roles"
                         },
                         new
                         {
                             Id = new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "token",
                             IsActive = true,
-                            Name = "User Tokens"
+                            Name = "User Tokens",
+                            Route = "/usertokens"
                         },
                         new
                         {
                             Id = new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "how_to_reg",
                             IsActive = true,
-                            Name = "Logs"
+                            Name = "Logs",
+                            Route = "/logs"
                         },
                         new
                         {
                             Id = new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
+                            Icone = "lists",
                             IsActive = true,
-                            Name = "Menu"
+                            Name = "Menu",
+                            Route = "/menus"
                         });
                 });
 
@@ -560,30 +583,23 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         },
                         new
                         {
-                            MenuId = new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"),
+                            MenuId = new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"),
                             RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
                             Id = new Guid("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"),
                             IsActive = true
                         },
                         new
                         {
-                            MenuId = new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"),
+                            MenuId = new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"),
                             RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
                             Id = new Guid("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"),
                             IsActive = true
                         },
                         new
                         {
-                            MenuId = new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"),
-                            RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
-                            Id = new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"),
-                            IsActive = true
-                        },
-                        new
-                        {
                             MenuId = new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"),
                             RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
-                            Id = new Guid("b5d27120-4e15-11ef-9dcf-0242ac1c0002"),
+                            Id = new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"),
                             IsActive = true
                         });
                 });
@@ -759,14 +775,14 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         new
                         {
                             Id = new Guid("9a150059-614b-47c3-b56f-59deededd8d6"),
-                            CreatedAt = new DateOnly(2024, 8, 1),
+                            CreatedAt = new DateOnly(2024, 8, 7),
                             Email = "marcelo@sys.com",
                             IsActive = true,
                             Name = "Marcelo de Oliveira",
                             Password = "123",
                             RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
                             TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                            TimedAt = new TimeOnly(22, 34, 0)
+                            TimedAt = new TimeOnly(0, 12, 39)
                         });
                 });
 

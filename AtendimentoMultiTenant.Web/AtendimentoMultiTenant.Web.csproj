@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="ManagementArea\Areas\Components\LeftMenu.razor" />
     <Content Remove="ManagementArea\Layouts\MainLayoutOLD.razor" />
   </ItemGroup>
 
@@ -35,6 +36,18 @@
     <Folder Include="TenantArea\Interfaces\" />
     <Folder Include="TenantArea\Layouts\" />
     <Folder Include="TenantArea\Pages\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="ManagementArea\Areas\Components\LeftMenu.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="ManagementArea\Areas\Components\LeftMenu.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="ManagementArea\Areas\Components\LeftMenu\LeftMenu.razor" />
   </ItemGroup>
 
 </Project>

@@ -73,30 +73,23 @@
                 {
                     Id = Guid.Parse("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"),
                     RoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002"),
-                    MenuId = Guid.Parse("ea280a72-4e13-11ef-9dcf-0242ac1c0002"),
+                    MenuId = Guid.Parse("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"),
                     IsActive = true
                 },
                 new RoleMenu
                 {
                     Id = Guid.Parse("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"),
                     RoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002"),
-                    MenuId = Guid.Parse("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"),
+                    MenuId = Guid.Parse("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"),
                     IsActive = true
                 },
                 new RoleMenu
                 {
                     Id = Guid.Parse("aea5373e-4e15-11ef-9dcf-0242ac1c0002"),
                     RoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002"),
-                    MenuId = Guid.Parse("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"),
-                    IsActive = true
-                },
-                new RoleMenu
-                {
-                    Id = Guid.Parse("b5d27120-4e15-11ef-9dcf-0242ac1c0002"),
-                    RoleId = Guid.Parse("45533ff6-3ba5-11ef-9476-0242ac130002"),
                     MenuId = Guid.Parse("02b786ee-4e14-11ef-9dcf-0242ac1c0002"),
                     IsActive = true
-                },
+                }
             });
         }
     }

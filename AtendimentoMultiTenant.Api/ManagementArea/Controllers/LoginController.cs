@@ -49,7 +49,7 @@
                 //PASSAR ESSA LOGICA ABAIXO PRA UMA CLASSE SEPARADA COMO UM HELPER...
                 //====================================================================
                 //Gera o identificador que vai servir como mais um item de validação do token
-                var identifier = IdentifierHelper.SetIdentifier(user.Id, user.TokenAccessId);
+                var identifier = ""; // IdentifierHelper.SetIdentifier(user.TokenAccessId);
                 var newToken = JwtAuth.GenerateToken(user, identifier, _configuration!);
 
                 var userToken = SetUserToken(newToken.Token, newToken.ExpirationDate, user);
@@ -58,14 +58,6 @@
 
                 //Atualiza o token do usuário
                 await _unitOfWork.UserRepository.Update(user);
-
-                var tokenAccess = await _unitOfWork.TokenAccessRepository.Insert(new AccessToken()
-                {
-                    Token = userToken.Result.Token,
-                    IsActive = true,
-                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
-                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"))
-                });
 
                 //Insere log de acesso do usuário
                 await _unitOfWork.LogAccessRepository.Insert(new LogAccess() 
@@ -77,9 +69,9 @@
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
-                response.Identifier = identifier;
+                //response.Identifier = identifier;
                 response.Role = user!.Role!;
-                response.AccessToken = tokenAccess!;
+                response.AccessToken = userToken.Result;
 
                 _unitOfWork.CommitAsync().Wait();
 
@@ -127,6 +119,9 @@
                 {
                     Token = token,
                     ExpiringAt = expirationDateTime,
+                    CreatedAt = DateOnly.FromDateTime(DateTime.Now),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")),
+                    IsActive = true
                 };
 
                 //Recupera o Token associado ao usuário

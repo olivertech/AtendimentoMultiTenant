@@ -7,9 +7,9 @@
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public static string SetIdentifier(Guid? userId, Guid? tokenId)
+        public static string SetIdentifier(Guid? tokenAccessId)
         {
-            return CryptoHelper.Encrypt(userId + "|" + tokenId);
+            return CryptoHelper.Encrypt(tokenAccessId!.ToString()!);
         }
 
         /// <summary>
@@ -21,12 +21,10 @@
         {
             var result = CryptoHelper.Decrypt(identifier);
 
-            string[] parts = result.Split(new char[] { '|' });
-
             var dic = new Dictionary<string, Guid>
             {
-                { "USERID", Guid.Parse(parts[0].ToString()) },
-                { "TOKENID", Guid.Parse(parts[1].ToString()) }
+                //{ "USERID", Guid.Parse(userId) },
+                { "TOKENID", Guid.Parse(result) }
             };
 
             return dic;

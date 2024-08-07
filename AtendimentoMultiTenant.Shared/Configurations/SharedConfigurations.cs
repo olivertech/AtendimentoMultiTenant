@@ -5,7 +5,7 @@
         /// <summary>
         /// Jwt Parameters
         /// </summary>
-        public static readonly string JwtAudiencie = "https://localhost:7061";
+        public static readonly string JwtAudiencie = "https://localhost:7282";
         public static readonly string JwtIssuer = "https://localhost:7168";
         public static readonly string SecretKey = "8ykjeycuknBEuP8PZUYUpQftxtEa7fHx";
 

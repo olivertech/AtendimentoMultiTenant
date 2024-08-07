@@ -1,11 +1,15 @@
-﻿using System.Text.Json;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.Login
 {
     public class LoginHandler : ILoginHandler
     {
+        #region Properties and Variables
+        
         private readonly HttpClient _httpClient;
         private readonly IStorageService _storageService;
+
+        #endregion
+
+        #region Constructor
 
         /// <summary>
         /// TODO: PESQUISAR SOBRE RETRY PATTERN / BIBLIOTECA POLLY
@@ -16,6 +20,10 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
             _httpClient = httpClientFactory.CreateClient(SharedConfigurations.HttpClientName);
             _storageService = storageService;
         }
+
+        #endregion
+
+        #region Methods
 
         public async Task<ResponseFactory<LoginResponse>> Auth(LoginRequest request)
         {
@@ -33,7 +41,9 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
                     new Item { Key = "token", Data = returnValue.Content!.AccessToken!.Token! },
                     new Item { Key = "name", Data = returnValue.Content!.Name },
                     new Item { Key = "email", Data = returnValue.Content!.Email },
-                    new Item { Key = "identifier", Data = returnValue.Content!.Identifier },
+
+                    //REVER ESSE ITEM ...
+                    //new Item { Key = "identifier", Data = returnValue.Content!.Identifier },
                 };
 
                 await _storageService.SetListItem(listItems);
@@ -46,5 +56,7 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
                 return null!;
             }
         }
+
+        #endregion
     }
 }

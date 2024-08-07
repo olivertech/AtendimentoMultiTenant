@@ -23,11 +23,6 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Layouts.MainLayout
         [Inject]
         public NavigationManager NavigationManager { get; set; } = null!;
 
-        //protected void LoadMenu()
-        //{
-        //    _menuItems = new List<string> { "Acessar" };
-        //}
-
         public void GotoLoginPage()
         {
             NavigationManager.NavigateTo(RoutesEnumerator.Login.GetDescription());
@@ -36,11 +31,6 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Layouts.MainLayout
         public void GotoIndexPage()
         {
             NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription());
-        }
-
-        public void LoadMenu()
-        {
-            throw new NotImplementedException();
         }
 
         public Task<ResponseFactory<LoginResponse>> Logout(LoginRequest request)

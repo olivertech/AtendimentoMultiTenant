@@ -13,6 +13,7 @@ builder.Services.AddMudServices();
 builder.Services.AddHttpClient(SharedConfigurations.HttpClientName, opt =>
 {
     opt.BaseAddress = new Uri(SharedConfigurations.BackEndUrl);
+    opt.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 });
 
 //===============================

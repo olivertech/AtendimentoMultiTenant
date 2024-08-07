@@ -8,6 +8,12 @@
         [JsonProperty(PropertyName = "name")]
         public string? Name { get; set; } = null;
 
+        [JsonProperty(PropertyName = "icone")]
+        public string? Icone { get; set; } = null;
+
+        [JsonProperty(PropertyName = "route")]
+        public string? Route { get; set; } = null;
+
         [JsonProperty(PropertyName = "description")]
         public string? Description { get; set; } = null;
 

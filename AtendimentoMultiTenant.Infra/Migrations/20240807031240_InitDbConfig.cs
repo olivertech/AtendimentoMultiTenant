@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AtendimentoMultiTenant.Infra.Migrations
 {
     /// <inheritdoc />
-    public partial class Init_ConfigDb : Migration
+    public partial class InitDbConfig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,8 +19,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     token = table.Column<string>(type: "text", nullable: false),
-                    created_at = table.Column<DateOnly>(type: "date", nullable: true, defaultValue: new DateOnly(2024, 8, 1)),
-                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(22, 34, 0)),
+                    created_at = table.Column<DateOnly>(type: "date", nullable: true, defaultValue: new DateOnly(2024, 8, 7)),
+                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(0, 12, 39)),
                     expiring_at = table.Column<DateOnly>(type: "date", nullable: true),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
@@ -49,6 +49,8 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    icone = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    route = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
                     description = table.Column<string>(type: "character varying(1500)", maxLength: 1500, nullable: false),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
@@ -256,19 +258,18 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             migrationBuilder.InsertData(
                 table: "Menu",
-                columns: new[] { "Id", "description", "is_active", "name" },
+                columns: new[] { "Id", "description", "icone", "is_active", "name", "route" },
                 values: new object[,]
                 {
-                    { new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"), "Description", true, "Menu" },
-                    { new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), "Description", true, "Containers" },
-                    { new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"), "Description", true, "Users" },
-                    { new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"), "Description", true, "Ports" },
-                    { new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"), "Description", true, "Features" },
-                    { new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"), "Description", true, "Roles" },
-                    { new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"), "Description", true, "User Types" },
-                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), "Description", true, "Tenants" },
-                    { new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"), "Description", true, "User Tokens" },
-                    { new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"), "Description", true, "Logs" }
+                    { new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"), "Description", "lists", true, "Menu", "/menus" },
+                    { new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), "Description", "database", true, "Containers", "/containers" },
+                    { new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"), "Description", "person", true, "Users", "/users" },
+                    { new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"), "Description", "leak_add", true, "Ports", "/ports" },
+                    { new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"), "Description", "category", true, "Features", "/features" },
+                    { new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"), "Description", "settings_accessibility", true, "Roles", "/roles" },
+                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), "Description", "location_away", true, "Tenants", "/tenants" },
+                    { new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"), "Description", "token", true, "User Tokens", "/usertokens" },
+                    { new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"), "Description", "how_to_reg", true, "Logs", "/logs" }
                 });
 
             migrationBuilder.InsertData(
@@ -319,22 +320,21 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 columns: new[] { "MenuId", "RoleId", "Id", "is_active" },
                 values: new object[,]
                 {
-                    { new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("b5d27120-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("02b786ee-4e14-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"), true },
                     { new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("47ed36c2-4e15-11ef-9dcf-0242ac1c0002"), true },
                     { new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("73ad14e4-4e15-11ef-9dcf-0242ac1c0002"), true },
                     { new Guid("cfc81d16-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("7add512a-4e15-11ef-9dcf-0242ac1c0002"), true },
                     { new Guid("d8e9b6fc-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("83235528-4e15-11ef-9dcf-0242ac1c0002"), true },
                     { new Guid("e1b05ce6-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("8b104688-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("ea280a72-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"), true },
                     { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("67a1a5c0-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"), true },
-                    { new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("aea5373e-4e15-11ef-9dcf-0242ac1c0002"), true }
+                    { new Guid("f3ff2576-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("956dcc4a-4e15-11ef-9dcf-0242ac1c0002"), true },
+                    { new Guid("fc202fe8-4e13-11ef-9dcf-0242ac1c0002"), new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("a7dd1c82-4e15-11ef-9dcf-0242ac1c0002"), true }
                 });
 
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "created_at", "deactivates_timed_at", "deactivated_at", "email", "is_active", "name", "password", "role_id", "tenant_id", "timed_at", "access_token_id" },
-                values: new object[] { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), new DateOnly(2024, 8, 1), null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), new TimeOnly(22, 34, 0), null });
+                values: new object[] { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), new DateOnly(2024, 8, 7), null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), new TimeOnly(0, 12, 39), null });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Container_Db_port_id",

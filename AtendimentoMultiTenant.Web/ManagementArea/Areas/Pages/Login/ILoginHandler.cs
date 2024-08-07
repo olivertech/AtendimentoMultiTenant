@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.Login
 {
     public interface ILoginHandler
     {

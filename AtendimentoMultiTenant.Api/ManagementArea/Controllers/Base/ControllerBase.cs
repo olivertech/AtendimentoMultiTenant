@@ -25,24 +25,35 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers.Base
         /// <returns></returns>
         protected bool IsUserClaimsValid()
         {
-            ClaimsIdentity? _claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
-
-            var claims = _claimsIdentity!.Claims;
-            var role = claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault()!.Value;
-            var identifier = claims.Where(x => x.Type == ClaimTypes.Hash).FirstOrDefault()!.Value;
-
-            Dictionary<string, Guid> guids = IdentifierHelper.GetIdentifier(identifier);
-
-            var user = _unitOfWork!.UserRepository.GetById(guids["USERID"]).Result;
-            var token = _unitOfWork!.TokenAccessRepository.GetById(guids["TOKENID"]).Result;
-            var userRole = _unitOfWork!.RoleRepository.GetById(user!.RoleId).Result;
-
-            if (user != null && token != null)
+            try
             {
-                if (userRole!.Name!.Equals(role, StringComparison.CurrentCultureIgnoreCase))
-                {
-                    return true;
-                }
+                ClaimsIdentity? _claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
+
+                var claims = _claimsIdentity!.Claims;
+                var role = claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault()!.Value;
+                var identifier = claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()!.Value;
+
+                Dictionary<string, Guid> guids = IdentifierHelper.GetIdentifier(identifier);
+
+                var auth = HttpContext.Response.Headers.Authorization;
+
+                //var user = _unitOfWork!.UserRepository.GetById(guids["USERID"]).Result;
+                var token = _unitOfWork!.TokenAccessRepository.GetById(guids["TOKENID"]).Result;
+                //var userRole = _unitOfWork!.RoleRepository.GetById(user!.RoleId).Result;
+
+                //if (user != null) // && token != null)
+                //{
+                //if (userRole!.Name!.Equals(role, StringComparison.CurrentCultureIgnoreCase))
+                //{
+                //    return true;
+                //}
+                //}
+
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
             }
 
             return false;

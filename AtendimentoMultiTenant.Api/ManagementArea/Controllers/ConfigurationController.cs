@@ -3,7 +3,7 @@
     [Route("api/Configuration")]
     [SwaggerTag("Configuration")]
     [ApiController]
-    public class ConfigurationController : Base.ControllerBase, IController<ContainerDbRequest, ContainerDbPagedRequest>
+    public class ConfigurationController : Base.ControllerBase, IControllerFull<ContainerDbRequest, ContainerDbPagedRequest>
     {
         private readonly IPortFinder _portFinder;
         private readonly ILogger<ConfigurationController>? _logger;

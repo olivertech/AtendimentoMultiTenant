@@ -1,0 +1,33 @@
+﻿@inherits LeftMenuPage
+
+<MudNavMenu Color="Color.Transparent">
+    <MudDivider Class="my-2" />
+    @if (IsBusy)
+    {
+        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+    }
+    else
+    {
+        @foreach (var item in LeftMenuItems!)
+        {
+            <MudNavLink Style="font-size:medium; color: black;"
+                        Href="@item.Value"
+                        Match="NavLinkMatch.All">
+                <div style="vertical-align: middle; padding: 0; margin: 0; display: inline-flex">
+                    <span class="material-symbols-outlined">
+                        @item.Icon
+                    </span>
+                    &nbsp;&nbsp;@item.Key!.ToUpper()
+                </div>
+            </MudNavLink>
+            <br />
+        }
+    }
+</MudNavMenu>
+
+@code {
+    protected override void OnInitialized()
+    {
+        BuildLeftMenu();
+    }
+}

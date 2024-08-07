@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Dashboard
+﻿using AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.Dashboard;
+
+namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Dashboard
 {
     public partial class ConfigDashboardPage : PageBase
     {
@@ -14,6 +16,8 @@
         #endregion
 
         #region Methods
+
+        //CRIAR AQUI O MÉTODO PRA RECEBER OS ITENS DE MENU... VER NO VIDEO DO BALTA COMO FAZ...
 
         #endregion
     }

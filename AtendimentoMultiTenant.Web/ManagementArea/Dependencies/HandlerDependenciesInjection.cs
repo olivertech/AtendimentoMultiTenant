@@ -11,8 +11,9 @@
             //Pages Handler Injections
             services.AddScoped<ILoginHandler, LoginHandler>();
             services.AddScoped<IContainerDbHandler, ContainerDbHandler>();
-            services.AddScoped<ITicketListHandler, TicketListHandler>();
             services.AddScoped<IConfigDashboardHandler, ConfigDashboardHandler>();
+            services.AddScoped<ILeftMenuHandler, LeftMenuHandler>();
+            services.AddScoped<ILogAccessHandler, LogAccessHandler>();
 
             //Services injections
             services.AddScoped<IStorageService, StorageService>();
