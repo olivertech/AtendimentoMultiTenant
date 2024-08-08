@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
+﻿using System.Threading;
+
+namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 {
     [Route("api/Login")]
     [SwaggerTag("Login")]
@@ -40,19 +42,19 @@
                 if (request is null)
                     return BadRequest(new { Message = "Request inválido!" });
 
-                var user = _unitOfWork!.UserRepository.ValidateLogin(request!.Email!, request!.Password!).Result;
+                var user = await _unitOfWork!.UserRepository.ValidateLogin(request!.Email!, request!.Password!);
 
                 if (user == null)
                     return BadRequest(new { Message = "Email e/ou senha inválido(s)!" });
 
-                //====================================================================
-                //PASSAR ESSA LOGICA ABAIXO PRA UMA CLASSE SEPARADA COMO UM HELPER...
-                //====================================================================
-                //Gera o identificador que vai servir como mais um item de validação do token
-                var identifier = ""; // IdentifierHelper.SetIdentifier(user.TokenAccessId);
-                var newToken = JwtAuth.GenerateToken(user, identifier, _configuration!);
+                //Recupera a chave Secret associada ao Tenant do usuário que está logando
+                var secretList = await _unitOfWork.TenantRepository.GetList(x => x.Id == user.TenantId);
 
-                var userToken = SetUserToken(newToken.Token, newToken.ExpirationDate, user);
+                //DESENVOLVER ROBO QUE TROCA TODAS AS SECRETS DAS TENANTS DE TEMPOS EM TEMPOS
+                //COMO FORMA DE EVITAR INVASÕES... FAZER A TROCA DAS SECRETS A CADA 24 HORAS
+                var secret = secretList!.FirstOrDefault()!.Secret;
+                var newToken = JwtAuth.GenerateToken(user, secret!, _configuration!);
+                var userToken = SetAccessToken(newToken.Token, newToken.ExpirationDate, user);
 
                 user.TokenAccessId = userToken.Result.Id;
 
@@ -69,7 +71,7 @@
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
-                //response.Identifier = identifier;
+                //response.Secret = secret!;
                 response.Role = user!.Role!;
                 response.AccessToken = userToken.Result;
 
@@ -80,7 +82,7 @@
             catch (Exception ex)
             {
                 _logger!.LogError(ex, "Auth");
-                return BadRequest(new { Message = "Não foi possível autenticar. Ocorreu algum erro interno na aplicação, por favor tente novamente." });
+                return BadRequest(new { Message = "Não foi possível autenticar. Ocorreu algum erro interno na aplicação, por favor tente novamente. Caso não consiga, informe o suporte." });
             }
         }
 
@@ -109,9 +111,9 @@
             }
         }
 
-        private async Task<AccessToken> SetUserToken(string token, DateOnly expirationDateTime, User user)
+        private async Task<AccessToken> SetAccessToken(string token, DateOnly expirationDateTime, User user)
         {
-            AccessToken? userToken = null;
+            AccessToken? accessToken = null;
 
             try
             {
@@ -127,24 +129,28 @@
                 //Recupera o Token associado ao usuário
                 var result = _unitOfWork!.TokenAccessRepository.GetToken(user).Result;
 
-                //TODO: DEPOIS QUE TIVER O FRONT, ENVIAR NO REQUEST DO FRONT, UM GUID
-                //QUE DEVERÁ SER VALIDADO NO BACK
                 if (result == null)
                     //Se não existir registro de token associado ao usuário, insere
-                    userToken = await _unitOfWork.TokenAccessRepository.Insert(newUserToken);
+                    accessToken = await _unitOfWork.TokenAccessRepository.Insert(newUserToken);
                 else
                 {
+                    result.Token = token;
+                    result.ExpiringAt = expirationDateTime;
+                    result.CreatedAt = DateOnly.FromDateTime(DateTime.Now);
+                    result.TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"));
+                    result.IsActive = true;
+
                     //Se existir registro de token associado ao usuário, atualiza
-                    await _unitOfWork.TokenAccessRepository.Update(newUserToken);
-                    userToken = result;
+                    await _unitOfWork.TokenAccessRepository.Update(result);
+                    accessToken = result;
                 }
             }
             catch (Exception ex)
             {
-                _logger!.LogError(ex, "SetUserToken");
+                _logger!.LogError(ex, "SetAccessToken");
             }
 
-            return userToken!;
+            return accessToken!;
         }
     }
 }

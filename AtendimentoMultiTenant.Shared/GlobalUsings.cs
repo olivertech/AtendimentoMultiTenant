@@ -13,3 +13,4 @@ global using System.Reflection;
 global using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
 global using AtendimentoMultiTenant.Shared.ManagementArea.Requests.Base;
 global using AtendimentoMultiTenant.Core.ManagementArea.Entities;
+global using AtendimentoMultiTenant.Shared.ManagementArea.Responses.Base;

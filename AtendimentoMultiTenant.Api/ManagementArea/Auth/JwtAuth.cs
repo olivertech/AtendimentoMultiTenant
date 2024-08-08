@@ -2,7 +2,7 @@
 {
     public static class JwtAuth
     {
-        public static NewToken GenerateToken(User user, string identifier, IConfiguration configuration)
+        public static NewToken GenerateToken(User user, string secret, IConfiguration configuration)
         {
             var expirationDate = DateTime.UtcNow.AddMinutes(SharedConfigurations.Minutes);
 
@@ -17,8 +17,9 @@
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Name, user.Name!.ToString()),
+                    new Claim(ClaimTypes.Email, user.Email!.ToString()),
                     new Claim(ClaimTypes.Role, user.Role!.Name!.ToString()),
-                    //new Claim(ClaimTypes.Hash, identifier!), //Identifier = UserId + "|" + TokenId
+                    new Claim(ClaimTypes.Hash, secret!),
                 }),
                 Expires = expirationDate,
                 Issuer = issuer,
@@ -35,7 +36,7 @@
             NewToken newToken = new()
             { 
                 Token = tokenHandler.WriteToken(token),
-                ExpirationDate = DateOnly.FromDateTime(DateTime.Now)
+                ExpirationDate = DateOnly.FromDateTime(DateTime.Now.AddDays(1))
             };
 
             //TODO: ENCRIPTAR O TOKEN POSTERIORMENTE

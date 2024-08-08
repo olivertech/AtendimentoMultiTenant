@@ -10,6 +10,7 @@
         {
             return await _context!.Menus
                 .Include(p => p.RoleMenus)
+                .OrderBy(p => p.Name)
                 .ToListAsync();
         }
     }

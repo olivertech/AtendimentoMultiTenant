@@ -36,7 +36,7 @@
                 {
                     Id = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
                     Name = "Configuration",
-                    Secret = "123",
+                    Secret = "7Ej5TQznqUSkeXKZ",
                     ConnectionString = "Host=localhost;Port=5432;Database=AtendimentoConfigDB;User ID=postgresconfiguser;Password=atendimento@config;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,

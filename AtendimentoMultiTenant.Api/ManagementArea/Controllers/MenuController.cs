@@ -5,22 +5,16 @@
     [ApiController]
     public class MenuController : Base.ControllerBase, IControllerBasic<MenuRequest>
     {
-        private readonly IPortFinder _portFinder;
-        private readonly ILogger<ConfigurationController>? _logger;
-        private readonly IValidator<ContainerDbRequest>? _containerDbRequestValidator;
+        private readonly ILogger<MenuController>? _logger;
 
         public MenuController(IUnitOfWork unitOfWork,
                               IMapper? mapper,
                               IConfiguration configuration,
-                              IPortFinder portFinder,
-                              ILogger<ConfigurationController>? logger,
-                              IValidator<ContainerDbRequest> containerDbRequestValidator)
+                              ILogger<MenuController>? logger)
             : base(unitOfWork, mapper, configuration)
         {
-            _nomeEntidade = "Container";
-            _portFinder = portFinder;
+            _nomeEntidade = "Menu";
             _logger = logger;
-            _containerDbRequestValidator = containerDbRequestValidator;
         }
 
         [HttpGet]
@@ -34,14 +28,13 @@
         {
             try
             {
-                //if (!IsUserClaimsValid())
-                //{
-                //    _logger!.LogWarning("Usuário não autorizado!");
-                //    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error(false, "Usuário não autorizado!"));
-                //}
+                if (!IsUserClaimsValid())
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error(false, "Usuário não autorizado!"));
+                }
 
                 var list = await _unitOfWork!.MenuRepository.GetAllFull();
-                list = list.OrderBy(x => x.Name).ToList();
 
                 var responseList = _mapper!.Map<IEnumerable<Menu>, IEnumerable<MenuResponse>>(list!);
 

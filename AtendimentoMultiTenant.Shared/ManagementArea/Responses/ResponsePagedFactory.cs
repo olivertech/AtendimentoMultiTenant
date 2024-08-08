@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Responses.Base;
-
-namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
+﻿namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
 {
     public sealed class ResponsePagedFactory<T> : ResponsePagedBase
     {

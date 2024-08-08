@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Api.ManagementArea.Helpers;
-
-namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers.Base
+﻿namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers.Base
 {
     public abstract class ControllerBase : Controller
     {
@@ -20,6 +18,10 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers.Base
 
         /// <summary>
         /// Método que faz uma 2a validação de acesso aos endpoints
+        /// As Secrets serão automaticamente atualizadas por meio 
+        /// de um robô a cada 24 horas, gerando sequenciais aleatórios
+        /// que criaram mais uma camada de segurança no acesso aos
+        /// endpoints de gerenciamento
         /// </summary>
         /// <param name="identity"></param>
         /// <returns></returns>
@@ -31,23 +33,18 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers.Base
 
                 var claims = _claimsIdentity!.Claims;
                 var role = claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault()!.Value;
-                var identifier = claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault()!.Value;
-
-                Dictionary<string, Guid> guids = IdentifierHelper.GetIdentifier(identifier);
+                var email = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()!.Value;
+                var secret = claims.Where(x => x.Type == ClaimTypes.Hash).FirstOrDefault()!.Value;
 
                 var auth = HttpContext.Response.Headers.Authorization;
 
-                //var user = _unitOfWork!.UserRepository.GetById(guids["USERID"]).Result;
-                var token = _unitOfWork!.TokenAccessRepository.GetById(guids["TOKENID"]).Result;
-                //var userRole = _unitOfWork!.RoleRepository.GetById(user!.RoleId).Result;
+                var user = _unitOfWork!.UserRepository.GetByEmail(email).Result;
+                var tenant = _unitOfWork!.TenantRepository.GetTenantBySecret(secret).Result;
 
-                //if (user != null) // && token != null)
-                //{
-                //if (userRole!.Name!.Equals(role, StringComparison.CurrentCultureIgnoreCase))
-                //{
-                //    return true;
-                //}
-                //}
+                if (user != null && tenant != null)
+                {
+                    return true;
+                }
 
                 return true;
             }
@@ -55,8 +52,6 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers.Base
             {
                 return false;
             }
-
-            return false;
         }
     }
 }

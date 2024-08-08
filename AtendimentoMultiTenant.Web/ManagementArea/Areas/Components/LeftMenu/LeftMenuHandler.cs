@@ -1,37 +1,19 @@
 ﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 {
-    public class LeftMenuHandler : ILeftMenuHandler
+    public class LeftMenuHandler : HandlerBase, ILeftMenuHandler
     {
-        private readonly HttpClient _httpClient;
-        private readonly IStorageService _storageService;
-
-        public LeftMenuHandler(IHttpClientFactory httpClientFactory, IStorageService storageService)
+        public LeftMenuHandler(IHttpClientFactory httpClientFactory, IStorageService storageService) 
+            : base(httpClientFactory, storageService)
         {
-            _httpClient = httpClientFactory.CreateClient(SharedConfigurations.HttpClientName);
-            _storageService = storageService;
         }
 
         public async Task<List<LeftMenuItem>?> GetLeftMenuItens()
         {
             List<LeftMenuItem>? leftMenuItems = new List<LeftMenuItem>();
 
-            var token = await _storageService.GetItem("token");
+            var response = await DoGetRequest("Api/Menu/GetAll");
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAll")
-            { 
-                Headers = 
-                { 
-                    Authorization = new AuthenticationHeaderValue("Bearer", token),
-                }
-            };
-            
-            /////MUDAR ESSA LINHA PRO PONTO ONDE INSTANCIO O _httpCliente
-            //_httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            var itemsMenu = await response.Content.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
+            var itemsMenu = await response.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
 
             foreach (var item in itemsMenu!.Content!)
             {
@@ -41,11 +23,11 @@
             return leftMenuItems;
         }
     }
+}
 
-    public class LeftMenuItem
-    {
-        public string? Key { get; set; }
-        public string? Value { get; set; }
-        public string? Icon { get; set; }
-    }
+public class LeftMenuItem
+{
+    public string? Key { get; set; }
+    public string? Value { get; set; }
+    public string? Icon { get; set; }
 }

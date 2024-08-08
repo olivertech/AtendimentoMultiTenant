@@ -11,7 +11,7 @@
             if (user == null)
                 return null;
 
-            return await _context!.TokenAccesses
+            return await _context!.AccessTokens
                 .Where(t => t.Id == user.TokenAccessId)
                 .FirstOrDefaultAsync();
         }

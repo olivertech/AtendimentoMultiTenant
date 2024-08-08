@@ -1,10 +1,9 @@
-﻿
-namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.LogAccess
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.LogAccess
 {
     public class LogAccessHandler : HandlerBase, IHandler<LogAccessRequest, LogAccessResponse>, ILogAccessHandler
     {
-        public LogAccessHandler(IHttpClientFactory httpClientFactory)
-            : base(httpClientFactory)
+        public LogAccessHandler(IHttpClientFactory httpClientFactory, IStorageService storageService)
+            : base(httpClientFactory, storageService)
         {
         }
 

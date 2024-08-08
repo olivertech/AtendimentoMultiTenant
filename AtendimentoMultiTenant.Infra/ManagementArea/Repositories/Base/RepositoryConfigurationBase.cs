@@ -1,8 +1,4 @@
-﻿using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
-using AtendimentoMultiTenant.Core.ManagementArea.Interfaces.Base;
-using AtendimentoMultiTenant.Infra.ManagementArea.Context;
-
-namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
+﻿namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
 {
     public class RepositoryConfigurationBase<T> : IRepositoryConfigurationBase<T>
         where T : ConfigurationEntityBase
@@ -139,9 +135,10 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
                 if (item is not null)
                 {
                     _entities.Update(entity);
+                    return true;
                 }
 
-                return true;
+                return false;
             }
             catch (Exception ex)
             {

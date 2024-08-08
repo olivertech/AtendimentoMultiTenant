@@ -41,9 +41,7 @@
                     new Item { Key = "token", Data = returnValue.Content!.AccessToken!.Token! },
                     new Item { Key = "name", Data = returnValue.Content!.Name },
                     new Item { Key = "email", Data = returnValue.Content!.Email },
-
-                    //REVER ESSE ITEM ...
-                    //new Item { Key = "identifier", Data = returnValue.Content!.Identifier },
+                    new Item { Key = "secret", Data = returnValue.Content!.Secret },
                 };
 
                 await _storageService.SetListItem(listItems);

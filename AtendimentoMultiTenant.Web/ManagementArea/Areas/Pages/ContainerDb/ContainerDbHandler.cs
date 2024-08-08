@@ -6,8 +6,8 @@
         /// TODO: PESQUISAR SOBRE RETRY PATTERN / BIBLIOTECA POLLY
         /// </summary>
         /// <param name="httpClientFactory"></param>
-        public ContainerDbHandler(IHttpClientFactory httpClientFactory)
-            : base(httpClientFactory)
+        public ContainerDbHandler(IHttpClientFactory httpClientFactory, IStorageService storageService)
+            : base(httpClientFactory, storageService)
         {
         }
 

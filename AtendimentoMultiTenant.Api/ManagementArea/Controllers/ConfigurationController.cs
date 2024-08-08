@@ -7,20 +7,20 @@
     {
         private readonly IPortFinder _portFinder;
         private readonly ILogger<ConfigurationController>? _logger;
-        private readonly IValidator<ContainerDbRequest>? _containerDbRequestValidator;
+        private readonly IValidator<ContainerDbRequest>? _requestValidator;
 
         public ConfigurationController(IUnitOfWork unitOfWork,
                                        IMapper? mapper,
                                        IConfiguration configuration,
                                        IPortFinder portFinder,
                                        ILogger<ConfigurationController>? logger,
-                                       IValidator<ContainerDbRequest> containerDbRequestValidator)
+                                       IValidator<ContainerDbRequest> requestValidator)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Container";
             _portFinder = portFinder;
             _logger = logger;
-            _containerDbRequestValidator = containerDbRequestValidator;
+            _requestValidator = requestValidator;
         }
 
         [NonAction]
@@ -191,7 +191,7 @@
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Request inválido!"));
                 }
 
-                var validation = await _containerDbRequestValidator!.ValidateAsync(request);
+                var validation = await _requestValidator!.ValidateAsync(request);
 
                 if (!validation.IsValid)
                 {
@@ -293,7 +293,7 @@
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<ContainerDbResponse>.Error(false, "Id informado inválido!"));
                 }
 
-                var validation = await _containerDbRequestValidator!.ValidateAsync(request);
+                var validation = await _requestValidator!.ValidateAsync(request);
 
                 if (!validation.IsValid)
                 {

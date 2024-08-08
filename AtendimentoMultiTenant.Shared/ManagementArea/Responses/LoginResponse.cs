@@ -15,8 +15,8 @@
         [JsonProperty(PropertyName = "is_active")]
         public bool IsActive { get; set; } = true;
 
-        [JsonProperty(PropertyName = "identifier")]
-        public string Identifier { get; set; } = null!;
+        [JsonProperty(PropertyName = "secret")]
+        public string Secret { get; set; } = null!;
 
         [JsonProperty(PropertyName = "role")]
         public Role Role { get; set; } = null!;
