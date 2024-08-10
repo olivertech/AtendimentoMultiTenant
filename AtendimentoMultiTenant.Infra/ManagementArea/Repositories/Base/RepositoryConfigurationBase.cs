@@ -62,7 +62,7 @@
             try
             {
                 var list = await _entities!
-                                .Skip(pageNumber)
+                                .Skip((pageNumber - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToListAsync();
 
@@ -79,7 +79,7 @@
             try
             {
                 var list = await _entities!
-                                .Skip(pageNumber)
+                                .Skip((pageNumber - 1) * pageSize)
                                 .Take(pageSize)
                                 .Where(predicate)
                                 .ToListAsync();

@@ -1,9 +1,4 @@
-﻿using System;
-using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
-using AtendimentoMultiTenant.Core.ManagementArea.Interfaces.Base;
-using AtendimentoMultiTenant.Infra.ManagementArea.Context;
-
-namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
+﻿namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
 {
     public class RepositoryBase<T> : IRepositoryBase<T>
         where T : EntityBase
@@ -67,7 +62,7 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
             try
             {
                 var list = await _entities!
-                                .Skip(pageNumber)
+                                .Skip((pageNumber - 1) * pageSize)
                                 .Take(pageSize)
                                 .ToListAsync();
 
@@ -84,7 +79,7 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
             try
             {
                 var list = await _entities!
-                                .Skip(pageNumber)
+                                .Skip((pageNumber - 1) * pageSize)
                                 .Take(pageSize)
                                 .Where(predicate)
                                 .ToListAsync();

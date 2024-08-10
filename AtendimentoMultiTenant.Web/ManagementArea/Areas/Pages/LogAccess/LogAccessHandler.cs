@@ -1,28 +1,41 @@
 ﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.LogAccess
 {
-    public class LogAccessHandler : HandlerBase, IHandler<LogAccessRequest, LogAccessResponse>, ILogAccessHandler
+    public class LogAccessHandler : HandlerBase, IHandler<LogAccessRequest, LogAccessPagedRequest, LogAccessResponse>, ILogAccessHandler
     {
         public LogAccessHandler(IHttpClientFactory httpClientFactory, IStorageService storageService)
             : base(httpClientFactory, storageService)
         {
         }
 
-        public async Task<ResponsePagedFactory<IEnumerable<LogAccessResponse>>> GetAll(LogAccessRequest request)
+        public async Task<ResponseFactory<IEnumerable<LogAccessResponse>>> GetAll()
         {
+            ResponseFactory<IEnumerable<LogAccessResponse>?>? result = new()!;
+
             try
             {
-                var result = await _httpClient.GetFromJsonAsync<ResponsePagedFactory<IEnumerable<LogAccessResponse>>>("LogAccess/GetAll");
+                var requestMessage = new HttpRequestMessage(HttpMethod.Get, "Api/LogAccess/GetAll");
 
-                if (result == null)
-                    return null!;
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+                requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                return result;
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    result = JsonConvert.DeserializeObject<ResponseFactory<IEnumerable<LogAccessResponse>?>?>(response.Content.ReadAsStringAsync().Result);
+                }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex.Message);
-                return null!;
+                return new();
             }
+
+            return result!;
+        }
+
+        public Task<ResponsePagedFactory<IEnumerable<LogAccessResponse>>> GetAll(LogAccessPagedRequest request)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<ResponseFactory<LogAccessResponse>> GetById(Guid id)

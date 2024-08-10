@@ -11,11 +11,21 @@
         {
             List<LeftMenuItem>? leftMenuItems = new List<LeftMenuItem>();
 
-            var response = await DoGetRequest("Api/Menu/GetAll");
+            //var response = await _httpClientHelper.DoGetRequest("Api/Menu/GetAll");
+            //var itemsMenu = await response.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
 
-            var itemsMenu = await response.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
+            var token = await _storageService.GetItem("token");
 
-            foreach (var item in itemsMenu!.Content!)
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAll");
+
+            var response = await _httpClient.SendAsync(request);
+            var itemsMenu = await response.Content.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
+
+            response.EnsureSuccessStatusCode();
+
+            foreach (var item in itemsMenu!.Result!)
             {
                 leftMenuItems.Add(new LeftMenuItem { Key = item.Name, Value = item.Route, Icon = item.Icone });
             }

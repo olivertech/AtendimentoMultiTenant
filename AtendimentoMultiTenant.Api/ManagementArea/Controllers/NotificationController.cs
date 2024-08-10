@@ -92,7 +92,7 @@
             catch (Exception ex)
             {
                 _logger!.LogError(ex, "SendPushNotification");
-                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<string>.Error(false, "Erro no envio da notificação!"));
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<string>.Error("Erro no envio da notificação!"));
             }
         }
     }

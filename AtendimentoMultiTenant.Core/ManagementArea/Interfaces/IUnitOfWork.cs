@@ -2,7 +2,7 @@
 {
     public interface IUnitOfWork
     {
-        IContainerDbRepository ContainerRepository { get; }
+        IContainerDbRepository ContainerDbRepository { get; }
         ITenantRepository TenantRepository { get; }
         IUserRepository UserRepository { get; }
         IAccessTokenRepository TokenAccessRepository { get; }

@@ -11,18 +11,9 @@
             _storageService = storageService;
         }
 
-        public async Task<HttpContent> DoGetRequest(string route)
+        public async Task<string?> GetToken()
         {
-            var token = await _storageService.GetItem("token");
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var request = new HttpRequestMessage(HttpMethod.Get, route);
-
-            var response = await _httpClient.SendAsync(request);
-            response.EnsureSuccessStatusCode();
-
-            return response.Content;
+            return await _storageService.GetItem("token");
         }
     }
 }

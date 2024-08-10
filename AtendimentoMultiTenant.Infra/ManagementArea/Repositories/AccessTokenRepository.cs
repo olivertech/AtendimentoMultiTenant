@@ -12,7 +12,7 @@
                 return null;
 
             return await _context!.AccessTokens
-                .Where(t => t.Id == user.TokenAccessId)
+                .Where(t => t.Id == user.AccessTokenId)
                 .FirstOrDefaultAsync();
         }
     }

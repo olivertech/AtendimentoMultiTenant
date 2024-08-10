@@ -16,12 +16,12 @@
 
         public Guid TenantId { get; set; }
         public Guid? RoleId { get; set; }
-        public Guid? TokenAccessId { get; set; }
+        public Guid? AccessTokenId { get; set; }
 
         //Navigation Property
         public Tenant? Tenant { get; set; }
         public Role? Role { get; set; }
-        public AccessToken? TokenAccess { get; set; }
+        public AccessToken? AccessToken { get; set; }
 
         // Many-to-many relation
         public List<UserFeature>? UserFeatures { get; set; }

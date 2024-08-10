@@ -1,23 +1,53 @@
-﻿namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
+﻿using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
+
+namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 {
     [Route("api/LogAccess")]
     [SwaggerTag("LogAccess")]
     [ApiController]
-    public class LogAccessController : Base.ControllerBase, IControllerBasic<LogAccessRequest>
+    public class LogAccessController : Base.ControllerBase, IControllerFull<LogAccessRequest, LogAccessPagedRequest>
     {
-        private readonly ILogger<ConfigurationController>? _logger;
-        private readonly IValidator<LogAccessRequest>? _requestValidator;
+        private readonly ILogger<ContainerDbController>? _logger;
 
         public LogAccessController(IUnitOfWork unitOfWork,
-                                       IMapper? mapper,
-                                       IConfiguration configuration,
-                                       ILogger<ConfigurationController>? logger,
-                                       IValidator<LogAccessRequest> requestValidator)
+                                   IMapper? mapper,
+                                   IConfiguration configuration,
+                                   ILogger<ContainerDbController>? logger)
             : base(unitOfWork, mapper, configuration)
         {
-            _nomeEntidade = "Container";
+            _nomeEntidade = "Logs de Acesso";
             _logger = logger;
-            _requestValidator = requestValidator;
+        }
+
+        [HttpPost]
+        [Route(nameof(GetAll))]
+        [Produces("application/json")]
+        [Consumes("application/json")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(LogAccessResponse))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof(LogAccessResponse))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status401Unauthorized, Type = typeof(LogAccessResponse))]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> GetAll([FromBody] LogAccessPagedRequest request)
+        {
+            try
+            {
+                if (!IsUserClaimsValid())
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<LogAccessResponse>.Error("Usuário não autorizado!"));
+                }
+
+                var list = await _unitOfWork!.LogAccessRepository.GetPagedList(request.PageSize, request.PageNumber);
+
+                var responseList = _mapper!.Map<IEnumerable<LogAccess>, IEnumerable<LogAccessResponse>>(list!);
+
+                return Ok(ResponsePagedFactory<IEnumerable<LogAccessResponse>>.Success($"Lista de {_nomeEntidade} recuperada com sucesso.", responseList, request.PageNumber, request.PageSize));
+            }
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "GetAll");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<LogAccessResponse>.Error($"Erro ao recuperar lista de {_nomeEntidade} - " + ex.Message));
+            }
         }
 
         [HttpGet]
@@ -34,23 +64,36 @@
                 if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
-                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<LogAccessResponse>.Error(false, "Usuário não autorizado!"));
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<LogAccessResponse>.Error("Usuário não autorizado!"));
                 }
 
-                var list = await _unitOfWork!.LogAccessRepository.GetAll();
+                var list = await _unitOfWork!.LogAccessRepository.GetAllFull();
+
                 var responseList = _mapper!.Map<IEnumerable<LogAccess>, IEnumerable<LogAccessResponse>>(list!);
 
-                return Ok(ResponseFactory<IEnumerable<LogAccessResponse>>.Success(true, "Lista recuperada com sucesso.", responseList));
+                return Ok(ResponseFactory<IEnumerable<LogAccessResponse>>.Success($"Lista de {_nomeEntidade} recuperada com sucesso.", responseList));
             }
             catch (Exception ex)
             {
                 _logger!.LogError(ex, "GetAll");
-                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<LogAccessResponse>.Error(false, string.Format("Erro ao listar menus - ", _nomeEntidade) + ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<LogAccessResponse>.Error($"Erro ao recuperar lista {_nomeEntidade} - " + ex.Message));
             }
         }
 
         [NonAction]
         public Task<IActionResult> GetById(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        [NonAction]
+        public Task<IActionResult> GetCount()
+        {
+            throw new NotImplementedException();
+        }
+
+        [NonAction]
+        public Task<IActionResult> GetListByName(string name)
         {
             throw new NotImplementedException();
         }

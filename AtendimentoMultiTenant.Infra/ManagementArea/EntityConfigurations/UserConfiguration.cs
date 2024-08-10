@@ -16,14 +16,14 @@
             builder.Property(x => x.Password).HasColumnName("password").HasMaxLength(50).IsRequired();
             builder.Property(x => x.TenantId).HasColumnName("tenant_id").IsRequired();
             builder.Property(x => x.RoleId).HasColumnName("role_id").IsRequired(false);
-            builder.Property(x => x.TokenAccessId).HasColumnName("access_token_id").IsRequired(false);
+            builder.Property(x => x.AccessTokenId).HasColumnName("access_token_id").IsRequired(false);
             builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false);
             builder.Property(x => x.TimedAt).HasColumnName("timed_at").IsRequired(false);
             builder.Property(x => x.DeativatedAt).HasColumnName("deactivated_at").IsRequired(false);
             builder.Property(x => x.DeactivatedTimedAt).HasColumnName("deactivates_timed_at").IsRequired(false);
             builder.HasOne(x => x.Tenant);
             builder.HasOne(x => x.Role);
-            builder.HasOne(x => x.TokenAccess);
+            builder.HasOne(x => x.AccessToken);
             builder.ToTable("User");
 
             //Global filter

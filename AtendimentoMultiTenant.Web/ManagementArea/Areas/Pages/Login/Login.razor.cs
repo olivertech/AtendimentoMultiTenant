@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.Login;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Login
 {
     public partial class LoginPage : PageBase
     {

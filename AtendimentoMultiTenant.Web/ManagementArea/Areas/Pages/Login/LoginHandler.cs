@@ -38,10 +38,10 @@
                 // Salva os valores retornados do login em session
                 List<Item> listItems = new()
                 {
-                    new Item { Key = "token", Data = returnValue.Content!.AccessToken!.Token! },
-                    new Item { Key = "name", Data = returnValue.Content!.Name },
-                    new Item { Key = "email", Data = returnValue.Content!.Email },
-                    new Item { Key = "secret", Data = returnValue.Content!.Secret },
+                    new Item { Key = "token", Data = returnValue.Result!.AccessToken!.Token! },
+                    new Item { Key = "name", Data = returnValue.Result!.Name },
+                    new Item { Key = "email", Data = returnValue.Result!.Email },
+                    new Item { Key = "secret", Data = returnValue.Result!.Secret },
                 };
 
                 await _storageService.SetListItem(listItems);

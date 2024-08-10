@@ -2,6 +2,7 @@
 {
     public interface ILogAccessRepository : IRepositoryConfigurationBase<LogAccess>
     {
+        Task<IEnumerable<LogAccess?>> GetAllFull();
     }
 }
 

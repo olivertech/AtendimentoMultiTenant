@@ -1,6 +1,6 @@
 ﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.ContainerDb
 {
-    public interface IContainerDbHandler
+    public interface IContainerDbHandler : IHandler<ContainerDbRequest, ContainerDbPagedRequest, ContainerDbResponse>
     {
     }
 }

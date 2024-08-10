@@ -4,6 +4,7 @@
         where TReq : IRequest
     {
         Task<IActionResult> GetAll();
+        Task<IActionResult> GetAllPaged(TReq request);
         Task<IActionResult> GetById(Guid id);
         Task<IActionResult> Insert([FromBody] TReq request);
         Task<IActionResult> Update(TReq request);

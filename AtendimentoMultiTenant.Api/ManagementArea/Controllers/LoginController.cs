@@ -56,7 +56,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                 var newToken = JwtAuth.GenerateToken(user, secret!, _configuration!);
                 var userToken = SetAccessToken(newToken.Token, newToken.ExpirationDate, user);
 
-                user.TokenAccessId = userToken.Result.Id;
+                user.AccessTokenId = userToken.Result.Id;
 
                 //Atualiza o token do usuário
                 await _unitOfWork.UserRepository.Update(user);
@@ -66,7 +66,8 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                 { 
                     UserId = user.Id,
                     CreatedAt = DateOnly.FromDateTime(DateTime.Now),
-                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"))
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")),
+                    IsActive = true,
                 });
 
                 var response = _mapper!.Map<LoginResponse>(user);
@@ -77,7 +78,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 
                 _unitOfWork.CommitAsync().Wait();
 
-                return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário logado com sucesso.", response));
+                return Ok(ResponseFactory<LoginResponse>.Success("Usuário logado com sucesso.", response));
             }
             catch (Exception ex)
             {
@@ -98,11 +99,11 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
             try
             {
                 var user = await _unitOfWork!.UserRepository.GetById(request.UserId);
-                await _unitOfWork.TokenAccessRepository.Delete(user!.TokenAccessId!, false);
+                await _unitOfWork.TokenAccessRepository.Delete(user!.AccessTokenId!, false);
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
-                return Ok(ResponseFactory<LoginResponse>.Success(true, "Usuário deslogado com sucesso.", response));
+                return Ok(ResponseFactory<LoginResponse>.Success("Usuário deslogado com sucesso.", response));
             }
             catch (Exception ex)
             {

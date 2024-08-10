@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Dependencies
+﻿using AtendimentoMultiTenant.Web.Helpers;
+
+namespace AtendimentoMultiTenant.Web.ManagementArea.Dependencies
 {
     public static class HandlerDependenciesInjection
     {
@@ -17,6 +19,9 @@
 
             //Services injections
             services.AddScoped<IStorageService, StorageService>();
+
+            //HttpClient helpers injections
+            //services.AddScoped<IHttpClientLogAccessHelper, HttpClientLogAccessHelper>();
 
             return services;
         }

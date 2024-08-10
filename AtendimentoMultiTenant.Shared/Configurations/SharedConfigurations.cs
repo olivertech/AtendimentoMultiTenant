@@ -18,7 +18,7 @@
         /// Pagination Parameter
         /// Obs: Esse parâmetro deve ser mantido como const
         /// </summary>
-        public const int PageSize = 25;
+        public const int PageSize = 10;
 
         /// <summary>
         /// Encryption Parameters

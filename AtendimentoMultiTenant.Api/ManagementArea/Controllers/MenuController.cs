@@ -31,70 +31,47 @@
                 if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
-                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error(false, "Usuário não autorizado!"));
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error("Usuário não autorizado!"));
                 }
 
                 var list = await _unitOfWork!.MenuRepository.GetAllFull();
 
                 var responseList = _mapper!.Map<IEnumerable<Menu>, IEnumerable<MenuResponse>>(list!);
 
-                return Ok(ResponseFactory<IEnumerable<MenuResponse>>.Success(true, "Lista recuperada com sucesso.", responseList));
+                return Ok(ResponseFactory<IEnumerable<MenuResponse>>.Success("Lista recuperada com sucesso.", responseList));
             }
             catch (Exception ex)
             {
                 _logger!.LogError(ex, "GetAll");
-                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<MenuResponse>.Error(false, string.Format("Erro ao listar menus - ", _nomeEntidade) + ex.Message));
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<MenuResponse>.Error(string.Format("Erro ao listar menus - ", _nomeEntidade) + ex.Message));
             }
         }
 
         [NonAction]
-        //[HttpGet]
-        //[Route("Get/{id:Guid}")]
-        //[Produces("application/json")]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        //[Authorize(Roles = "Administrador")]
+        public Task<IActionResult> GetAllPaged(MenuRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        [NonAction]
         public Task<IActionResult> GetById(Guid id)
         {
             throw new NotImplementedException();
         }
 
         [NonAction]
-        //[HttpPost]
-        //[Route(nameof(Insert))]
-        //[Consumes("application/json")]
-        //[Produces("application/json")]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        //[Authorize(Roles = "Administrador")]
         public Task<IActionResult> Insert([FromBody] MenuRequest request)
         {
             throw new NotImplementedException();
         }
 
         [NonAction]
-        //[HttpPut]
-        //[Route(nameof(Update))]
-        //[Consumes("application/json")]
-        //[Produces("application/json")]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status304NotModified, Type = typeof(MenuResponse))]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
-        //[Authorize(Roles = "Administrador")]
         public Task<IActionResult> Update(MenuRequest request)
         {
             throw new NotImplementedException();
         }
 
         [NonAction]
-        //[HttpDelete]
-        //[Route(nameof(Delete))]
-        //[Produces("application/json")]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
-        //[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
-        //[Authorize(Roles = "Administrador")]
         public Task<IActionResult> Delete(Guid id)
         {
             throw new NotImplementedException();

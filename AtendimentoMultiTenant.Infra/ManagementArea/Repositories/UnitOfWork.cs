@@ -4,7 +4,7 @@
     {
         private readonly ManagementAreaDbContext _context;
 
-        private IContainerDbRepository? _containerRepository;
+        private IContainerDbRepository? _containerDbRepository;
         private ITenantRepository? _tenantRepository;
         private IUserRepository? _userRepository;
         private IAccessTokenRepository? _tokenAccessRepository;
@@ -21,7 +21,7 @@
             _context = context;
         }
 
-        public IContainerDbRepository ContainerRepository => _containerRepository ??= new ContainerDbRepository(_context);
+        public IContainerDbRepository ContainerDbRepository => _containerDbRepository ??= new ContainerDbRepository(_context);
 
         public ITenantRepository TenantRepository => _tenantRepository ??= new TenantRepository(_context);
 

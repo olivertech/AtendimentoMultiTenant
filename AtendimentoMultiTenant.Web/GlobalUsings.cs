@@ -30,4 +30,6 @@ global using AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 global using AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.Dashboard;
 global using AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.Login;
 global using AtendimentoMultiTenant.Web.ManagementArea.Areas.Pages.LogAccess;
+global using AutoMapper;
+global using Newtonsoft.Json;
 global using MudBlazor;

@@ -1,10 +1,12 @@
 ﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Interfaces
 {
-    public interface IHandler<TReq, TResp>
+    public interface IHandler<TReq, TReqPaged, TResp>
         where TReq : IRequest
+        where TReqPaged : IRequest
         where TResp : IResponse
     {
-        Task<ResponsePagedFactory<IEnumerable<TResp>>> GetAll(TReq request);
+        Task<ResponseFactory<IEnumerable<TResp>>> GetAll();
+        Task<ResponsePagedFactory<IEnumerable<TResp>>> GetAll(TReqPaged request);
         Task<ResponseFactory<TResp>> GetById(Guid id);
         Task<ResponseFactory<IEnumerable<TResp>>> GetListByName(string name);
         Task<int> GetCount();

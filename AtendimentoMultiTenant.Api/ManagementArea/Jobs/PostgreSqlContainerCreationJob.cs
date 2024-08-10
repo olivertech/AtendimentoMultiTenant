@@ -59,7 +59,7 @@
 
                 //Recupera todos os registros que da tabela Container, que ainda não
                 //tenha sido processados e gerados os seus respectivos containers
-                IEnumerable<ContainerDb>? containers = await _unitOfWork.ContainerRepository.GetList(x => x.IsUp == false);
+                IEnumerable<ContainerDb>? containers = await _unitOfWork.ContainerDbRepository.GetList(x => x.IsUp == false);
 
                 string folderCliente = string.Empty;
 
@@ -133,7 +133,7 @@
                                 container!.IsUp = true;
                                 container.CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
 
-                                await _unitOfWork.ContainerRepository.Update(container);
+                                await _unitOfWork.ContainerDbRepository.Update(container);
                             }
                             catch (Exception ex)
                             {
