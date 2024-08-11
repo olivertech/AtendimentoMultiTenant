@@ -13,4 +13,5 @@ global using AtendimentoMultiTenant.Core.ManagementArea.Helpers;
 global using AtendimentoMultiTenant.Infra.ManagementArea.Repositories;
 global using AtendimentoMultiTenant.Core.ManagementArea.Entities.Base;
 global using AtendimentoMultiTenant.Core.ManagementArea.Interfaces.Base;
+global using Microsoft.EntityFrameworkCore.Design;
 global using System.Reflection;

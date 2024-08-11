@@ -1,46 +1,40 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Abstractions\**" />
-    <EmbeddedResource Remove="Abstractions\**" />
-    <None Remove="Abstractions\**" />
-  </ItemGroup>
+	<!--<PropertyGroup>
+		<TransformOnBuild>true</TransformOnBuild>
+	</PropertyGroup>-->
+	
+	<ItemGroup>
+		<Compile Remove="Abstractions\**" />
+		<EmbeddedResource Remove="Abstractions\**" />
+		<None Remove="Abstractions\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="ManagementArea\Entities\UserRoleOLD.cs" />
-    <Compile Remove="ManagementArea\Interfaces\IUserTypeRepository.cs" />
-    <Compile Remove="T4Templates\Core\InterfaceGenerator.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="ManagementArea\Entities\UserRoleOLD.cs" />
+		<Compile Remove="ManagementArea\Interfaces\IUserTypeRepository.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="T4Templates\Core\InterfaceGenerator.tt" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="TenantArea\Helpers\" />
+		<Folder Include="TenantArea\Interfaces\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="T4Templates\Core\" />
-    <Folder Include="T4Templates\Infra\" />
-    <Folder Include="T4Templates\Api\" />
-    <Folder Include="T4Templates\Shared\" />
-    <Folder Include="T4Templates\Web\" />
-    <Folder Include="TenantArea\Helpers\" />
-    <Folder Include="TenantArea\Interfaces\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
+	<ItemGroup>
+		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+	</ItemGroup>
 
 </Project>
