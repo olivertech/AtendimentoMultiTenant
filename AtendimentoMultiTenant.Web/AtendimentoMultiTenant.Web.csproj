@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="ManagementArea\Areas\Components\LeftMenu.razor" />
+    <Content Remove="ManagementArea\Components\LeftMenu.razor" />
     <Content Remove="ManagementArea\Layouts\MainLayoutOLD.razor" />
   </ItemGroup>
 
@@ -46,7 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ManagementArea\Layouts\" />
     <Folder Include="TenantArea\Handlers\" />
     <Folder Include="TenantArea\Interfaces\" />
     <Folder Include="TenantArea\Layouts\" />
@@ -54,15 +53,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <UpToDateCheckInput Remove="ManagementArea\Areas\Components\LeftMenu.razor" />
+    <UpToDateCheckInput Remove="ManagementArea\Components\LeftMenu.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <_ContentIncludedByDefault Remove="ManagementArea\Areas\Components\LeftMenu.razor" />
+    <_ContentIncludedByDefault Remove="ManagementArea\Components\LeftMenu.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="ManagementArea\Areas\Components\LeftMenu\LeftMenu.razor" />
+    <None Include="ManagementArea\Components\LeftMenu\LeftMenu.razor" />
   </ItemGroup>
 
 </Project>

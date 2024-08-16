@@ -1,21 +1,23 @@
-﻿<#@ template language="C#" #>
-<#@ assembly name="System.Core" #>
-<#@ assembly name="C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.7\System.Collections.dll" #>
-<#@ assembly name="C:\Program Files\dotnet\shared\Microsoft.NETCore.App\8.0.7\System.RunTime.dll" #>
-<#@ assembly name="C:\Users\macla\.nuget\packages\microsoft.entityframeworkcore\8.0.7\lib\net8.0\Microsoft.EntityFrameworkCore.dll" #>
+﻿<#@ template hostspecific="true" language="C#" #>
+<#@ output extension=".txt" #>
+<#@ assembly name="EnvDTE" #>
 <#@ assembly name="$(SolutionDir)AtendimentoMultiTenant.Infra\bin\Debug\net8.0\AtendimentoMultiTenant.Infra.dll" #>
-<#@ assembly name="$(SolutionDir)AtendimentoMultiTenant.T4\bin\Debug\net8.0\AtendimentoMultiTenant.T4.dll" #>
-<#@ import namespace="System" #>
-<#@ import namespace="System.Linq" #>
-<#@ import namespace="Microsoft.EntityFrameworkCore" #>
-<#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="AtendimentoMultiTenant.Infra" #>
-<#@ import namespace="AtendimentoMultiTenant.T4" #>
-
-<#@ output extension=".cs" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="AtendimentoMultiTenant.Infra.ManagementArea.Context" #>
 
 <#
-    var factory = new DbContextFactory();
-    var dbContext = factory.CreateDbContext(null);
-    var entities = dbContext.Model.GetEntityTypes().ToList();
+  IServiceProvider serviceProvider = (IServiceProvider)this.Host;
+  EnvDTE.DTE dte = (EnvDTE.DTE) serviceProvider.GetCOMService(typeof(EnvDTE.DTE));
+
+
 #>
+
+Number of projects in this VS solution:  <#= dte.Solution.Projects.Count #>
+
+<#   
+
+foreach(var project in dte.Solution.Projects) { #>
+	
+	<#= project #>
+
+<# } #>

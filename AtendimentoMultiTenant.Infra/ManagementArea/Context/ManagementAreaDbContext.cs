@@ -7,10 +7,6 @@
         {
         }
 
-        //===========
-        // Entidades
-        //===========
-
         public DbSet<AccessToken> AccessTokens { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<ContainerDb> Containers { get; set; }

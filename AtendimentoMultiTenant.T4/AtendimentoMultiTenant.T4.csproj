@@ -7,8 +7,50 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Microsoft.CSharp.dll" />
+    <None Remove="Microsoft.EntityFrameworkCore.dll" />
+    <None Remove="netstandard.dll" />
+    <None Remove="System.Collections.dll" />
+    <None Remove="System.Core.dll" />
+    <None Remove="System.dll" />
+    <None Remove="System.Linq.dll" />
+    <None Remove="System.Private.CoreLib.dll" />
+    <None Remove="System.Runtime.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="Microsoft.EntityFrameworkCore.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="InterfaceGenerator.txt">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InterfaceGenerator.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="InterfaceGenerator.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>InterfaceGenerator.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Core" Version="8.0.3" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.3" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.4" />
+    <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,22 +60,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="InterfaceGenerator.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>InterfaceGenerator.cs</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
     <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="InterfaceGenerator.cs">
+    <None Update="InterfaceGenerator.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>InterfaceGenerator.txt</LastGenOutput>
+    </None>
+    <None Update="InterfaceGenerator.txt">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>InterfaceGenerator.tt</DependentUpon>
-    </Compile>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,77 @@
+﻿@page "/login"
+@inherits LoginPage
+
+@inject Blazored.SessionStorage.ISyncSessionStorageService sessionStorage
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="mt-10">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
+        <Morris.Blazor.Validation.Validate/>
+        <MudCard Class="pa-5" Elevation="4">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Login</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudTextField @bind-Value="InputModel.Email"
+                              ShrinkLabel
+                              Class="custom-textfield-background-color"
+                              Label="Email"
+                              HelperText="Campo obrigatório"
+                              Variant="Variant.Outlined"
+                              For="@(() => InputModel.Email)" />
+                <MudTextField @bind-Value="InputModel.Password"
+                              ShrinkLabel
+                              Class="mt-5 custom-textfield-background-color"
+                              Label="Senha"
+                              HelperText="Campo obrigatório"
+                              Variant="Variant.Outlined"
+                              InputType="@PasswordInput"
+                              Adornment="Adornment.End"
+                              AdornmentIcon="@PasswordInputIcon"
+                              OnAdornmentClick="ShowHidePassword"
+                              AdornmentAriaLabel="Mostrar Senha"
+                              For="@(() => InputModel.Password)" />
+            </MudCardContent>
+            <MudCardActions Class="d-flex justify-end">
+                @if (IsBusy)
+                {
+                    <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+                }
+                else
+                {
+                    <MudButton ButtonType="ButtonType.Submit"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary">
+                        Acessar
+                    </MudButton>
+                }
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+</MudContainer>
+
+@code {
+    public double? Amount { get; set; }
+    public int? Weight { get; set; }
+
+    bool isShow;
+    InputType PasswordInput = InputType.Password;
+    string PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void ShowHidePassword()
+    {
+        @if (isShow)
+        {
+            isShow = false;
+            PasswordInputIcon = Icons.Material.Filled.VisibilityOff;
+            PasswordInput = InputType.Password;
+        }
+        else
+        {
+            isShow = true;
+            PasswordInputIcon = Icons.Material.Filled.Visibility;
+            PasswordInput = InputType.Text;
+        }
+    }
+}

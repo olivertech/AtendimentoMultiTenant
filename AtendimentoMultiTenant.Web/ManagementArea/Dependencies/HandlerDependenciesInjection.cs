@@ -1,4 +1,5 @@
 ﻿using AtendimentoMultiTenant.Web.Helpers;
+using AtendimentoMultiTenant.Web.ManagementArea.Components.LeftMenu;
 
 namespace AtendimentoMultiTenant.Web.ManagementArea.Dependencies
 {

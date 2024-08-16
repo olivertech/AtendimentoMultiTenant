@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="T4Templates\**" />
-    <EmbeddedResource Remove="T4Templates\**" />
-    <None Remove="T4Templates\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Remove="ManagementArea\EntityConfigurations\UserRoleOLDConfiguration.cs" />
     <Compile Remove="ManagementArea\EntityConfigurations\UserTypeConfiguration.cs" />
     <Compile Remove="ManagementArea\Repositories\UserTypeRepository.cs" />

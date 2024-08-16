@@ -8,11 +8,11 @@
         Login,
         [Description("/configdashboard")]
         Dashboard,
-        [Description("/ticketlist")]
-        TicketList,
-        [Description("/userlist")]
-        UserList,
-        [Description("/containerlist")]
-        ContainerList,
+        [Description("/containers")]
+        Containers,
+        [Description("/containerdetail")]
+        ContainerDetail,
+        [Description("/logs")]
+        Logs
     }
 }
