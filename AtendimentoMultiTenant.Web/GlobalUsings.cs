@@ -21,7 +21,7 @@ global using AtendimentoMultiTenant.Shared.CommonArea.Enumerators;
 global using AtendimentoMultiTenant.Shared.CommonArea.Extensions;
 global using AtendimentoMultiTenant.Web.CommonArea.Interfaces;
 global using AtendimentoMultiTenant.Web.CommonArea.Services;
-global using AtendimentoMultiTenant.Web.ManagementArea.ContainerDb;
+global using AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List;
 global using AtendimentoMultiTenant.Web.ManagementArea.Login;
 global using AtendimentoMultiTenant.Web.ManagementArea.Dashboard;
 global using AtendimentoMultiTenant.Web.ManagementArea.Layouts.ConfigDashboardMainLayout;
@@ -30,6 +30,9 @@ global using AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 global using AtendimentoMultiTenant.Web.ManagementArea.Pages.Dashboard;
 global using AtendimentoMultiTenant.Web.ManagementArea.Pages.Login;
 global using AtendimentoMultiTenant.Web.ManagementArea.Pages.LogAccess;
+global using AtendimentoMultiTenant.Web.ManagementArea.Components.LeftMenu;
+global using AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.Detail;
+global using FluentValidation;
 global using AutoMapper;
 global using Newtonsoft.Json;
 global using MudBlazor;

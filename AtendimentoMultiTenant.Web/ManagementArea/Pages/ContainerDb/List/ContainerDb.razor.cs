@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.ContainerDb
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
 {
     public partial class ContainerDbPage : PageBase
     {
@@ -32,14 +32,14 @@
                 if (result.IsSuccess)
                 {
                     List = result.Result!.ToList();
-                    Snackbar.Add(result.Message, Severity.Success);
+                    Snackbar.Add(result.Message, MudBlazor.Severity.Success);
                 }
                 else
-                    Snackbar.Add(result.Message, Severity.Warning);
+                    Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
             }
             catch (Exception)
             {
-                Snackbar.Add(result.Message, Severity.Error);
+                Snackbar.Add(result.Message, MudBlazor.Severity.Error);
             }
             finally
             {
@@ -48,28 +48,18 @@
             }
         }
 
-        public async Task GetDetails(Guid id)
+        public void ShowDetails(Guid id)
         {
-            ResponseFactory<ContainerDbResponse> result = null!;
-
             try
             {
                 IsBusy = true;
 
-                var guid = id;
-                result = await Handler.GetById(id);
-
-                if (result.IsSuccess)
-                {
-                    NavigationManager.NavigateTo(RoutesEnumerator.ContainerDetail.GetDescription());
-                }
-                else
-                    Snackbar.Add(result.Message, Severity.Warning);
-
+                var uri = $"{RoutesEnumerator.ContainerDetail.GetDescription()}/{id}";
+                NavigationManager.NavigateTo(uri);
             }
             catch (Exception)
             {
-                Snackbar.Add(result.Message, Severity.Error);
+                Snackbar.Add("Não foi possível recuperar os detalhes do container.", MudBlazor.Severity.Error);
             }
             finally
             {

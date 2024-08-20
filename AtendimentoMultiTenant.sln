@@ -25,7 +25,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.Shar
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6-AtendimentoMultiTenant.CodeGenerator", "6-AtendimentoMultiTenant.CodeGenerator", "{A25B2EE0-949D-4607-A48D-02B931153F39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtendimentoMultiTenant.CodeGenerator", "AtendimentoMultiTenant.CodeGenerator\AtendimentoMultiTenant.CodeGenerator.csproj", "{C72153B0-D0B3-4BF5-BB8F-797494CB2DE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AtendimentoMultiTenant.CodeGenerator", "AtendimentoMultiTenant.CodeGenerator\AtendimentoMultiTenant.CodeGenerator.csproj", "{C72153B0-D0B3-4BF5-BB8F-797494CB2DE5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,7 +1,4 @@
-﻿using AtendimentoMultiTenant.Web.Helpers;
-using AtendimentoMultiTenant.Web.ManagementArea.Components.LeftMenu;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Dependencies
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Dependencies
 {
     public static class HandlerDependenciesInjection
     {
@@ -17,6 +14,7 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Dependencies
             services.AddScoped<IConfigDashboardHandler, ConfigDashboardHandler>();
             services.AddScoped<ILeftMenuHandler, LeftMenuHandler>();
             services.AddScoped<ILogAccessHandler, LogAccessHandler>();
+            services.AddScoped<IContainerDbDetailHandler, ContainerDbDetailHandler>();
 
             //Services injections
             services.AddScoped<IStorageService, StorageService>();

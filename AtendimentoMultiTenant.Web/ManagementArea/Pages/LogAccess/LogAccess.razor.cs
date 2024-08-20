@@ -27,27 +27,19 @@
 
             try
             {
-                //LogAccessPagedRequest request = new LogAccessPagedRequest
-                //{
-                //    PageSize = SharedConfigurations.PageSize,
-                //    PageNumber = pageNumber,
-                //};
-
-                //var result = await Handler.GetAll(request);
-
                 result = await Handler.GetAll();
 
                 if (result.IsSuccess)
                 {
                     List = result.Result!.ToList();
-                    Snackbar.Add(result.Message, Severity.Success);
+                    Snackbar.Add(result.Message, MudBlazor.Severity.Success);
                 }
                 else
-                    Snackbar.Add(result.Message, Severity.Warning);
+                    Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
             }
             catch (Exception)
             {
-                Snackbar.Add(result.Message, Severity.Error);
+                Snackbar.Add(result.Message, MudBlazor.Severity.Error);
             }
             finally
             {

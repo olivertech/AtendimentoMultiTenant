@@ -29,18 +29,18 @@
                 {
                     if (result.IsSuccess)
                     {
-                        Snackbar.Add(result.Message, Severity.Success);
+                        Snackbar.Add(result.Message, MudBlazor.Severity.Success);
                         NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription());
                     }
                     else
-                        Snackbar.Add(result.Message, Severity.Warning);
+                        Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
                 }
                 else
-                    Snackbar.Add("Não foi possível realizar o login.", Severity.Error);
+                    Snackbar.Add("Não foi possível realizar o login.", MudBlazor.Severity.Error);
             }
             catch (Exception ex)
             {
-                Snackbar.Add(ex.Message, Severity.Error);
+                Snackbar.Add(ex.Message, MudBlazor.Severity.Error);
             }
             finally
             {

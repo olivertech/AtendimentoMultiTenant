@@ -87,7 +87,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
         }
 
         [HttpGet]
-        [Route("Get/{id:Guid}")]
+        [Route("GetById/{id:Guid}")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]

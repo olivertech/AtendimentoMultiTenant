@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Web.ManagementArea.Components.LeftMenu;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 {
     public partial class LeftMenuPage : PageBase
     {
@@ -29,7 +27,7 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
             }
             catch (Exception)
             {
-                Snackbar.Add("Não foi possível recuperar os itens do menu lateral.", Severity.Error);
+                Snackbar.Add("Não foi possível recuperar os itens do menu lateral.", MudBlazor.Severity.Error);
             }
             finally
             {

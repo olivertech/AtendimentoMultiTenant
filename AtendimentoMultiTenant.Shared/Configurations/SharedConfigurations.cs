@@ -5,8 +5,8 @@
         /// <summary>
         /// Jwt Parameters
         /// </summary>
-        public static readonly string JwtAudiencie = "https://localhost:7282";
-        public static readonly string JwtIssuer = "https://localhost:7168";
+        public static readonly string JwtAudiencie = "https://localhost:5300";
+        public static readonly string JwtIssuer = "https://localhost:7300";
         public static readonly string SecretKey = "fj439ByzZ79KW9RwgRAajipvRuur4b7X";
 
         /// <summary>
@@ -29,8 +29,8 @@
         /// <summary>
         /// Cors Parameters
         /// </summary>
-        public static readonly string FrontEndUrl = "https://localhost:7282";
-        public static readonly string BackEndUrl = "https://localhost:7168";
+        public static readonly string FrontEndUrl = "https://localhost:5300";
+        public static readonly string BackEndUrl = "https://localhost:7300";
 
         /// <summary>
         /// Chave secreta gravada na tabela Tenant, usada apenas 
