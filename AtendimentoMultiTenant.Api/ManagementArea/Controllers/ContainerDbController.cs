@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
-
-namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
+﻿namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 {
     [Route("api/ContainerDb")]
     [SwaggerTag("ContainerDb")]

@@ -1,13 +1,15 @@
 ﻿@page "/containers"
+@using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
 @layout ConfigDashboardMainLayout
 @inherits ContainerDbPage
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
     <MudGrid>
-        @if (IsBusy)
-        {
-            <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
-        }
+        <MudOverlay @bind-Visible="IsBusy" DarkBackground Absolute="false">
+            <ChildContent>
+                <Loading IsLoading="IsBusy" />
+            </ChildContent>
+        </MudOverlay>
         <MudItem xs="12" sm="12" md="12" lg="12">
             <MudPaper Class="pa-5">
                 <MudTable T="ContainerDbResponse"
@@ -29,7 +31,7 @@
                                       Variant="Variant.Text"
                                       Adornment="Adornment.Start"
                                       AdornmentIcon="@Icons.Material.Filled.Search"
-                                      IconSize="Size.Medium" 
+                                      IconSize="Size.Medium"
                                       Immediate="true"
                                       Class="mt-0"></MudTextField>
                     </ToolBarContent>

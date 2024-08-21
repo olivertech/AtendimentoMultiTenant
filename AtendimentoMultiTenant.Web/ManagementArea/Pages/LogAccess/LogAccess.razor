@@ -1,9 +1,15 @@
 ﻿@page "/logs"
+@using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
 @layout ConfigDashboardMainLayout
 @inherits LogAccessPage
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
     <MudGrid>
+        <MudOverlay @bind-Visible="IsBusy" DarkBackground Absolute="false">
+            <ChildContent>
+                <Loading IsLoading="IsBusy" />
+            </ChildContent>
+        </MudOverlay>
         <MudItem xs="12" sm="12" md="12" lg="12">
             <MudPaper Class="pa-5">
                 <MudTable T="LogAccessResponse"
@@ -65,7 +71,7 @@
     private string searchContentFieldValue = "";
 
     #endregion
-  
+
     #region Page Methods
 
     protected override async Task OnInitializedAsync()

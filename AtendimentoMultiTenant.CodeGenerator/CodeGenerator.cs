@@ -4,7 +4,7 @@ using System.Text;
 namespace AtendimentoMultiTenant.CodeGenerator
 {
     public class CodeGenerators
-    {        
+    {
         private readonly string projectPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
 
         #region 1 - Web
@@ -20,12 +20,137 @@ namespace AtendimentoMultiTenant.CodeGenerator
 
         public void GenerateRazorHandlers(IEnumerable<IEntityType>? entityTypes, string[] ignoreList)
         {
+            if (!Directory.Exists($"{projectPath}\\Handlers"))
+                Directory.CreateDirectory($"{projectPath}\\Handlers");
 
+            foreach (var entity in entityTypes!)
+            {
+                var entityName = entity.ClrType.Name;
+
+                if (!ignoreList.Contains(entityName))
+                {
+                    var handlerName = $"{entityName}Handler";
+
+                    var sb = new StringBuilder();
+
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Requests;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Responses;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Web.ManagementArea.Interfaces;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Web.ManagementArea.Handlers.Base;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Web.CommonArea.Interfaces;");
+                    sb.AppendLine("using Newtonsoft.Json;");
+                    sb.AppendLine("using System.Net.Http.Headers;");
+                    sb.AppendLine();
+                    sb.AppendLine($"namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.{entityName}.List");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"\tpublic class {entityName}Handler : HandlerBase, IHandler<{entityName}Request, {entityName}PagedRequest, {entityName}Response>, I{entityName}Handler");
+                    sb.AppendLine("\t{");
+                    sb.AppendLine($"\t\tpublic {entityName}Handler(IHttpClientFactory httpClientFactory, IStorageService storageService)");
+                    sb.AppendLine("\t\t\t: base(httpClientFactory, storageService)");
+                    sb.AppendLine("\t\t{}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic async Task<ResponseFactory<IEnumerable<{entityName}Response>>> GetAll()");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine($"\t\t\tResponseFactory<IEnumerable<{entityName}Response>?>? result = new()!;");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t\ttry");
+                    sb.AppendLine("\t\t\t{");
+                    sb.AppendLine($"\t\t\t\tvar requestMessage = new HttpRequestMessage(HttpMethod.Get, \"Api/{entityName}/GetAll\");");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t\t\trequestMessage.Headers.Authorization = new AuthenticationHeaderValue(\"Bearer\", await GetToken());");
+                    sb.AppendLine("\t\t\t\trequestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue(\"application/json\"));");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t\t\tvar response = await _httpClient.SendAsync(requestMessage);");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t\t\tif (response.IsSuccessStatusCode)");
+                    sb.AppendLine("\t\t\t\t{");
+                    sb.AppendLine($"\t\t\t\t\tresult = JsonConvert.DeserializeObject<ResponseFactory<IEnumerable<{entityName}Response>?>?>(response.Content.ReadAsStringAsync().Result);");
+                    sb.AppendLine("\t\t\t\t}");
+                    sb.AppendLine("\t\t\t}");
+                    sb.AppendLine("\t\t\tcatch (Exception)");
+                    sb.AppendLine("\t\t\t{");
+                    sb.AppendLine("\t\t\t\treturn new();");
+                    sb.AppendLine("\t\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t\treturn result!;");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic Task<ResponsePagedFactory<IEnumerable<{entityName}Response>>> GetAll({entityName}PagedRequest request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic Task<ResponseFactory<{entityName}Response>> GetById(Guid id)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\tpublic Task<int> GetCount()");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic Task<ResponseFactory<IEnumerable<{entityName}Response>>> GetListByName(string name)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic Task<ResponseFactory<{entityName}Response>> Insert({entityName}Request request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic Task<ResponseFactory<{entityName}Response>> Update({entityName}Request request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic Task<ResponseFactory<{entityName}Response>> Delete(Guid id)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine("\t}");
+                    sb.AppendLine("}");
+
+                    if (File.Exists($"{projectPath}\\Handlers\\{handlerName}.cs"))
+                        File.Delete($"{projectPath}\\Handlers\\{handlerName}.cs");
+
+                    File.WriteAllText($"{projectPath}\\Handlers\\{handlerName}.cs", sb.ToString());
+                }
+            }
         }
 
         public void GenerateRazorHandlerInterfaces(IEnumerable<IEntityType>? entityTypes, string[] ignoreList)
         {
+            if (!Directory.Exists($"{projectPath}\\HandlerInterfaces"))
+                Directory.CreateDirectory($"{projectPath}\\HandlerInterfaces");
 
+            foreach (var entity in entityTypes!)
+            {
+                var entityName = entity.ClrType.Name;
+
+                if (!ignoreList.Contains(entityName))
+                {
+                    var interfaceName = $"I{entityName}Handler";
+
+                    var sb = new StringBuilder();
+
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Requests;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Responses;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Web.ManagementArea.Interfaces;");
+                    sb.AppendLine();
+                    sb.AppendLine($"namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.{entityName}.List");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"\tpublic interface I{entityName}Handler : IHandler<{entityName}Request, {entityName}PagedRequest, {entityName}Response>");
+                    sb.AppendLine("\t{}");
+                    sb.AppendLine("}");
+
+                    if (File.Exists($"{projectPath}\\HandlerInterfaces\\{interfaceName}.cs"))
+                        File.Delete($"{projectPath}\\HandlerInterfaces\\{interfaceName}.cs");
+
+                    File.WriteAllText($"{projectPath}\\HandlerInterfaces\\{interfaceName}.cs", sb.ToString());
+                }
+            }
         }
 
         #endregion
@@ -33,7 +158,137 @@ namespace AtendimentoMultiTenant.CodeGenerator
         #region 2 - Api
         public void GenerateControllers(IEnumerable<IEntityType>? entityTypes, string[] ignoreList)
         {
+            if (!Directory.Exists($"{projectPath}\\Controllers"))
+                Directory.CreateDirectory($"{projectPath}\\Controllers");
 
+            foreach (var entity in entityTypes!)
+            {
+                var entityName = entity.ClrType.Name;
+
+                if (!ignoreList.Contains(entityName))
+                {
+                    var controllerName = $"{entityName}Controller";
+
+                    var sb = new StringBuilder();
+
+                    sb.AppendLine("using AtendimentoMultiTenant.Core.ManagementArea.Entities;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Api.ManagementArea.Interfaces;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Core.ManagementArea.Interfaces;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Requests;");
+                    sb.AppendLine("using AutoMapper;");
+                    sb.AppendLine("using Microsoft.AspNetCore.Mvc;");
+                    sb.AppendLine("using Microsoft.Extensions.Configuration;");
+                    sb.AppendLine("using Microsoft.Extensions.Logging;");
+                    sb.AppendLine("using Swashbuckle.AspNetCore.Annotations;");
+                    sb.AppendLine("using Microsoft.AspNetCore.Http;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Responses;");
+                    sb.AppendLine("using Microsoft.AspNetCore.Authorization;");
+                    sb.AppendLine();
+                    sb.AppendLine("namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"\t[Route(\"api/{entityName}\")]");
+                    sb.AppendLine($"\t[SwaggerTag(\"{entityName}\")]");
+                    sb.AppendLine("\t[ApiController]");
+                    sb.AppendLine($"\tpublic class {controllerName} : Base.ControllerBase, IControllerFull<{entityName}Request, {entityName}PagedRequest>");
+                    sb.AppendLine("\t{");
+                    sb.AppendLine($"\t\tprivate readonly ILogger<{entityName}Controller>? _logger;");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic {controllerName}(IUnitOfWork unitOfWork,");
+                    sb.AppendLine("\t\t\t\t\tIMapper? mapper,");
+                    sb.AppendLine("\t\t\t\t\tIConfiguration configuration,");
+                    sb.AppendLine($"\t\t\t\t\tILogger<{entityName}Controller>? logger)");
+                    sb.AppendLine($"\t\t\t: base(unitOfWork, mapper, configuration)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine($"\t\t\t_nomeEntidade = \"{entityName}\";");
+                    sb.AppendLine($"\t\t\t_logger = logger;");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[HttpGet]");
+                    sb.AppendLine("\t\t[Route(nameof(GetAll))]");
+                    sb.AppendLine("\t\t[Produces(\"application/json\")]");
+                    sb.AppendLine($"\t\t[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof({entityName}Response))]");
+                    sb.AppendLine($"\t\t[ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof({entityName}Response))]");
+                    sb.AppendLine($"\t\t[ProducesResponseType(typeof(int), StatusCodes.Status401Unauthorized, Type = typeof({entityName}Response))]");
+                    sb.AppendLine("\t\t[Authorize(Roles = \"Administrador\")]");
+                    sb.AppendLine("\t\tpublic async Task<IActionResult> GetAll()");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\ttry");
+                    sb.AppendLine("\t\t\t{");
+                    sb.AppendLine("\t\t\t\tif (!IsUserClaimsValid())");
+                    sb.AppendLine("\t\t\t\t{");
+                    sb.AppendLine("\t\t\t\t\t_logger!.LogWarning(\"Usuário não autorizado!\");");
+                    sb.AppendLine($"\t\t\t\t\treturn StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<{entityName}Response>.Error(\"Usuário não autorizado!\"));");
+                    sb.AppendLine("\t\t\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\t\t\tvar list = await _unitOfWork!.{entityName}Repository.GetAll();");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\t\t\tvar responseList = _mapper!.Map<IEnumerable<{entityName}>, IEnumerable<{entityName}Response>>(list!);");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\t\t\treturn Ok(ResponseFactory<IEnumerable<{entityName}Response>>.Success(\"Lista de \" + _nomeEntidade + \" recuperada com sucesso.\", responseList));");
+                    sb.AppendLine("\t\t\t}");
+                    sb.AppendLine("\t\t\tcatch (Exception ex)");
+                    sb.AppendLine("\t\t\t{");
+                    sb.AppendLine("\t\t\t\t_logger!.LogError(ex, \"GetAll\");");
+                    sb.AppendLine($"\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(\"Erro ao recuperar lista \" + _nomeEntidade + \" - \" + ex.Message));");
+                    sb.AppendLine("\t\t\t}");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine($"\t\tpublic Task<IActionResult> GetAllPaged({entityName}Request request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine("\t\tpublic Task<IActionResult> GetById(Guid id)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine($"\t\tpublic Task<IActionResult> Insert([FromBody] {entityName}Request request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine($"\t\tpublic Task<IActionResult> Update({entityName}Request request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine("\t\tpublic Task<IActionResult> Delete(Guid id)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine($"\t\tpublic Task<IActionResult> GetAll([FromBody] {entityName}PagedRequest request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine("\t\tpublic Task<IActionResult> GetListByName(string name)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine("\t\t[NonAction]");
+                    sb.AppendLine("\t\tpublic Task<IActionResult> GetCount()");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine("\t}");
+                    sb.AppendLine("}");
+
+                    if (File.Exists($"{projectPath}\\Controllers\\{controllerName}.cs"))
+                        File.Delete($"{projectPath}\\Controllers\\{controllerName}.cs");
+
+                    File.WriteAllText($"{projectPath}\\Controllers\\{controllerName}.cs", sb.ToString());
+                }
+            }
         }
 
         #endregion
@@ -120,17 +375,125 @@ namespace AtendimentoMultiTenant.CodeGenerator
         #region 5 - Shared
         public void GenerateRequests(IEnumerable<IEntityType>? entityTypes, string[] ignoreList)
         {
+            if (!Directory.Exists($"{projectPath}\\Requests"))
+                Directory.CreateDirectory($"{projectPath}\\Requests");
 
+            foreach (var entity in entityTypes!)
+            {
+                var entityName = entity.ClrType.Name;
+
+                if (!ignoreList.Contains(entityName))
+                {
+                    var requestName = $"{entityName}Request";
+                    var sb = new StringBuilder();
+                    var properties = entity.GetProperties().OrderBy(x => x.Name);
+
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Requests.Base;");
+                    sb.AppendLine("using Newtonsoft.Json;");
+                    sb.AppendLine("using System.Text.Json.Serialization;");
+                    sb.AppendLine();
+                    sb.AppendLine("namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"\tpublic class {requestName} : RequestBase, IRequest");
+                    sb.AppendLine("\t{");
+
+                    foreach (var property in properties)
+                    {
+                        if (property.Name != "Id")
+                        {
+                            var type = property.ClrType.Name.Contains("Nullable") ? property.ClrType.GenericTypeArguments[0].Name : property.ClrType.Name;
+
+                            sb.AppendLine($"\t\t[JsonPropertyName(\"{property.Name.ToLower()}\")]");
+                            sb.AppendLine($"\t\t[JsonProperty(PropertyName = \"{property.Name.ToLower()}\")]");
+                            sb.AppendLine($"\t\tpublic {type}? {property.Name} {{ get; set; }}");
+                            sb.AppendLine();
+                        }
+                    }
+
+                    sb.AppendLine("\t}");
+                    sb.AppendLine("}");
+
+                    if (File.Exists($"{projectPath}\\Requests\\{requestName}.cs"))
+                        File.Delete($"{projectPath}\\Requests\\{requestName}.cs");
+
+                    File.WriteAllText($"{projectPath}\\Requests\\{requestName}.cs", sb.ToString());
+                }
+            }
         }
 
         public void GeneratePagedRequests(IEnumerable<IEntityType>? entityTypes, string[] ignoreList)
         {
+            if (!Directory.Exists($"{projectPath}\\PagedRequests"))
+                Directory.CreateDirectory($"{projectPath}\\PagedRequests");
 
+            foreach (var entity in entityTypes!)
+            {
+                var entityName = entity.ClrType.Name;
+
+                if (!ignoreList.Contains(entityName))
+                {
+                    var requestPagedName = $"{entityName}PagedRequest";
+                    var sb = new StringBuilder();
+
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Requests.Base;");
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;");
+                    sb.AppendLine();
+                    sb.AppendLine("namespace AtendimentoMultiTenant.Shared.ManagementArea.Requests");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"\tpublic class {requestPagedName} : PagedRequestBase, IRequest");
+                    sb.AppendLine("\t{}");
+                    sb.AppendLine("}");
+
+                    if (File.Exists($"{projectPath}\\PagedRequests\\{requestPagedName}.cs"))
+                        File.Delete($"{projectPath}\\PagedRequests\\{requestPagedName}.cs");
+
+                    File.WriteAllText($"{projectPath}\\PagedRequests\\{requestPagedName}.cs", sb.ToString());
+                }
+            }
         }
 
         public void GenerateResponses(IEnumerable<IEntityType>? entityTypes, string[] ignoreList)
         {
+            if (!Directory.Exists($"{projectPath}\\Responses"))
+                Directory.CreateDirectory($"{projectPath}\\Responses");
 
+            foreach (var entity in entityTypes!)
+            {
+                var entityName = entity.ClrType.Name;
+
+                if (!ignoreList.Contains(entityName))
+                {
+                    var responseName = $"{entityName}Response";
+                    var sb = new StringBuilder();
+                    var properties = entity.GetProperties().OrderBy(x => x.Name);
+
+                    sb.AppendLine("using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;");
+                    sb.AppendLine("using Newtonsoft.Json;");
+                    sb.AppendLine();
+                    sb.AppendLine("namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses");
+                    sb.AppendLine("{");
+                    sb.AppendLine($"\tpublic class {responseName} : IResponse");
+                    sb.AppendLine("\t{");
+
+                    foreach (var property in properties)
+                    {
+                        var type = property.ClrType.Name.Contains("Nullable") ? property.ClrType.GenericTypeArguments[0].Name : property.ClrType.Name;
+
+                        sb.AppendLine($"\t\t[JsonProperty(PropertyName = \"{property.Name.ToLower()}\")]");
+                        sb.AppendLine($"\t\tpublic {type}? {property.Name} {{ get; set; }}");
+                        sb.AppendLine();
+                    }
+
+                    sb.AppendLine("\t}");
+                    sb.AppendLine("}");
+
+                    if (File.Exists($"{projectPath}\\Responses\\{responseName}.cs"))
+                        File.Delete($"{projectPath}\\Responses\\{responseName}.cs");
+
+                    File.WriteAllText($"{projectPath}\\Responses\\{responseName}.cs", sb.ToString());
+                }
+            }
         }
 
         #endregion

@@ -99,7 +99,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
             try
             {
                 var user = await _unitOfWork!.UserRepository.GetById(request.UserId);
-                await _unitOfWork.TokenAccessRepository.Delete(user!.AccessTokenId!, false);
+                await _unitOfWork.AccessTokenRepository.Delete(user!.AccessTokenId!, false);
 
                 var response = _mapper!.Map<LoginResponse>(user);
 
@@ -128,11 +128,11 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                 };
 
                 //Recupera o Token associado ao usuário
-                var result = _unitOfWork!.TokenAccessRepository.GetToken(user).Result;
+                var result = _unitOfWork!.AccessTokenRepository.GetToken(user).Result;
 
                 if (result == null)
                     //Se não existir registro de token associado ao usuário, insere
-                    accessToken = await _unitOfWork.TokenAccessRepository.Insert(newUserToken);
+                    accessToken = await _unitOfWork.AccessTokenRepository.Insert(newUserToken);
                 else
                 {
                     result.Token = token;
@@ -142,7 +142,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                     result.IsActive = true;
 
                     //Se existir registro de token associado ao usuário, atualiza
-                    await _unitOfWork.TokenAccessRepository.Update(result);
+                    await _unitOfWork.AccessTokenRepository.Update(result);
                     accessToken = result;
                 }
             }

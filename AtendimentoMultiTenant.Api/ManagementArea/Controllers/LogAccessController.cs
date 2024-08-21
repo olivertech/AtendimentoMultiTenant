@@ -7,12 +7,12 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
     [ApiController]
     public class LogAccessController : Base.ControllerBase, IControllerFull<LogAccessRequest, LogAccessPagedRequest>
     {
-        private readonly ILogger<ContainerDbController>? _logger;
+        private readonly ILogger<LogAccessController>? _logger;
 
         public LogAccessController(IUnitOfWork unitOfWork,
                                    IMapper? mapper,
                                    IConfiguration configuration,
-                                   ILogger<ContainerDbController>? logger)
+                                   ILogger<LogAccessController>? logger)
             : base(unitOfWork, mapper, configuration)
         {
             _nomeEntidade = "Logs de Acesso";

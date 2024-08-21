@@ -19,11 +19,28 @@ namespace AtendimentoMultiTenant.CodeGenerator
             Console.WriteLine();
             
             Console.WriteLine("1 - Generando Interfaces dos Respositórios...");
-            codeGenerators.GenerateRepositoryInterfaces(_entityTypes, ignoreList);
+            //codeGenerators.GenerateRepositoryInterfaces(_entityTypes, ignoreList);
 
             Console.WriteLine("2 - Gerando Repositórios...");
-            codeGenerators.GenerateRepositories(_entityTypes, ignoreList);
-            
+            //codeGenerators.GenerateRepositories(_entityTypes, ignoreList);
+
+            Console.WriteLine("3 - Gerando Requests...");
+            //codeGenerators.GenerateRequests(_entityTypes, ignoreList);
+
+            Console.WriteLine("4 - Gerando Paged Requests...");
+            //codeGenerators.GeneratePagedRequests(_entityTypes, ignoreList);
+
+            Console.WriteLine("5 - Gerando Responses...");
+            //codeGenerators.GenerateResponses(_entityTypes, ignoreList);
+
+            Console.WriteLine("6 - Gerando Controllers...");
+            //codeGenerators.GenerateControllers(_entityTypes, ignoreList);
+
+            Console.WriteLine("7 - Gerando Handler Interfaces...");
+            codeGenerators.GenerateRazorHandlerInterfaces(_entityTypes, ignoreList);
+
+            codeGenerators.GenerateRazorHandlers(_entityTypes, ignoreList);
+
             Console.WriteLine();
             Console.WriteLine("****** Fim do Gerador ******");
         }

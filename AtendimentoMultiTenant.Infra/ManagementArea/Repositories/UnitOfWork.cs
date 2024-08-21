@@ -13,7 +13,7 @@
         private IUserFeatureRepository? _userFeatureRepository;
         private ILogAccessRepository? _logAccessRepository;
         private IMenuRepository? _menuRepository;
-        private IRoleMenuRepository? _menuRoleRepository;
+        private IRoleMenuRepository? _roleMenuRepository;
         private IRoleRepository? _roleRepository;
 
         public UnitOfWork(ManagementAreaDbContext context)
@@ -29,7 +29,7 @@
         
         public IPortRepository PortRepository => _portRepository ??= new PortRepository(_context);
 
-        public IAccessTokenRepository TokenAccessRepository => _tokenAccessRepository ??= new AccessTokenRepository(_context);
+        public IAccessTokenRepository AccessTokenRepository => _tokenAccessRepository ??= new AccessTokenRepository(_context);
 
         public IFeatureRepository FeatureRepository => _featureRepository ??= new FeatureRepository(_context);
         
@@ -39,7 +39,7 @@
 
         public IMenuRepository MenuRepository => _menuRepository ??= new MenuRepository(_context);
 
-        public IRoleMenuRepository MenuRoleRepository => _menuRoleRepository ??= new RoleMenuRepository(_context);
+        public IRoleMenuRepository RoleMenuRepository => _roleMenuRepository ??= new RoleMenuRepository(_context);
 
         public IRoleRepository RoleRepository => _roleRepository ??= new RoleRepository(_context);
 

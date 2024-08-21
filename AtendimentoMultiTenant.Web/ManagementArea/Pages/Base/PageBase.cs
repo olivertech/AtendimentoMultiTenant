@@ -4,7 +4,7 @@
     {
         #region Properties
 
-        public bool IsBusy { get; set; }
+        public bool IsBusy { get; set; } = false;
 
         #endregion
 

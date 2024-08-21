@@ -5,7 +5,7 @@
         #region Properties
 
         public ContainerDbResponse InputModel = new();
-        
+
         public Guid ContainerId { get; set; }
 
         #endregion
@@ -24,12 +24,11 @@
 
         public async Task GetContainer(Guid id)
         {
+            IsBusy = true;
             ResponseFactory<ContainerDbResponse> result = null!;
 
             try
             {
-                IsBusy = true;
-
                 result = await Handler.GetById(id!);
 
                 if (result.IsSuccess)
@@ -52,28 +51,29 @@
             }
         }
 
-        public void OnValidSubmitAsync()
+        public async Task OnValidSubmitAsync()
         {
+            ResponseFactory<ContainerDbResponse> result;
             IsBusy = true;
 
             try
             {
                 var request = Mapper!.Map<ContainerDbRequest>(InputModel);
 
-                //var result = await Handler.Auth(InputModel);
+                result = request.Id != null ? await Handler.Update(request) : await Handler.Insert(request);
 
-                //if (result != null)
-                //{
-                //    if (result.IsSuccess)
-                //    {
-                //        Snackbar.Add(result.Message, MudBlazor.Severity.Success);
-                //        NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription());
-                //    }
-                //    else
-                //        Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
-                //}
-                //else
-                //    Snackbar.Add("Não foi possível realizar o login.", MudBlazor.Severity.Error);
+                if (result != null)
+                {
+                    if (result.IsSuccess)
+                    {
+                        Snackbar.Add(result.Message, MudBlazor.Severity.Success);
+                        NavigationManager.NavigateTo(RoutesEnumerator.Containers.GetDescription());
+                    }
+                    else
+                        Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
+                }
+                else
+                    Snackbar.Add("Não foi possível salvar os dados do container.", MudBlazor.Severity.Error);
             }
             catch (Exception ex)
             {

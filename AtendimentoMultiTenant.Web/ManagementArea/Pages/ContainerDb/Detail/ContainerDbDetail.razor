@@ -1,70 +1,68 @@
 ﻿@page "/containerdetail/{Id}"
 @using AtendimentoMultiTenant.Web.Helpers
+@using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
 @using FluentValidation
 @layout ConfigDashboardMainLayout
 @inherits ContainerDbDetailPage
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
-
+    <MudOverlay @bind-Visible="IsBusy" DarkBackground Absolute="false">
+        <ChildContent>
+            <Loading IsLoading="IsBusy" />
+        </ChildContent>
+    </MudOverlay>
     <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmit">
         <Morris.Blazor.Validation.Validate />
-        @if (IsBusy)
-        {
-            <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
-        }
-        else
-        {
-            <MudCard Class="pa-5" Elevation="4">
-                <MudCardHeader>
-                    <CardHeaderContent>
-                        <MudText Typo="Typo.h6">Detalhes do Container</MudText>
-                    </CardHeaderContent>
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudGrid>
-                        <MudItem xs="12" sm="12" md="12" lg="12">
-                            <MudPaper Class="ps-8 pt-5 pe-8 pb-2" Elevation="4">
-                                <MudStack Row="true">
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbName"
-                                                  Validation="@containerDbNameValidator.Validation"
-                                                  Immediate="true"
-                                                  Label="Nome do Container Docker" />
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbPort"
-                                                  Immediate="true"
-                                                  Label="Porta do Container Docker" />
-                                </MudStack>
-                                <MudStack Row="true">
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbImage"
-                                                  Label="Imagem do Container Docker" Disabled="true" />
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbVolume"
-                                                  Label="Volume do Container Docker" Disabled="true" />
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbNetwork"
-                                                  Label="Rede do Container Docker" Disabled="true" />
-                                </MudStack>
-                            </MudPaper>
-                        </MudItem>
-                        <MudItem xs="12" sm="12" md="12" lg="12">
-                            <MudPaper Class="ps-8 pt-5 pe-8 pb-2" Elevation="4">
-                                <MudStack Row="true">
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbName"
-                                                  Immediate="true"
-                                                  Label="Nome da Instância do Banco de Dados" />
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbUser"
-                                                  Immediate="true"
-                                                  Label="Usuário do Banco" />
-                                    <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbPwd"
-                                                  Immediate="true"
-                                                  Label="Senha de Acesso" />
-                                </MudStack>
-                            </MudPaper>
-                        </MudItem>
-                    </MudGrid>
-                </MudCardContent>
-                <MudCardActions Class="me-2">
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Salvar</MudButton>
-                </MudCardActions>
-            </MudCard>
-        }
+        <MudCard Class="pa-5" Elevation="4">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Detalhes do Container</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                    <MudItem xs="12" sm="12" md="12" lg="12">
+                        <MudPaper Class="ps-8 pt-5 pe-8 pb-2" Elevation="4">
+                            <MudStack Row="true">
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbName"
+                                              Validation="@containerDbNameValidator.Validation"
+                                              Immediate="true"
+                                              Label="Nome do Container Docker" Disabled="true" />
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbPort"
+                                              Immediate="true"
+                                              Label="Porta do Container Docker" Disabled="true" />
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbImage"
+                                              Label="Imagem do Container Docker" Disabled="true" />
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbVolume"
+                                              Label="Volume do Container Docker" Disabled="true" />
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbNetwork"
+                                              Label="Rede do Container Docker" Disabled="true" />
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                    <MudItem xs="12" sm="12" md="12" lg="12">
+                        <MudPaper Class="ps-8 pt-5 pe-8 pb-2" Elevation="4">
+                            <MudStack Row="true">
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbName"
+                                              Immediate="true"
+                                              Label="Nome da Instância do Banco de Dados" Disabled="true" />
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbUser"
+                                              Immediate="true"
+                                              Label="Usuário do Banco" Disabled="true" />
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbPwd"
+                                              Immediate="true"
+                                              Label="Senha de Acesso" Disabled="true" />
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+            <MudCardActions Class="me-2">
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Salvar</MudButton>
+            </MudCardActions>
+        </MudCard>
     </EditForm>
 
 </MudContainer>
@@ -100,11 +98,11 @@
         await GetContainer(ContainerId);
     }
 
-    private void OnValidSubmit(EditContext context)
+    private async Task OnValidSubmit(EditContext context)
     {
         if (form.IsValid)
         {
-            OnValidSubmitAsync();
+            await OnValidSubmitAsync();
         }
     }
     #endregion
