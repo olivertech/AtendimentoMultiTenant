@@ -32,6 +32,7 @@ global using AtendimentoMultiTenant.Web.ManagementArea.Pages.Login;
 global using AtendimentoMultiTenant.Web.ManagementArea.Pages.LogAccess;
 global using AtendimentoMultiTenant.Web.ManagementArea.Components.LeftMenu;
 global using AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.Detail;
+global using AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List;
 global using FluentValidation;
 global using AutoMapper;
 global using Newtonsoft.Json;

@@ -11,14 +11,11 @@
         {
             List<LeftMenuItem>? leftMenuItems = new List<LeftMenuItem>();
 
-            //var response = await _httpClientHelper.DoGetRequest("Api/Menu/GetAll");
-            //var itemsMenu = await response.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
-
             var token = await _storageService.GetItem("token");
 
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAll");
+            var request = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAllForLeftMenu");
 
             var response = await _httpClient.SendAsync(request);
             var itemsMenu = await response.Content.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();

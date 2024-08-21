@@ -1,7 +1,7 @@
-﻿@page "/logs"
+﻿@page "/menus"
 @using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
 @layout ConfigDashboardMainLayout
-@inherits LogAccessPage
+@inherits MenuPage
 
 <MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
     <MudGrid>
@@ -12,16 +12,16 @@
         </MudOverlay>
         <MudItem xs="12" sm="12" md="12" lg="12">
             <MudPaper Class="pa-5">
-                <MudTable T="LogAccessResponse"
+                <MudTable T="MenuResponse"
                           Items="@List"
                           Dense="@dense"
                           Hover="@hover"
                           Bordered="@bordered"
                           Striped="@striped"
                           Loading="@IsBusy"
-                          Filter="new Func<LogAccessResponse,bool>(DoFilter)">
+                          Filter="new Func<MenuResponse,bool>(DoFilter)">
                     <ToolBarContent>
-                        <MudText Typo="Typo.h6">Logs de Acesso</MudText>
+                        <MudText Typo="Typo.h6">Menus do Sistema</MudText>
                         <MudSpacer />
                         <MudTextField @bind-Value="searchContentFieldValue"
                                       Placeholder="Informe o valor e tecle enter..."
@@ -34,16 +34,27 @@
                                       Class="mt-0"></MudTextField>
                     </ToolBarContent>
                     <HeaderContent>
-                        <MudTh Style="width:40%; font-weight:600">Usuário</MudTh>
-                        <MudTh Style="width:40%; font-weight:600">Cliente</MudTh>
-                        <MudTh Style="width:10%; font-weight:600; text-align:center">Data de Acesso</MudTh>
-                        <MudTh Style="width:10%; font-weight:600; text-align:center">Hora de Acesso</MudTh>
+                        <MudTh Style="width:60%; font-weight:600">Nome</MudTh>
+                        <MudTh Style="width:30%; font-weight:600">Rota</MudTh>
+                        <MudTh Style="text-align:center; font-weight:600">Ativo</MudTh>
                     </HeaderContent>
                     <RowTemplate>
-                        <MudTd DataLabel="User Id">@context.User!.Name</MudTd>
-                        <MudTd DataLabel="User Id">@context.User!.Tenant!.Name</MudTd>
-                        <MudTd DataLabel="Data" Style="text-align:center">@context.CreatedAt</MudTd>
-                        <MudTd DataLabel="Hora" Style="text-align:center">@context.TimedAt</MudTd>
+                        <MudTd DataLabel="Nome">@context.Name</MudTd>
+                        <MudTd DataLabel="Rota">@context.Route</MudTd>
+                        <MudTd DataLabel="Ativo" Style="text-align:center">
+                            @if(@context.IsActive)
+                            {
+                                <span class="material-symbols-outlined" style="color: green">
+                                    check_small
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="material-symbols-outlined" style="color: red">
+                                    close_small
+                                </span>
+                            }
+                        </MudTd>
                     </RowTemplate>
                     <PagerContent>
                         <MudTablePager />
@@ -64,7 +75,7 @@
 
     #region Grid Properties
 
-    private bool dense = false;
+    private bool dense = true;
     private bool hover = true;
     private bool striped = true;
     private bool bordered = true;
@@ -76,26 +87,26 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetLogAccesses();
+        await GetMenus();
     }
 
-    private bool DoFilter(LogAccessResponse element) => FilterContent(element, searchContentFieldValue);
+    private bool DoFilter(MenuResponse element) => FilterContent(element, searchContentFieldValue);
 
-    private bool FilterContent(LogAccessResponse element, string searchContent)
+    private bool FilterContent(MenuResponse element, string searchContent)
     {
         if (string.IsNullOrWhiteSpace(searchContent))
             return true;
 
-        if (element.UserId.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
+        if (element.Name!.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if (element.CreatedAt!.ToString()!.Contains(searchContent, StringComparison.OrdinalIgnoreCase))
+        if (element.Description!.ToString()!.Contains(searchContent, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if (element.TimedAt!.ToString()!.Contains(searchContent, StringComparison.OrdinalIgnoreCase))
+        if (element.Route!.ToString()!.Contains(searchContent, StringComparison.OrdinalIgnoreCase))
             return true;
 
-        if ($"{element.UserId} {element.CreatedAt} {element.TimedAt}".Contains(searchContent))
+        if ($"{element.Name} {element.Description} {element.Route}".Contains(searchContent))
             return true;
 
         return false;

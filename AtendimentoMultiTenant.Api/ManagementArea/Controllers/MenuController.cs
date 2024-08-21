@@ -34,7 +34,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 					return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error("Usuário não autorizado!"));
 				}
 
-				var list = await _unitOfWork!.MenuRepository.GetAll();
+				var list = await _unitOfWork!.MenuRepository.GetAllActivesAndInactives();
 
 				var responseList = _mapper!.Map<IEnumerable<Menu>, IEnumerable<MenuResponse>>(list!);
 
@@ -47,7 +47,37 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 			}
 		}
 
-		[NonAction]
+        [HttpGet]
+        [Route(nameof(GetAllForLeftMenu))]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof(MenuResponse))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status401Unauthorized, Type = typeof(MenuResponse))]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> GetAllForLeftMenu()
+        {
+            try
+            {
+                if (!IsUserClaimsValid())
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error("Usuário não autorizado!"));
+                }
+
+                var list = await _unitOfWork!.MenuRepository.GetAllFull();
+
+                var responseList = _mapper!.Map<IEnumerable<Menu>, IEnumerable<MenuResponse>>(list!);
+
+                return Ok(ResponseFactory<IEnumerable<MenuResponse>>.Success("Lista de " + _nomeEntidade + " recuperada com sucesso.", responseList));
+            }
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "GetAll");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<MenuResponse>.Error("Erro ao recuperar lista " + _nomeEntidade + " - " + ex.Message));
+            }
+        }
+
+        [NonAction]
 		public Task<IActionResult> GetAllPaged(MenuRequest request)
 		{
 			throw new NotImplementedException();

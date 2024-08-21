@@ -6,6 +6,15 @@
         {
         }
 
+        public async Task<IEnumerable<Menu?>> GetAllActivesAndInactives()
+        {
+            return await _context!.Menus
+                .Include(p => p.RoleMenus)
+                .OrderBy(p => p.Name)
+                .IgnoreQueryFilters()
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Menu?>> GetAllFull()
         {
             return await _context!.Menus

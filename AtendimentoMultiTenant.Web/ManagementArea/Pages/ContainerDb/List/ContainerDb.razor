@@ -36,12 +36,12 @@
                                       Class="mt-0"></MudTextField>
                     </ToolBarContent>
                     <HeaderContent>
-                        <MudTh>Container Name</MudTh>
-                        <MudTh>Container Port</MudTh>
+                        <MudTh Style="width:90%; font-weight:600">Nome</MudTh>
+                        <MudTh Style="width:10%; font-weight:600; text-align:center">Porta</MudTh>
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd DataLabel="User Id">@context.ContainerDbName</MudTd>
-                        <MudTd DataLabel="User Id">@context.ContainerDbPort</MudTd>
+                        <MudTd DataLabel="User Id" Style="text-align:center">@context.ContainerDbPort</MudTd>
                     </RowTemplate>
                     <PagerContent>
                         <MudTablePager />

@@ -13,6 +13,8 @@
         [Description("/containerdetail")]
         ContainerDetail,
         [Description("/logs")]
-        Logs
+        Logs,
+        [Description("/menus")]
+        Menus,
     }
 }
