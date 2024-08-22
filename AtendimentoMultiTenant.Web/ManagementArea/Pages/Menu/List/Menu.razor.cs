@@ -1,4 +1,4 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 {
     public partial class MenuPage : PageBase
     {
@@ -45,6 +45,25 @@
             {
                 IsBusy = false;
                 StateHasChanged();
+            }
+        }
+
+        public void ShowDetails(Guid id)
+        {
+            try
+            {
+                IsBusy = true;
+
+                var uri = $"{RoutesEnumerator.MenuDetail.GetDescription()}/{id}";
+                NavigationManager.NavigateTo(uri, false, true);
+            }
+            catch (Exception)
+            {
+                Snackbar.Add("Não foi possível recuperar os detalhes do menu.", MudBlazor.Severity.Error);
+            }
+            finally
+            {
+                IsBusy = false;
             }
         }
 

@@ -30,7 +30,7 @@
         {
             try
             {
-                var entity = await _entities!.Where(x => x.Id == id).FirstOrDefaultAsync();
+                var entity = await _entities!.Where(x => x.Id == id).IgnoreQueryFilters().FirstOrDefaultAsync();
 
                 if (entity == null)
                     throw new InvalidOperationException("Registro não encontrado!");

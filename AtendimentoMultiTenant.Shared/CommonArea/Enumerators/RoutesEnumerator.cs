@@ -18,5 +18,7 @@
         Logs,
         [Description("/menus")]
         Menus,
+        [Description("/menudetail")]
+        MenuDetail,
     }
 }

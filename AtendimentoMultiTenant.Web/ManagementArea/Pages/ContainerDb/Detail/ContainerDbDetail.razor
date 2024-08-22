@@ -25,7 +25,7 @@
                         <MudPaper Class="ps-8 pt-5 pe-8 pb-2" Elevation="4">
                             <MudStack Row="true">
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbName"
-                                              Validation="@containerDbNameValidator.Validation"
+                                              Validation="@ContainerDbNameValidator.Validation"
                                               Immediate="true"
                                               Label="Nome do Container Docker" Disabled="true" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbPort"
@@ -79,7 +79,7 @@
 
     #region Validators
 
-    FormValidatorHelper<string> containerDbNameValidator = new FormValidatorHelper<string>(x => x
+    FormValidatorHelper<string> ContainerDbNameValidator = new FormValidatorHelper<string>(x => x
     .NotEmpty()
     .Length(1, 250));
 

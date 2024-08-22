@@ -2,7 +2,8 @@
 {
     public class ContainerDbDetailHandler : HandlerBase, IHandler<ContainerDbRequest, ContainerDbPagedRequest, ContainerDbResponse>, IContainerDbDetailHandler
     {
-        public ContainerDbDetailHandler(IHttpClientFactory httpClientFactory, IStorageService storageService)
+        public ContainerDbDetailHandler(IHttpClientFactory httpClientFactory, 
+                                        IStorageService storageService)
             : base(httpClientFactory, storageService)
         {
         }

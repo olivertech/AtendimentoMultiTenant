@@ -19,7 +19,8 @@
                           Bordered="@bordered"
                           Striped="@striped"
                           Loading="@IsBusy"
-                          Filter="new Func<MenuResponse,bool>(DoFilter)">
+                          OnRowClick="@(args => OpenItem(args))"
+                          RowClass="cursor-pointer">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Menus do Sistema</MudText>
                         <MudSpacer />
@@ -88,6 +89,12 @@
     protected override async Task OnInitializedAsync()
     {
         await GetMenus();
+    }
+
+    protected void OpenItem(TableRowClickEventArgs<MenuResponse> args)
+    {
+        var item = args.Item;
+        ShowDetails(item!.Id);
     }
 
     private bool DoFilter(MenuResponse element) => FilterContent(element, searchContentFieldValue);
