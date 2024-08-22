@@ -2,5 +2,6 @@
 {
     public interface IConfigDashboardMainLayoutHandler
     {
+        Task Logout();
     }
 }

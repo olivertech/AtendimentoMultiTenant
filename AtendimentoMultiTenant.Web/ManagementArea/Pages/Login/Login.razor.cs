@@ -30,7 +30,7 @@
                     if (result.IsSuccess)
                     {
                         Snackbar.Add(result.Message, MudBlazor.Severity.Success);
-                        NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription());
+                        NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription(), false, true);
                     }
                     else
                         Snackbar.Add(result.Message, MudBlazor.Severity.Warning);

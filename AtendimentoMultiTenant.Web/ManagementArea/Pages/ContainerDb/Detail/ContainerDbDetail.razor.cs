@@ -67,7 +67,7 @@
                     if (result.IsSuccess)
                     {
                         Snackbar.Add(result.Message, MudBlazor.Severity.Success);
-                        NavigationManager.NavigateTo(RoutesEnumerator.Containers.GetDescription());
+                        NavigationManager.NavigateTo(RoutesEnumerator.Containers.GetDescription(), false, true);
                     }
                     else
                         Snackbar.Add(result.Message, MudBlazor.Severity.Warning);

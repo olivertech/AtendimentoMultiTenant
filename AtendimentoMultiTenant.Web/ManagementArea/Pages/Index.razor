@@ -1,5 +1,9 @@
 ﻿@page "/"
+@inject IJSRuntime JSRuntime
 
 @code {
-
+    protected override async Task OnInitializedAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("eval", "window.addEventListener('popstate', function (event) { history.pushState(null, document.title, location.href); });");
+    }
 }

@@ -2,6 +2,8 @@
 {
     public enum RoutesEnumerator
     {
+        [Description("/error")]
+        Error,
         [Description("/")]
         Index,
         [Description("/login")]

@@ -25,6 +25,10 @@
             {
                 LeftMenuItems = await Handler.GetLeftMenuItens();
             }
+            catch (KeyNotFoundException)
+            {
+                NavigationManager.NavigateTo(RoutesEnumerator.Error.GetDescription(), false, true);
+            }
             catch (Exception)
             {
                 Snackbar.Add("Não foi possível recuperar os itens do menu lateral.", MudBlazor.Severity.Error);
@@ -34,6 +38,11 @@
                 IsBusy = false;
                 StateHasChanged();
             }
+        }
+
+        public void GotoPage(string page)
+        {
+            NavigationManager.NavigateTo(page, false, true);
         }
 
         #endregion

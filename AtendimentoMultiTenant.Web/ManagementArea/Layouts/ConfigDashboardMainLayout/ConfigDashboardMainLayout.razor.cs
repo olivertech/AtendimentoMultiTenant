@@ -22,12 +22,18 @@
             TopMenuItems!.Add("Sair");
         }
 
-        public void OnTopMenuItemClick(string item)
+        public async void OnTopMenuItemClick(string item)
         {
             if (item == "Sair")
             {
-                NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription());
+                await Handler.Logout();
+                NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription(), false, true);
             }
+        }
+
+        public void CheckSession()
+        {
+            StateHasChanged();
         }
 
         #endregion

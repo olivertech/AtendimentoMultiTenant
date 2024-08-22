@@ -55,7 +55,7 @@
                 IsBusy = true;
 
                 var uri = $"{RoutesEnumerator.ContainerDetail.GetDescription()}/{id}";
-                NavigationManager.NavigateTo(uri);
+                NavigationManager.NavigateTo(uri, false, true);
             }
             catch (Exception)
             {

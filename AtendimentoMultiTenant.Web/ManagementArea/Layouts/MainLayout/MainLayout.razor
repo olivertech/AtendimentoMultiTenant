@@ -42,13 +42,13 @@
         {
             _menuItems!.Remove("Acessar");
             _menuItems!.Add("Voltar");
-            NavigationManager.NavigateTo(RoutesEnumerator.Login.GetDescription());
+            NavigationManager.NavigateTo(RoutesEnumerator.Login.GetDescription(), false, true);
         }
         else if (item == "Voltar")
         {
             _menuItems!.Remove("Voltar");
             _menuItems!.Add("Acessar");
-            NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription());
+            NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription(), false, true);
         }
     }
 }

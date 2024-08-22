@@ -11,20 +11,34 @@
         {
             List<LeftMenuItem>? leftMenuItems = new List<LeftMenuItem>();
 
-            var token = await _storageService.GetItem("token");
-
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-            var request = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAllForLeftMenu");
-
-            var response = await _httpClient.SendAsync(request);
-            var itemsMenu = await response.Content.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
-
-            response.EnsureSuccessStatusCode();
-
-            foreach (var item in itemsMenu!.Result!)
+            try
             {
-                leftMenuItems.Add(new LeftMenuItem { Key = item.Name, Value = item.Route, Icon = item.Icone });
+                var token = await _storageService.GetItem("token");
+
+                if (token != null)
+                {
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    var request = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAllForLeftMenu");
+
+                    var response = await _httpClient.SendAsync(request);
+                    var itemsMenu = await response.Content.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
+
+                    response.EnsureSuccessStatusCode();
+
+                    foreach (var item in itemsMenu!.Result!)
+                    {
+                        leftMenuItems.Add(new LeftMenuItem { Key = item.Name, Value = item.Route, Icon = item.Icone });
+                    }
+                }
+                else
+                {
+                    throw new KeyNotFoundException("Token not found!");
+                }
+            }
+            catch(KeyNotFoundException)
+            {
+                throw;
             }
 
             return leftMenuItems;

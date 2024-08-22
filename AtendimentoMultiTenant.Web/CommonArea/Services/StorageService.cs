@@ -37,6 +37,11 @@
             return await _sessionStorageService!.GetItemAsync<string>(key);
         }
 
+        public async Task RemoveItems()
+        {
+            await _sessionStorageService!.ClearAsync();
+        }
+
         #endregion
     }
 

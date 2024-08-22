@@ -16,7 +16,16 @@
 
         public void GotoDashboardPage()
         {
-            NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription());
+            NavigationManager.NavigateTo(RoutesEnumerator.Dashboard.GetDescription(), false, true);
         }
+
+        #region Methods
+
+        public async Task Logout()
+        {
+            await _storageService!.RemoveItems();
+        }
+
+        #endregion
     }
 }

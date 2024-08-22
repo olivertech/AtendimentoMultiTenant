@@ -23,12 +23,12 @@
 
         public void GotoLoginPage()
         {
-            NavigationManager.NavigateTo(RoutesEnumerator.Login.GetDescription());
+            NavigationManager.NavigateTo(RoutesEnumerator.Login.GetDescription(), false, true);
         }
 
         public void GotoIndexPage()
         {
-            NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription());
+            NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription(), false, true);
         }
 
         public Task<ResponseFactory<LoginResponse>> Logout(LoginRequest request)
