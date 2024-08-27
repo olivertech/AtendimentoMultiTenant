@@ -137,7 +137,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
         public async Task<IActionResult> Insert([FromBody] MenuRequest request)
         {
             try
-            { 
+            {
                 if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
@@ -234,7 +234,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                     return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<MenuResponse>.Error("Id informado inválido!"));
                 }
 
-                var search = _unitOfWork!.MenuRepository.GetAll().Result!.Where(x => !x.Id.Equals(request.Id) 
+                var search = _unitOfWork!.MenuRepository.GetAll().Result!.Where(x => !x.Id.Equals(request.Id)
                                                                                 && (x.Name == request.Name
                                                                                 || x.Route == request.Route
                                                                                 || x.Icone == request.Icone)).ToList();
@@ -269,13 +269,13 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
         }
 
         [HttpDelete]
-        [Route(nameof(Delete))]
+        [Route("Delete/{id:Guid}/{type}")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(MenuResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(MenuResponse))]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id, string type)
         {
             try
             {
@@ -299,7 +299,12 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                     return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<MenuResponse>.Error("Id informado inválido!"));
                 }
 
-                var result = await _unitOfWork.MenuRepository.Delete(id, true);
+                bool result;
+
+                if (type == "L")
+                    result = await _unitOfWork.MenuRepository.Delete(id, true);
+                else
+                    result = await _unitOfWork.MenuRepository.Delete(id, false);
 
                 _unitOfWork.CommitAsync().Wait();
 
@@ -319,6 +324,12 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                 _logger!.LogError(ex, "Delete");
                 return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<MenuResponse>.Error(string.Format("Erro ao remover a {0} - ", _nomeEntidade) + ex.Message));
             }
+        }
+
+        [NonAction]
+        public Task<IActionResult> Delete(Guid id)
+        {
+            throw new NotImplementedException();
         }
     }
 }

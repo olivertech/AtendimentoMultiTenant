@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
+﻿using System;
+
+namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 {
     public partial class MenuPage : PageBase
     {
@@ -64,6 +66,48 @@
             finally
             {
                 IsBusy = false;
+            }
+        }
+
+        public void NewItem()
+        {
+            NavigationManager.NavigateTo(RoutesEnumerator.MenuDetail.GetDescription(), false, true);
+        }
+
+        public async Task DeleteItem(Guid id, string type)
+        {
+            IsBusy = true;
+            ResponseFactory<MenuResponse>? result = null!;
+
+            try
+            {
+                result = await Handler.Delete(id, type);
+
+                if (result.IsSuccess)
+                {
+                    Snackbar.Add(result.Message, MudBlazor.Severity.Success);
+
+                    //if(type == "F")
+                    //{
+                    //    var item = List!.Where(x => x.Id == id).FirstOrDefault();
+                    //    List!.Remove(item!);
+                    //}
+                    //else
+                    //{
+                        await GetMenus();
+                    //}
+                }
+                else
+                    Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
+            }
+            catch (Exception)
+            {
+                Snackbar.Add(result.Message, MudBlazor.Severity.Error);
+            }
+            finally
+            {
+                IsBusy = false;
+                StateHasChanged();
             }
         }
 

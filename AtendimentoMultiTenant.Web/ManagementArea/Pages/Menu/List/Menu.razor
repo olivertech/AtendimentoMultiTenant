@@ -37,14 +37,15 @@
                     </ToolBarContent>
                     <HeaderContent>
                         <MudTh Style="width:60%; font-weight:600">Nome</MudTh>
-                        <MudTh Style="width:30%; font-weight:600">Rota</MudTh>
-                        <MudTh Style="text-align:center; font-weight:600">Ativo</MudTh>
+                        <MudTh Style="width:25%; font-weight:600">Rota</MudTh>
+                        <MudTh Style="width:5%; text-align:center; font-weight:600">Ativo</MudTh>
+                        <MudTh Style="width:10%; text-align:center; width:60%; font-weight:600">Ação</MudTh>
                     </HeaderContent>
                     <RowTemplate>
                         <MudTd DataLabel="Nome">@context.Name</MudTd>
                         <MudTd DataLabel="Rota">@context.Route</MudTd>
                         <MudTd DataLabel="Ativo" Style="text-align:center">
-                            @if(@context.IsActive)
+                            @if (@context.IsActive)
                             {
                                 <span class="material-symbols-outlined" style="color: green">
                                     check_small
@@ -57,17 +58,26 @@
                                 </span>
                             }
                         </MudTd>
+                        <MudTd DataLabel="Ação" Style="text-align:center">
+                            <MudIconButton OnClick="@(()=> Delete(context.Id, "F"))" Icon="@Icons.Material.Filled.Delete" style="color: red" aria-label="delete" title="Deleção Física"></MudIconButton>
+                            <MudIconButton Disabled="!context.IsActive" OnClick="@(()=> Delete(context.Id, "L"))" Icon="@Icons.Material.Filled.Delete" style="color: gray" aria-label="delete" title="Deleção Lógica"></MudIconButton>
+                        </MudTd>
                     </RowTemplate>
                     <PagerContent>
                         <MudTablePager />
                     </PagerContent>
                 </MudTable>
-                <div class="d-flex flex-wrap mt-4">
-                    <MudSwitch @bind-Value="hover" Color="Color.Tertiary">Hover</MudSwitch>
-                    <MudSwitch @bind-Value="dense" Color="Color.Tertiary">Dense</MudSwitch>
-                    <MudSwitch @bind-Value="striped" Color="Color.Tertiary">Striped</MudSwitch>
-                    <MudSwitch @bind-Value="bordered" Color="Color.Tertiary">Bordered</MudSwitch>
-                </div>
+                <MudStack Justify="Justify.SpaceBetween" Row="true">
+                    <div class="d-flex flex-wrap mt-4">
+                        <MudSwitch @bind-Value="hover" Color="Color.Tertiary">Hover</MudSwitch>
+                        <MudSwitch @bind-Value="dense" Color="Color.Tertiary">Dense</MudSwitch>
+                        <MudSwitch @bind-Value="striped" Color="Color.Tertiary">Striped</MudSwitch>
+                        <MudSwitch @bind-Value="bordered" Color="Color.Tertiary">Bordered</MudSwitch>
+                    </div>
+                    <div class="d-flex flex-wrap mt-4">
+                        <MudButton OnClick="NewItem" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary">Inserir</MudButton>
+                    </div>
+                </MudStack>
             </MudPaper>
         </MudItem>
     </MudGrid>
@@ -96,6 +106,11 @@
     {
         var item = args.Item;
         ShowDetails(item!.Id);
+    }
+
+    protected async Task Delete(Guid id, string type)
+    {
+        await DeleteItem(id, type);
     }
 
     private bool DoFilter(MenuResponse element) => FilterContent(element, searchContentFieldValue);

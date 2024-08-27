@@ -1,3 +1,5 @@
+using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
+
 namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 {
     public class MenuHandler : HandlerBase, IHandler<MenuRequest, MenuPagedRequest, MenuResponse>, IMenuHandler
@@ -65,6 +67,31 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
         public Task<ResponseFactory<MenuResponse>> Delete(Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<ResponseFactory<MenuResponse>> Delete(Guid id, string type)
+        {
+            ResponseFactory<MenuResponse>? result = new()!;
+
+            try
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Delete, $"Api/Menu/Delete/{id}/{type}");
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+                requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    result = JsonConvert.DeserializeObject<ResponseFactory<MenuResponse>?>(response.Content.ReadAsStringAsync().Result);
+                }
+            }
+            catch (Exception)
+            {
+                return new();
+            }
+
+            return result!;
         }
     }
 }

@@ -4,7 +4,7 @@
     {
         #region Properties
 
-        public MenuResponse InputModel = new();
+        public MenuResponse InputModel { get; set; } = new();
 
         public Guid MenuId { get; set; }
 
@@ -58,14 +58,21 @@
 
         public async Task OnValidSubmitAsync()
         {
-            ResponseFactory<MenuResponse> result;
+            ResponseFactory<MenuResponse> result = new();
             IsBusy = true;
 
             try
             {
                 var request = Mapper!.Map<MenuRequest>(InputModel);
 
-                result = request.Id != null ? await Handler.Update(request) : await Handler.Insert(request);
+                if (request.Id == Guid.Empty)
+                {
+                    result = await Handler.Insert(request);
+                }
+                else
+                {
+                    result = await Handler.Update(request);
+                }
 
                 if (result != null)
                 {
@@ -88,6 +95,11 @@
             {
                 IsBusy = false;
             }
+        }
+
+        public void GoBack()
+        {
+            NavigationManager.NavigateTo(RoutesEnumerator.Menus.GetDescription(), false, true);
         }
 
         #endregion

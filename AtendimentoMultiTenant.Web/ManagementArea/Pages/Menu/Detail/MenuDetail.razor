@@ -1,4 +1,6 @@
-﻿@page "/menudetail/{Id}"
+﻿@page "/menudetail"
+@page "/menudetail/{Id}"
+
 @using AtendimentoMultiTenant.Web.Helpers
 @using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
 @using FluentValidation
@@ -35,17 +37,21 @@
                             <MudStack Row="true">
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.Route"
                                               Label="Rota do Menu" Required="true" />
-                                <MudTextField Class="mb-5" @bind-Value="InputModel.IsActive"
-                                              Label="Ativo" Required="true" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.Icone"
                                               Label="Icone do Menu" Required="true" />
+                                <MudSwitch @bind-Value="InputModel.IsActive" Label="Ativo" Style="font-size: 8pt;" Class="mt-4 ml-5"
+                                           ThumbIcon="@(InputModel.IsActive == true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+                                           ThumbIconColor="@(InputModel.IsActive == true ? Color.Success : Color.Error)" />
                             </MudStack>
                         </MudPaper>
                     </MudItem>
                 </MudGrid>
             </MudCardContent>
-            <MudCardActions Class="me-2">
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Salvar</MudButton>
+            <MudCardActions Class="d-flex flex-row-reverse flex-grow-1 gap-4 me-2">
+                <MudStack Justify="Justify.FlexEnd" Row="true">
+                    <MudButton OnClick="GoBack" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Tertiary">Voltar</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Primary">Salvar</MudButton>
+                </MudStack>
             </MudCardActions>
         </MudCard>
     </EditForm>
@@ -74,8 +80,15 @@
 
     protected override void OnParametersSet()
     {
-        MenuId = Guid.Parse(Id!);
-        GetDetail();
+        if (!string.IsNullOrEmpty(Id))
+        {
+            MenuId = Guid.Parse(Id!);
+            GetDetail();
+        }
+        else
+        {
+            InputModel.IsActive = false;
+        }
     }
 
     protected async void GetDetail()
