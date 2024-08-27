@@ -26,5 +26,14 @@
         [JsonPropertyName("is_active")]
         [JsonProperty(PropertyName = "is_active")]
         public bool IsActive { get; set; } = true;
+
+        [JsonPropertyName("icone")]
+        [JsonProperty(PropertyName = "icone")]
+        public String? Icone { get; set; }
+
+
+        [JsonPropertyName("route")]
+        [JsonProperty(PropertyName = "route")]
+        public String? Route { get; set; }
     }
 }

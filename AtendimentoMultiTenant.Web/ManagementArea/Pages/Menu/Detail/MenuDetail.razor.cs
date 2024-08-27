@@ -51,6 +51,11 @@
             }
         }
 
+        public void OnInvalidSubmit()
+        {
+            Snackbar.Add("Preencha o formuário corretamente", MudBlazor.Severity.Warning);
+        }
+
         public async Task OnValidSubmitAsync()
         {
             ResponseFactory<MenuResponse> result;
@@ -67,7 +72,7 @@
                     if (result.IsSuccess)
                     {
                         Snackbar.Add(result.Message, MudBlazor.Severity.Success);
-                        NavigationManager.NavigateTo(RoutesEnumerator.Containers.GetDescription(), false, true);
+                        NavigationManager.NavigateTo(RoutesEnumerator.Menus.GetDescription(), false, true);
                     }
                     else
                         Snackbar.Add(result.Message, MudBlazor.Severity.Warning);

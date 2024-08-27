@@ -9,6 +9,7 @@
 
         public async Task<List<LeftMenuItem>?> GetLeftMenuItens()
         {
+            ResponseFactory<IEnumerable<MenuResponse>>? result = null!;
             List<LeftMenuItem>? leftMenuItems = new List<LeftMenuItem>();
 
             try
@@ -17,16 +18,21 @@
 
                 if (token != null)
                 {
-                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    var requestMessage = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAllForLeftMenu");
 
-                    var request = new HttpRequestMessage(HttpMethod.Get, "Api/Menu/GetAllForLeftMenu");
+                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+                    requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    var response = await _httpClient.SendAsync(request);
-                    var itemsMenu = await response.Content.ReadFromJsonAsync<ResponseFactory<IEnumerable<MenuResponse>>>();
+                    var response = await _httpClient.SendAsync(requestMessage);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        result = JsonConvert.DeserializeObject<ResponseFactory<IEnumerable<MenuResponse>>>(response.Content.ReadAsStringAsync().Result);
+                    }
 
                     response.EnsureSuccessStatusCode();
 
-                    foreach (var item in itemsMenu!.Result!)
+                    foreach (var item in result!.Result!)
                     {
                         leftMenuItems.Add(new LeftMenuItem { Key = item.Name, Value = item.Route, Icon = item.Icone });
                     }

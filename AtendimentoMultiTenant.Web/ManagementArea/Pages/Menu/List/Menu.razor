@@ -20,7 +20,8 @@
                           Striped="@striped"
                           Loading="@IsBusy"
                           OnRowClick="@(args => OpenItem(args))"
-                          RowClass="cursor-pointer">
+                          RowClass="cursor-pointer"
+                          Filter="new Func<MenuResponse,bool>(DoFilter)">
                     <ToolBarContent>
                         <MudText Typo="Typo.h6">Menus do Sistema</MudText>
                         <MudSpacer />

@@ -4,8 +4,7 @@
     {
         public MappingProfile()
         {
-            //Api --> Web
-            //CreateMap<LogAccessResponse, LogAccessDTO>();
+            CreateMap<MenuResponse, MenuRequest>();
         }
     }
 }

@@ -10,6 +10,7 @@
             CreateMap<ContainerDbRequest, ContainerDb>();
             CreateMap<TenantRequest, Tenant>();
             CreateMap<UserRequest, User>();
+            CreateMap<MenuRequest, Menu>();
 
             /**
              * Mapping Responses ( Response <- Model )

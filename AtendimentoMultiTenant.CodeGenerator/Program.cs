@@ -34,12 +34,12 @@ namespace AtendimentoMultiTenant.CodeGenerator
             //codeGenerators.GenerateResponses(_entityTypes, ignoreList);
 
             Console.WriteLine("6 - Gerando Controllers...");
-            //codeGenerators.GenerateControllers(_entityTypes, ignoreList);
+            codeGenerators.GenerateControllers(_entityTypes, ignoreList);
 
             Console.WriteLine("7 - Gerando Handler Interfaces...");
-            codeGenerators.GenerateRazorHandlerInterfaces(_entityTypes, ignoreList);
+            //codeGenerators.GenerateRazorHandlerInterfaces(_entityTypes, ignoreList);
 
-            codeGenerators.GenerateRazorHandlers(_entityTypes, ignoreList);
+            //codeGenerators.GenerateRazorHandlers(_entityTypes, ignoreList);
 
             Console.WriteLine();
             Console.WriteLine("****** Fim do Gerador ******");

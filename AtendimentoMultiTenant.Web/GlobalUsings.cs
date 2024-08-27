@@ -37,4 +37,5 @@ global using AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.Detail;
 global using FluentValidation;
 global using AutoMapper;
 global using Newtonsoft.Json;
+global using System.Text;
 global using MudBlazor;

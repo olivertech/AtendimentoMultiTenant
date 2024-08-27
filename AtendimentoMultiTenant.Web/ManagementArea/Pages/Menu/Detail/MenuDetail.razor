@@ -11,7 +11,7 @@
             <Loading IsLoading="IsBusy" />
         </ChildContent>
     </MudOverlay>
-    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmit">
+    <EditForm id="@form" Model="@InputModel" OnValidSubmit="OnValidSubmitAsync" OnInvalidSubmit="OnInvalidSubmit">
         <Morris.Blazor.Validation.Validate />
         <MudCard Class="pa-5" Elevation="4">
             <MudCardHeader>
@@ -27,18 +27,18 @@
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.Name"
                                               Validation="@MenuNameValidator.Validation"
                                               Immediate="true"
-                                              Label="Nome do Menu" />
+                                              Label="Nome do Menu" Required="true" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.Description"
                                               Immediate="true"
-                                              Label="Descrição do Menu" />
+                                              Label="Descrição do Menu" Required="true" />
                             </MudStack>
                             <MudStack Row="true">
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.Route"
-                                              Label="Rota do Menu" />
+                                              Label="Rota do Menu" Required="true" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.IsActive"
-                                              Label="Ativo" />
+                                              Label="Ativo" Required="true" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.Icone"
-                                              Label="Icone do Menu" />
+                                              Label="Icone do Menu" Required="true" />
                             </MudStack>
                         </MudPaper>
                     </MudItem>
@@ -58,7 +58,7 @@
     [Parameter]
     public string? Id { get; set; }
 
-    MudForm form = null!;
+    EditForm form = null!;
 
     #endregion
 
@@ -83,12 +83,5 @@
         await GetMenu(MenuId);
     }
 
-    private async Task OnValidSubmit(EditContext context)
-    {
-        if (form.IsValid)
-        {
-            await OnValidSubmitAsync();
-        }
-    }
     #endregion
 }

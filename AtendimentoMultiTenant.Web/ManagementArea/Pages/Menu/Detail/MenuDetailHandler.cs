@@ -2,8 +2,8 @@
 {
     public class MenuDetailHandler : HandlerBase, IHandler<MenuRequest, MenuPagedRequest, MenuResponse>, IMenuDetailHandler
     {
-        public MenuDetailHandler(IHttpClientFactory httpClientFactory, 
-                                 IStorageService storageService) 
+        public MenuDetailHandler(IHttpClientFactory httpClientFactory,
+                                 IStorageService storageService)
             : base(httpClientFactory, storageService)
         {
         }
@@ -59,14 +59,54 @@
             throw new NotImplementedException();
         }
 
-        public Task<ResponseFactory<MenuResponse>> Insert(MenuRequest request)
+        public async Task<ResponseFactory<MenuResponse>> Insert(MenuRequest request)
         {
-            throw new NotImplementedException();
+            ResponseFactory<MenuResponse>? result = null!;
+
+            try
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, "Api/Menu/Insert");
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+                requestMessage.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                if (!response!.IsSuccessStatusCode)
+                    return null!;
+
+                result = JsonConvert.DeserializeObject<ResponseFactory<MenuResponse>?>(response.Content.ReadAsStringAsync().Result);
+            }
+            catch (Exception)
+            {
+                return new();
+            }
+
+            return result!;
         }
 
-        public Task<ResponseFactory<MenuResponse>> Update(MenuRequest request)
+        public async Task<ResponseFactory<MenuResponse>> Update(MenuRequest request)
         {
-            throw new NotImplementedException();
+            ResponseFactory<MenuResponse>? result = null!;
+
+            try
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Put, "Api/Menu/Update");
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+                requestMessage.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                if (!response!.IsSuccessStatusCode)
+                    return null!;
+
+                result = JsonConvert.DeserializeObject<ResponseFactory<MenuResponse>?>(response.Content.ReadAsStringAsync().Result);
+            }
+            catch (Exception)
+            {
+                return new();
+            }
+
+            return result!;
         }
     }
 }

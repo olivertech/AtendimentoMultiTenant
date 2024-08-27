@@ -301,7 +301,7 @@
         [ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(ContainerDbResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(ContainerDbResponse))]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> Update(ContainerDbRequest request)
+        public async Task<IActionResult> Update([FromBody] ContainerDbRequest request)
         {
             try
             {
@@ -341,7 +341,6 @@
                 {
                     _logger!.LogWarning(string.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade));
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(string.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));
-
                 }
 
                 _mapper!.Map(request, entity);
