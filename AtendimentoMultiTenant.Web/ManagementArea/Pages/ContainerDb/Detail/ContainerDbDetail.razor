@@ -11,7 +11,7 @@
             <Loading IsLoading="IsBusy" />
         </ChildContent>
     </MudOverlay>
-    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmit">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync">
         <Morris.Blazor.Validation.Validate />
         <MudCard Class="pa-5" Elevation="4">
             <MudCardHeader>
@@ -55,12 +55,23 @@
                                               Immediate="true"
                                               Label="Senha de Acesso" Disabled="true" />
                             </MudStack>
+                            <MudStack Row="true">
+                                <MudSwitch @bind-Value="InputModel.IsUp" Label="Up" Style="font-size: 8pt;" Class="mt-4 ml-5"
+                                           ThumbIcon="@(InputModel.IsUp == true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+                                           ThumbIconColor="@(InputModel.IsUp == true ? Color.Success : Color.Error)" />
+                                <MudSwitch @bind-Value="InputModel.IsActive" Label="Ativo" Style="font-size: 8pt;" Class="mt-4 ml-5"
+                                           ThumbIcon="@(InputModel.IsActive == true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+                                           ThumbIconColor="@(InputModel.IsActive == true ? Color.Success : Color.Error)" />
+                            </MudStack>
                         </MudPaper>
                     </MudItem>
                 </MudGrid>
             </MudCardContent>
-            <MudCardActions Class="me-2">
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto">Salvar</MudButton>
+            <MudCardActions Class="d-flex flex-row-reverse flex-grow-1 gap-4 me-2">
+                <MudStack Justify="Justify.FlexEnd" Row="true">
+                    <MudButton OnClick="GoBack" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Tertiary">Voltar</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Primary">Salvar</MudButton>
+                </MudStack>
             </MudCardActions>
         </MudCard>
     </EditForm>
@@ -72,8 +83,6 @@
 
     [Parameter]
     public string? Id { get; set; }
-
-    MudForm form = null!;
 
     #endregion
 
@@ -98,12 +107,5 @@
         await GetContainer(ContainerId);
     }
 
-    private async Task OnValidSubmit(EditContext context)
-    {
-        if (form.IsValid)
-        {
-            await OnValidSubmitAsync();
-        }
-    }
     #endregion
 }

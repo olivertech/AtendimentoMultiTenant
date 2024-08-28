@@ -223,12 +223,12 @@
                     return BadRequest(new { Message = validation.Errors });
                 }
 
-                var search = _unitOfWork!.ContainerDbRepository.GetAllFull().Result;
+                var search = _unitOfWork!.ContainerDbRepository.GetAll().Result!.Where(x => !x.Id.Equals(request.Id)
+                                                                && (x.ContainerDbName == request.ContainerDbName
+                                                                || x.ContainerDbVolume == request.ContainerDbVolume
+                                                                || x.ContainerDbNetwork == request.ContainerDbNetwork)).ToList();
 
-                if (search!.Any(x => x!.Tenant!.Name == request.ClientName) ||
-                    search!.Any(x => x!.ContainerDbName == request.ContainerDbName) ||
-                    search!.Any(x => x!.ContainerDbVolume == request.ContainerDbVolume) ||
-                    search!.Any(x => x!.ContainerDbNetwork == request.ContainerDbNetwork))
+                if (search.Count() > 0)
                 {
                     _logger!.LogWarning(string.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade));
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(string.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));
@@ -304,7 +304,7 @@
         public async Task<IActionResult> Update([FromBody] ContainerDbRequest request)
         {
             try
-            {
+            {   
                 if (!IsUserClaimsValid())
                 {
                     _logger!.LogWarning("Usuário não autorizado!");
@@ -333,11 +333,12 @@
                     return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<ContainerDbResponse>.Error("Id informado inválido!"));
                 }
 
-                var search = _unitOfWork!.ContainerDbRepository.GetAll().Result;
+                var search = _unitOfWork!.ContainerDbRepository.GetAll().Result!.Where(x => !x.Id.Equals(request.Id)
+                                                                && (x.ContainerDbName == request.ContainerDbName
+                                                                || x.ContainerDbVolume == request.ContainerDbVolume
+                                                                || x.ContainerDbNetwork == request.ContainerDbNetwork)).ToList();
 
-                if (search!.Any(x => x.ContainerDbName == request.ContainerDbName) ||
-                    search!.Any(x => x.ContainerDbVolume == request.ContainerDbVolume) ||
-                    search!.Any(x => x.ContainerDbNetwork == request.ContainerDbNetwork))
+                if (search.Count() > 0)
                 {
                     _logger!.LogWarning(string.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade));
                     return Ok(ResponseFactory<ContainerDbResponse>.Error(string.Format("Já existe um {0} com o mesmo nome, porta, volume ou rede. Verifique os dados enviados e tente novamente.", _nomeEntidade)));

@@ -5,6 +5,7 @@
         public MappingProfile()
         {
             CreateMap<MenuResponse, MenuRequest>();
+            CreateMap<ContainerDbResponse, ContainerDbRequest>();
         }
     }
 }

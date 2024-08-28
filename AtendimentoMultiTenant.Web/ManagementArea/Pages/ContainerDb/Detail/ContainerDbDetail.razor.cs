@@ -85,6 +85,11 @@
             }
         }
 
+        public void GoBack()
+        {
+            NavigationManager.NavigateTo(RoutesEnumerator.Containers.GetDescription(), false, true);
+        }
+
         #endregion
     }
 }

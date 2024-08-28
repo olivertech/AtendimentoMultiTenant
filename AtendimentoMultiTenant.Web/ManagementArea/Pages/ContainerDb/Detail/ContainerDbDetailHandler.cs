@@ -8,11 +8,6 @@
         {
         }
 
-        public Task<ResponseFactory<ContainerDbResponse>> Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<ResponseFactory<IEnumerable<ContainerDbResponse>>> GetAll()
         {
             throw new NotImplementedException();
@@ -64,7 +59,35 @@
             throw new NotImplementedException();
         }
 
-        public Task<ResponseFactory<ContainerDbResponse>> Update(ContainerDbRequest request)
+        public async Task<ResponseFactory<ContainerDbResponse>> Update(ContainerDbRequest request)
+        {
+            ResponseFactory<ContainerDbResponse>? result = null!;
+
+            try
+            {
+                //Uso o mesmo nome do container apenas pra fins de passar na validação do request
+                request.ClientName = request.ContainerDbName;
+
+                var requestMessage = new HttpRequestMessage(HttpMethod.Put, "Api/ContainerDb/Update");
+                requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
+                requestMessage.Content = new StringContent(System.Text.Json.JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+
+                var response = await _httpClient.SendAsync(requestMessage);
+
+                if (!response!.IsSuccessStatusCode)
+                    return null!;
+
+                result = JsonConvert.DeserializeObject<ResponseFactory<ContainerDbResponse>?>(response.Content.ReadAsStringAsync().Result);
+            }
+            catch (Exception)
+            {
+                return new();
+            }
+
+            return result!;
+        }
+
+        public Task<ResponseFactory<ContainerDbResponse>> Delete(Guid id)
         {
             throw new NotImplementedException();
         }

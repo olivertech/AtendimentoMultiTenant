@@ -40,6 +40,8 @@
                     ConnectionString = "Host=localhost;Port=5432;Database=AtendimentoConfigDB;User ID=postgresconfiguser;Password=atendimento@config;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,
+                    CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")),
                 },
                 //TODO: Seed para fins de testes... No final, esse Seed deverá ser removido
                 new Tenant
@@ -50,6 +52,8 @@
                     ConnectionString = "Host=localhost;Port=5433;Database=Cliente1DB;User ID=usercliente1;Password=pwdcliente1;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,
+                    CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")),
                 },
                 new Tenant
                 {
@@ -59,6 +63,8 @@
                     ConnectionString = "Host=localhost;Port=5434;Database=Cliente2DB;User ID=usercliente2;Password=pwdcliente2;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,
+                    CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")),
                 },
                 new Tenant
                 {
@@ -68,6 +74,8 @@
                     ConnectionString = "Host=localhost;Port=5435;Database=Cliente3DB;User ID=usercliente3;Password=pwdcliente3;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,
+                    CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow),
+                    TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss")),
                 }
             });
         }

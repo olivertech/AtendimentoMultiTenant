@@ -47,7 +47,7 @@
         {
             try
             {
-                var list = await _entities!.Where(predicate).ToListAsync();
+                var list = await _entities!.Where(predicate).IgnoreQueryFilters().ToListAsync();
 
                 return list ?? Enumerable.Empty<T>();
             }

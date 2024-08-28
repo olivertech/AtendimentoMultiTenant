@@ -49,5 +49,13 @@
         [JsonProperty(PropertyName = "container_network")]
         [NameCustomValidator(ErrorMessage = "Informe apenas letras, números e '_', sem espaço em branco.")]
         public string? ContainerDbNetwork { get; set; }
+
+        [JsonPropertyName("is_up")]
+        [JsonProperty(PropertyName = "is_up")]
+        public bool IsUp { get; set; } = false;
+
+        [JsonPropertyName("is_active")]
+        [JsonProperty(PropertyName = "is_active")]
+        public bool IsActive { get; set; }
     }
 }

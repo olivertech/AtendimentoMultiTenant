@@ -54,21 +54,21 @@
         {
             try
             {
-                //Recupera do arquivo appsettings.json o caminho onde estão os arquivos associados a criação dos containers
+                //Recupera do arquivo appsettings.json o caminho onde estão os arquivos associados a criação dos containers e também remoção dos containers
                 string folder = _configuration!.GetSection("PastaDockerComposes").Value!;
 
                 //Recupera todos os registros que da tabela Container, que ainda não
                 //tenha sido processados e gerados os seus respectivos containers
-                IEnumerable<ContainerDb>? containers = await _unitOfWork.ContainerDbRepository.GetList(x => x.IsUp == false);
+                IEnumerable<ContainerDb>? containersToUp = await _unitOfWork.ContainerDbRepository.GetList(x => x.IsUp == false && x.IsActive == true);
 
                 string folderCliente = string.Empty;
 
                 //Caso existam registros de containers ainda a serem levantados
-                if (containers!.Any())
+                if (containersToUp!.Any())
                 {
-                    foreach (var container in containers!)
+                    foreach (var container in containersToUp!)
                     {
-                        folderCliente = Path.Combine(folder, container!.ContainerDbName!);
+                        folderCliente = Path.Combine(folder, container!.ContainerDbName! + "_Up");
 
                         //Caso por algum motivo o folder ainda exista, remove
                         RemoveFolderAndFiles(folderCliente, folder);
@@ -132,6 +132,7 @@
 
                                 container!.IsUp = true;
                                 container.CreatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
+                                container.TimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"));
 
                                 await _unitOfWork.ContainerDbRepository.Update(container);
                             }
@@ -144,6 +145,103 @@
                             {
                                 if (container!.IsUp)
                                     _unitOfWork.CommitAsync().Wait();
+                            }
+                        }
+                    }
+                }
+
+                folderCliente = string.Empty;
+
+                //Recupera todos os registros da tabela Container, que estão 
+                //com IsUp = false e IsActive = false, para então remover tais containers
+                IEnumerable<ContainerDb>? containersToDown = await _unitOfWork.ContainerDbRepository.GetList(x => x.IsUp == false && x.IsActive == false);
+
+                //Caso existam registros para baixar os containers
+                if (containersToDown!.Any())
+                {
+                    foreach (var container in containersToDown!)
+                    {
+                        folderCliente = Path.Combine(folder, container!.ContainerDbName! + "_down");
+
+                        //Caso por algum motivo o folder ainda exista, remove
+                        RemoveFolderAndFiles(folderCliente, folder);
+
+                        //Recria o folder com o nome do cliente
+                        Directory.CreateDirectory(folderCliente);
+
+                        //Se o objeto container for diferente de nulo
+                        if (container is not null)
+                        {
+                            try
+                            {
+                                //Define a pasta do cliente como corrente
+                                Directory.SetCurrentDirectory(folderCliente);
+
+                                //Copia a bat que vai ser usada para executar o comando "docker stop <container-id or container-name>"
+                                File.Copy(Path.Combine(folder, "DockerComposeDown.bat"), Path.Combine(folderCliente, "DockerComposeDown.bat"));
+
+                                string batFilePath = Path.Combine(folderCliente, "DockerComposeDown.bat");
+                                string dockerCommand = $"docker stop {container.ContainerDbName}";
+
+                                //Abre a bat e insere a linha de comando acima
+                                using (StreamWriter writer = new StreamWriter(batFilePath))
+                                {
+                                    writer.WriteLine(dockerCommand);
+                                }
+
+                                //Configura o comando a ser executado na linha de comando do console
+                                ProcessStartInfo startInfo = new ProcessStartInfo
+                                {
+                                    FileName = ".\\DockerComposeDown.bat",
+                                    UseShellExecute = true // Define como true para abrir em uma nova janela de comando
+                                };
+
+                                // Executa a derrubada do container
+                                Process.Start(startInfo);
+
+                                await Task.Delay(2000);
+
+                                //Remove o folder e arquivos da pasta do cliente
+                                RemoveFolderAndFiles(folderCliente, folder);
+
+                                var containerPort = container.PortId;
+
+                                //Atualiza o status do containerdb
+                                container!.IsUp = false;
+                                container.DeativatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
+                                container.DeactivatedTimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"));
+
+                                await _unitOfWork.ContainerDbRepository.Update(container);
+
+                                //Atualiza todas as tabelas relacionadas ao container que está sendo desligado
+                                var tenant = await _unitOfWork.TenantRepository.GetById(container.TenantId);
+
+                                tenant!.IsActive = false;
+                                tenant.DeativatedAt = DateOnly.FromDateTime(DateTime.UtcNow);
+                                tenant.DeactivatedTimedAt = TimeOnly.Parse(DateTime.Now.ToString("HH:mm:ss"));
+
+                                await _unitOfWork.TenantRepository.Update(tenant);
+
+                                //Remove logicamente a porta associada ao Containerdb
+                                await _unitOfWork.PortRepository.Delete(containerPort, true);
+
+                                //Inativa todos os usuários associados ao tenant
+                                var users = await _unitOfWork.UserRepository.GetList(x => x.TenantId == container.TenantId);
+
+                                foreach (var user in users!)
+                                {
+                                    user.IsActive = false;
+                                    await _unitOfWork.UserRepository.Update(user);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                _logger!.LogError(ex, "Execute (2)");
+                                container!.IsUp = true;
+                            }
+                            finally
+                            {
+                                _unitOfWork.CommitAsync().Wait();
                             }
                         }
                     }
@@ -163,9 +261,14 @@
                 File.Delete(Path.Combine(folderCliente, "DockerComposeUp.bat"));
             }
 
+            if (File.Exists(Path.Combine(folderCliente, "DockerComposeDown.bat")))
+            {
+                File.Delete(Path.Combine(folderCliente, "DockerComposeDown.bat"));
+            }
+
             Directory.SetCurrentDirectory(folder);
 
-            //Apaga o diretorio se não existir
+            //Apaga o diretorio se existir
             if (Directory.Exists(folderCliente))
             {
                 Directory.Delete(folderCliente);

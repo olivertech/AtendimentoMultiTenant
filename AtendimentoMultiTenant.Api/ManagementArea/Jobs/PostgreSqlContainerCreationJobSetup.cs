@@ -17,7 +17,7 @@
                 .AddTrigger(trigger =>
                     trigger.ForJob(containerCreationJobKey)
                            .WithSimpleSchedule(schedule =>
-                                schedule.WithIntervalInSeconds(10).RepeatForever()));
+                                schedule.WithIntervalInSeconds(120).RepeatForever()));
         }
     }
 }

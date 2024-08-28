@@ -32,7 +32,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Property<DateOnly?>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("date")
-                        .HasDefaultValue(new DateOnly(2024, 8, 7))
+                        .HasDefaultValue(new DateOnly(2024, 8, 28))
                         .HasColumnName("created_at");
 
                     b.Property<DateOnly?>("ExpiringAt")
@@ -48,7 +48,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Property<TimeOnly?>("TimedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("time without time zone")
-                        .HasDefaultValue(new TimeOnly(0, 12, 39))
+                        .HasDefaultValue(new TimeOnly(1, 28, 36))
                         .HasColumnName("timed_at");
 
                     b.Property<string>("Token")
@@ -163,65 +163,73 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         {
                             Id = new Guid("2fb70bc4-3d70-11ef-a3ab-0242ac1c0002"),
                             ContainerDbImage = "postgres:16.2",
-                            ContainerDbName = "postgresql_configs",
+                            ContainerDbName = "configs_postgresql",
                             ContainerDbNetwork = "db_tenant_network",
                             ContainerDbPort = "5432",
                             ContainerDbVolume = "db_config_volume",
-                            EnvironmentDbName = "AtendimentoConfigDB",
-                            EnvironmentDbPwd = "atendimento@config",
-                            EnvironmentDbUser = "postgresconfiguser",
+                            CreatedAt = new DateOnly(2024, 8, 28),
+                            EnvironmentDbName = "AtendimentoConfigDB_db",
+                            EnvironmentDbPwd = "atendimento@config_userpwd_db",
+                            EnvironmentDbUser = "postgresconfiguser_user_db",
                             IsActive = false,
                             IsUp = true,
                             PortId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
-                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002")
+                            TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
+                            TimedAt = new TimeOnly(1, 28, 36)
                         },
                         new
                         {
                             Id = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
                             ContainerDbImage = "postgres:16.2",
-                            ContainerDbName = "postgresql_cliente1",
+                            ContainerDbName = "cliente1_postgresql",
                             ContainerDbNetwork = "cliente1_network",
                             ContainerDbPort = "5434",
                             ContainerDbVolume = "cliente1_volume",
-                            EnvironmentDbName = "Cliente1DB",
-                            EnvironmentDbPwd = "pwdcliente1",
-                            EnvironmentDbUser = "usercliente1",
+                            CreatedAt = new DateOnly(2024, 8, 28),
+                            EnvironmentDbName = "Cliente1DB_db",
+                            EnvironmentDbPwd = "pwdcliente1_userpwd_db",
+                            EnvironmentDbUser = "usercliente1_user_db",
                             IsActive = false,
                             IsUp = false,
                             PortId = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
-                            TenantId = new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8")
+                            TenantId = new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"),
+                            TimedAt = new TimeOnly(1, 28, 36)
                         },
                         new
                         {
                             Id = new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
                             ContainerDbImage = "postgres:16.2",
-                            ContainerDbName = "postgresql_cliente2",
+                            ContainerDbName = "cliente2_postgresql",
                             ContainerDbNetwork = "cliente2_network",
                             ContainerDbPort = "5435",
                             ContainerDbVolume = "cliente2_volume",
-                            EnvironmentDbName = "Cliente2DB",
-                            EnvironmentDbPwd = "pwdcliente2",
-                            EnvironmentDbUser = "usercliente2",
+                            CreatedAt = new DateOnly(2024, 8, 28),
+                            EnvironmentDbName = "Cliente2DB_db",
+                            EnvironmentDbPwd = "pwdcliente2_userpwd_db",
+                            EnvironmentDbUser = "usercliente2_user_db",
                             IsActive = false,
                             IsUp = false,
                             PortId = new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
-                            TenantId = new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179")
+                            TenantId = new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"),
+                            TimedAt = new TimeOnly(1, 28, 36)
                         },
                         new
                         {
                             Id = new Guid("39715917-a829-41c4-8da1-64029a0c6364"),
                             ContainerDbImage = "postgres:16.2",
-                            ContainerDbName = "postgresql_cliente3",
+                            ContainerDbName = "cliente3_postgresql",
                             ContainerDbNetwork = "cliente3_network",
                             ContainerDbPort = "5436",
                             ContainerDbVolume = "cliente3_volume",
-                            EnvironmentDbName = "Cliente3DB",
-                            EnvironmentDbPwd = "pwdcliente3",
-                            EnvironmentDbUser = "usercliente3",
+                            CreatedAt = new DateOnly(2024, 8, 28),
+                            EnvironmentDbName = "Cliente3DB_db",
+                            EnvironmentDbPwd = "pwdcliente3_userpwd_db",
+                            EnvironmentDbUser = "usercliente3_user_db",
                             IsActive = false,
                             IsUp = false,
                             PortId = new Guid("39715917-a829-41c4-8da1-64029a0c6364"),
-                            TenantId = new Guid("25ae8570-56b6-4a9d-9616-c15862613525")
+                            TenantId = new Guid("25ae8570-56b6-4a9d-9616-c15862613525"),
+                            TimedAt = new TimeOnly(1, 28, 36)
                         });
                 });
 
@@ -351,7 +359,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         {
                             Id = new Guid("c60de74c-4e13-11ef-9dcf-0242ac1c0002"),
                             Description = "Description",
-                            Icone = "person",
+                            Icone = "group",
                             IsActive = true,
                             Name = "Users",
                             Route = "/users"
@@ -664,7 +672,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             InitialUrl = "",
                             IsActive = true,
                             Name = "Configuration",
-                            Secret = "123"
+                            Secret = "7Ej5TQznqUSkeXKZ"
                         },
                         new
                         {
@@ -701,6 +709,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("Id");
+
+                    b.Property<Guid?>("AccessTokenId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("access_token_id");
 
                     b.Property<DateOnly?>("CreatedAt")
                         .HasColumnType("date")
@@ -750,11 +762,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("time without time zone")
                         .HasColumnName("timed_at");
 
-                    b.Property<Guid?>("TokenAccessId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("access_token_id");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AccessTokenId");
 
                     b.HasIndex("Email")
                         .IsUnique()
@@ -764,22 +774,20 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
                     b.HasIndex("TenantId");
 
-                    b.HasIndex("TokenAccessId");
-
                     b.ToTable("User", (string)null);
 
                     b.HasData(
                         new
                         {
                             Id = new Guid("9a150059-614b-47c3-b56f-59deededd8d6"),
-                            CreatedAt = new DateOnly(2024, 8, 7),
+                            CreatedAt = new DateOnly(2024, 8, 28),
                             Email = "marcelo@sys.com",
                             IsActive = true,
                             Name = "Marcelo de Oliveira",
                             Password = "123",
                             RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
                             TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                            TimedAt = new TimeOnly(0, 12, 39)
+                            TimedAt = new TimeOnly(1, 28, 36)
                         });
                 });
 
@@ -860,6 +868,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.User", b =>
                 {
+                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.AccessToken", "AccessToken")
+                        .WithMany()
+                        .HasForeignKey("AccessTokenId");
+
                     b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId");
@@ -870,15 +882,11 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.AccessToken", "TokenAccess")
-                        .WithMany()
-                        .HasForeignKey("TokenAccessId");
+                    b.Navigation("AccessToken");
 
                     b.Navigation("Role");
 
                     b.Navigation("Tenant");
-
-                    b.Navigation("TokenAccess");
                 });
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.UserFeature", b =>

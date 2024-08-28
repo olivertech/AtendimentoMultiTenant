@@ -36,5 +36,8 @@ namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
 
         [JsonProperty(PropertyName = "is_up")]
         public bool IsUp { get; set; } = false;
+
+        [JsonProperty(PropertyName = "is_active")]
+        public bool IsActive { get; set; }
     }
 }
