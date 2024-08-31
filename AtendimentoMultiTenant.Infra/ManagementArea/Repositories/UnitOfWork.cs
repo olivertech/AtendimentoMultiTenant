@@ -15,6 +15,7 @@
         private IMenuRepository? _menuRepository;
         private IRoleMenuRepository? _roleMenuRepository;
         private IRoleRepository? _roleRepository;
+        private ISecretRepository? _secretRepository;
 
         public UnitOfWork(ManagementAreaDbContext context)
         {
@@ -42,6 +43,8 @@
         public IRoleMenuRepository RoleMenuRepository => _roleMenuRepository ??= new RoleMenuRepository(_context);
 
         public IRoleRepository RoleRepository => _roleRepository ??= new RoleRepository(_context);
+
+        public ISecretRepository SecretRepository => _secretRepository ??= new SecretRepository(_context);
 
         public async Task CommitAsync()
         {

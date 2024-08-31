@@ -133,18 +133,18 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 				if (result != null)
 				{
 					var response = _mapper.Map<RoleResponse>(entity);
-					return Ok(ResponseFactory<RoleResponse>.Success(string.Format("Inclusão de 0 Realizado Com Sucesso.", _nomeEntidade), response));
+					return Ok(ResponseFactory<RoleResponse>.Success(string.Format("Inclusão de {0} Realizado Com Sucesso.", _nomeEntidade), response));
 				}
 				else
 				{
 					_logger!.LogWarning(string.Format("Não foi possível incluir o {0}! Verifique os dados enviados.", _nomeEntidade));
-					return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Não foi possível incluir o 0! Verifique os dados enviados.", _nomeEntidade)));
+					return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Não foi possível incluir o {0}! Verifique os dados enviados.", _nomeEntidade)));
 				}
 			}
 			catch (Exception ex)
 			{
 				_logger!.LogError(ex, "Insert");
-				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Erro ao inserir o 0 - ", _nomeEntidade) + ex.Message));
+				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Erro ao inserir o {0} - ", _nomeEntidade) + ex.Message));
 			}
 		}
 
@@ -190,23 +190,23 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 				if (result)
 				{
 					var response = _mapper!.Map<RoleResponse>(entity);
-					return Ok(ResponseFactory<RoleResponse>.Success(string.Format("Atualização do 0 realizada com sucesso.", _nomeEntidade), response));
+					return Ok(ResponseFactory<RoleResponse>.Success(string.Format("Atualização do {0} realizada com sucesso.", _nomeEntidade), response));
 				}
 				else
 				{
 					_logger!.LogWarning(string.Format("{0} não encontrado para atualização!", _nomeEntidade));
-					return StatusCode(StatusCodes.Status304NotModified, ResponseFactory<RoleResponse>.Error(string.Format("0 não encontrado para atualização!", _nomeEntidade)));
+					return StatusCode(StatusCodes.Status304NotModified, ResponseFactory<RoleResponse>.Error(string.Format("{0} não encontrado para atualização!", _nomeEntidade)));
 				}
 			}
 			catch (Exception ex)
 			{
 				_logger!.LogError(ex, "Update");
-				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Erro ao atualizar a 0 - ", _nomeEntidade) + ex.Message));
+				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Erro ao atualizar a {0} - ", _nomeEntidade) + ex.Message));
 			}
 		}
 
 		[HttpDelete]
-		[Route(nameof(Delete))]
+		[Route("Delete/{id:Guid}")]
 		[Produces("application/json")]
 		[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(RoleResponse))]
 		[ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof(RoleResponse))]
@@ -243,18 +243,18 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 				if (result)
 				{
 					var response = _mapper!.Map<RoleResponse>(entity);
-					return Ok(ResponseFactory<RoleResponse>.Success(string.Format("Remoção de 0 realizada com sucesso.", _nomeEntidade), response));
+					return Ok(ResponseFactory<RoleResponse>.Success(string.Format("Remoção de {0} realizada com sucesso.", _nomeEntidade), response));
 				}
 				else
 				{
 					_logger!.LogWarning(string.Format("{0} não encontrada para remoção!", _nomeEntidade));
-					return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<RoleResponse>.Error(string.Format("0 não encontrada para remoção!", _nomeEntidade)));
+					return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<RoleResponse>.Error(string.Format("{0} não encontrada para remoção!", _nomeEntidade)));
 				}
 			}
 			catch (Exception ex)
 			{
 				_logger!.LogError(ex, "Delete");
-				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Erro ao remover a 0 - ", _nomeEntidade) + ex.Message));
+				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleResponse>.Error(string.Format("Erro ao remover a {0} - ", _nomeEntidade) + ex.Message));
 			}
 		}
 

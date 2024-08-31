@@ -50,7 +50,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ManagementArea\Pages\Feature\Detail\" />
     <Folder Include="ManagementArea\Pages\Tenant\" />
+    <Folder Include="ManagementArea\Pages\User\List\" />
+    <Folder Include="ManagementArea\Pages\User\Detail\" />
     <Folder Include="TenantArea\Handlers\" />
     <Folder Include="TenantArea\Interfaces\" />
     <Folder Include="TenantArea\Layouts\" />

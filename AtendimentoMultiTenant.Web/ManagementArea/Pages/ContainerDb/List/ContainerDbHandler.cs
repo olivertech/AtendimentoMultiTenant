@@ -1,4 +1,5 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
+﻿
+namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
 {
     public class ContainerDbHandler : HandlerBase, IHandler<ContainerDbRequest, ContainerDbPagedRequest, ContainerDbResponse>, IContainerDbHandler
     {
@@ -68,6 +69,11 @@
         }
 
         public Task<ResponseFactory<ContainerDbResponse>> Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ContainerDbResponse>?> GetList(Expression<Func<ContainerDbRequest, bool>> predicate)
         {
             throw new NotImplementedException();
         }

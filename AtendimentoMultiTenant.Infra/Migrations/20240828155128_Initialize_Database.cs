@@ -20,7 +20,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     token = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateOnly>(type: "date", nullable: true, defaultValue: new DateOnly(2024, 8, 28)),
-                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(1, 28, 36)),
+                    timed_at = table.Column<TimeOnly>(type: "time without time zone", nullable: true, defaultValue: new TimeOnly(12, 51, 28)),
                     expiring_at = table.Column<DateOnly>(type: "date", nullable: true),
                     is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
                 },
@@ -92,7 +92,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     name = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
-                    secret = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
                     connection_string = table.Column<string>(type: "text", nullable: false),
                     initial_url = table.Column<string>(type: "text", nullable: false),
                     created_at = table.Column<DateOnly>(type: "date", nullable: true),
@@ -165,6 +164,26 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Container_Db_Tenant_tenant_id",
+                        column: x => x.tenant_id,
+                        principalTable: "Tenant",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Secret",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    secret_key = table.Column<string>(type: "text", nullable: false),
+                    tenant_id = table.Column<Guid>(type: "uuid", nullable: false),
+                    is_active = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Secret", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Secret_Tenant_tenant_id",
                         column: x => x.tenant_id,
                         principalTable: "Tenant",
                         principalColumn: "Id",
@@ -295,13 +314,13 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             migrationBuilder.InsertData(
                 table: "Tenant",
-                columns: new[] { "Id", "connection_string", "created_at", "deactivated_timed_at", "deactivated_at", "initial_url", "is_active", "name", "secret", "timed_at" },
+                columns: new[] { "Id", "connection_string", "created_at", "deactivated_timed_at", "deactivated_at", "initial_url", "is_active", "name", "timed_at" },
                 values: new object[,]
                 {
-                    { new Guid("25ae8570-56b6-4a9d-9616-c15862613525"), "Host=localhost;Port=5435;Database=Cliente3DB;User ID=usercliente3;Password=pwdcliente3;Pooling=true;", null, null, null, "", true, "Tenant 3", "123", null },
-                    { new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"), "Host=localhost;Port=5434;Database=Cliente2DB;User ID=usercliente2;Password=pwdcliente2;Pooling=true;", null, null, null, "", true, "Tenant 2 ", "123", null },
-                    { new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), "Host=localhost;Port=5432;Database=AtendimentoConfigDB;User ID=postgresconfiguser;Password=atendimento@config;Pooling=true;", null, null, null, "", true, "Configuration", "7Ej5TQznqUSkeXKZ", null },
-                    { new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"), "Host=localhost;Port=5433;Database=Cliente1DB;User ID=usercliente1;Password=pwdcliente1;Pooling=true;", null, null, null, "", true, "Tenant 1", "123", null }
+                    { new Guid("25ae8570-56b6-4a9d-9616-c15862613525"), "Host=localhost;Port=5435;Database=Cliente3DB;User ID=usercliente3;Password=pwdcliente3;Pooling=true;", new DateOnly(2024, 8, 28), null, null, "", true, "Tenant 3", new TimeOnly(12, 51, 28) },
+                    { new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"), "Host=localhost;Port=5434;Database=Cliente2DB;User ID=usercliente2;Password=pwdcliente2;Pooling=true;", new DateOnly(2024, 8, 28), null, null, "", true, "Tenant 2 ", new TimeOnly(12, 51, 28) },
+                    { new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), "Host=localhost;Port=5432;Database=AtendimentoConfigDB;User ID=postgresconfiguser;Password=atendimento@config;Pooling=true;", new DateOnly(2024, 8, 28), null, null, "", true, "Configuration", new TimeOnly(12, 51, 28) },
+                    { new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"), "Host=localhost;Port=5433;Database=Cliente1DB;User ID=usercliente1;Password=pwdcliente1;Pooling=true;", new DateOnly(2024, 8, 28), null, null, "", true, "Tenant 1", new TimeOnly(12, 51, 28) }
                 });
 
             migrationBuilder.InsertData(
@@ -309,10 +328,10 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 columns: new[] { "Id", "container_db_image", "container_db_name", "container_db_network", "container_db_port", "container_db_volume", "created_at", "deactivated_timed_at", "deactivated_at", "environment_db_name", "environment_db_pwd", "environment_db_user", "is_up", "port_id", "tenant_id", "timed_at" },
                 values: new object[,]
                 {
-                    { new Guid("2fb70bc4-3d70-11ef-a3ab-0242ac1c0002"), "postgres:16.2", "configs_postgresql", "db_tenant_network", "5432", "db_config_volume", new DateOnly(2024, 8, 28), null, null, "AtendimentoConfigDB_db", "atendimento@config_userpwd_db", "postgresconfiguser_user_db", true, new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), new TimeOnly(1, 28, 36) },
-                    { new Guid("39715917-a829-41c4-8da1-64029a0c6364"), "postgres:16.2", "cliente3_postgresql", "cliente3_network", "5436", "cliente3_volume", new DateOnly(2024, 8, 28), null, null, "Cliente3DB_db", "pwdcliente3_userpwd_db", "usercliente3_user_db", false, new Guid("39715917-a829-41c4-8da1-64029a0c6364"), new Guid("25ae8570-56b6-4a9d-9616-c15862613525"), new TimeOnly(1, 28, 36) },
-                    { new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), "postgres:16.2", "cliente2_postgresql", "cliente2_network", "5435", "cliente2_volume", new DateOnly(2024, 8, 28), null, null, "Cliente2DB_db", "pwdcliente2_userpwd_db", "usercliente2_user_db", false, new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"), new TimeOnly(1, 28, 36) },
-                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), "postgres:16.2", "cliente1_postgresql", "cliente1_network", "5434", "cliente1_volume", new DateOnly(2024, 8, 28), null, null, "Cliente1DB_db", "pwdcliente1_userpwd_db", "usercliente1_user_db", false, new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"), new TimeOnly(1, 28, 36) }
+                    { new Guid("2fb70bc4-3d70-11ef-a3ab-0242ac1c0002"), "postgres:16.2", "configs_postgresql", "db_tenant_network", "5432", "db_config_volume", new DateOnly(2024, 8, 28), null, null, "AtendimentoConfigDB_db", "atendimento@config_userpwd_db", "postgresconfiguser_user_db", true, new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), new TimeOnly(12, 51, 28) },
+                    { new Guid("39715917-a829-41c4-8da1-64029a0c6364"), "postgres:16.2", "cliente3_postgresql", "cliente3_network", "5436", "cliente3_volume", new DateOnly(2024, 8, 28), null, null, "Cliente3DB_db", "pwdcliente3_userpwd_db", "usercliente3_user_db", false, new Guid("39715917-a829-41c4-8da1-64029a0c6364"), new Guid("25ae8570-56b6-4a9d-9616-c15862613525"), new TimeOnly(12, 51, 28) },
+                    { new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), "postgres:16.2", "cliente2_postgresql", "cliente2_network", "5435", "cliente2_volume", new DateOnly(2024, 8, 28), null, null, "Cliente2DB_db", "pwdcliente2_userpwd_db", "usercliente2_user_db", false, new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"), new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"), new TimeOnly(12, 51, 28) },
+                    { new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), "postgres:16.2", "cliente1_postgresql", "cliente1_network", "5434", "cliente1_volume", new DateOnly(2024, 8, 28), null, null, "Cliente1DB_db", "pwdcliente1_userpwd_db", "usercliente1_user_db", false, new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"), new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"), new TimeOnly(12, 51, 28) }
                 });
 
             migrationBuilder.InsertData(
@@ -334,7 +353,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "access_token_id", "created_at", "deactivates_timed_at", "deactivated_at", "email", "is_active", "name", "password", "role_id", "tenant_id", "timed_at" },
-                values: new object[] { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), null, new DateOnly(2024, 8, 28), null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), new TimeOnly(1, 28, 36) });
+                values: new object[] { new Guid("9a150059-614b-47c3-b56f-59deededd8d6"), null, new DateOnly(2024, 8, 28), null, null, "marcelo@sys.com", true, "Marcelo de Oliveira", "123", new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"), new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"), new TimeOnly(12, 51, 28) });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Container_Db_port_id",
@@ -355,6 +374,11 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                 name: "IX_Role_Menu_RoleId",
                 table: "Role_Menu",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Secret_tenant_id",
+                table: "Secret",
+                column: "tenant_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_access_token_id",
@@ -394,6 +418,9 @@ namespace AtendimentoMultiTenant.Infra.Migrations
 
             migrationBuilder.DropTable(
                 name: "Role_Menu");
+
+            migrationBuilder.DropTable(
+                name: "Secret");
 
             migrationBuilder.DropTable(
                 name: "User_Feature");

@@ -26,6 +26,7 @@
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IMenuRepository, MenuRepository>();
             services.AddScoped<IRoleMenuRepository, RoleMenuRepository>();
+            services.AddScoped<ISecretRepository, SecretRepository>();
 
             //Others
             services.AddScoped<IUnitOfWork, UnitOfWork>();

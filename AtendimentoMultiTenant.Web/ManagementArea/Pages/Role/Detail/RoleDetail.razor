@@ -1,0 +1,112 @@
+﻿@page "/roledetail"
+@page "/roledetail/{Id}"
+
+@using AtendimentoMultiTenant.Web.Helpers
+@using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
+@using FluentValidation
+@layout ConfigDashboardMainLayout
+@inherits RoleDetailPage
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
+    <MudOverlay @bind-Visible="IsBusy" DarkBackground Absolute="false">
+        <ChildContent>
+            <Loading IsLoading="IsBusy" />
+        </ChildContent>
+    </MudOverlay>
+    <EditForm id="@form" Model="@InputModel" OnValidSubmit="OnValidSubmitAsync" OnInvalidSubmit="OnInvalidSubmit">
+        <Morris.Blazor.Validation.Validate />
+        <MudCard Class="pa-5" Elevation="4">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Detalhes da Role</MudText>
+                </CardHeaderContent>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudGrid>
+                    <MudItem xs="12" sm="12" md="12" lg="12">
+                        <MudPaper Class="ps-8 pt-5 pe-8 pb-2" Elevation="4">
+                            <MudStack Row="true">
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.Name"
+                                              Validation="@RoleNameValidator.Validation"
+                                              Immediate="true"
+                                              Label="Nome da Role" Required="true" />
+                                <MudTextField Class="mb-5" @bind-Value="InputModel.Description"
+                                              Immediate="true"
+                                              Label="Descrição da Role" Required="true" />
+                            </MudStack>
+                            <MudStack>
+                                <MudSelect T="string" Label="Menus" MultiSelection="true" @bind-Value="menu" @bind-SelectedValues="selectedOptions">
+                                    @foreach (var item in ListMenus!)
+                                    {
+                                        <MudSelectItem T="string" Value="@item.Id.ToString()">@item.Name</MudSelectItem>
+                                    }
+                                </MudSelect>
+                            </MudStack>
+                            <MudStack Row="true">
+                                <MudSwitch @bind-Value="InputModel.IsActive" Label="Ativo" Style="font-size: 8pt;" Class="mt-4 ml-5"
+                                           ThumbIcon="@(InputModel.IsActive == true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+                                           ThumbIconColor="@(InputModel.IsActive == true ? Color.Success : Color.Error)" />
+                            </MudStack>
+                        </MudPaper>
+                    </MudItem>
+                </MudGrid>
+            </MudCardContent>
+            <MudCardActions Class="d-flex flex-row-reverse flex-grow-1 gap-4 me-2">
+                <MudStack Justify="Justify.FlexEnd" Row="true">
+                    <MudButton OnClick="GoBack" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Tertiary">Voltar</MudButton>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Primary">Salvar</MudButton>
+                </MudStack>
+            </MudCardActions>
+        </MudCard>
+    </EditForm>
+
+</MudContainer>
+
+@code {
+    #region Properties
+
+    private string menu { get; set; } = "Nenhum Selecionado";
+    private IEnumerable<string> selectedOptions { get; set; } = new HashSet<string>() { "Alaska" };
+
+    [Parameter]
+    public string? Id { get; set; }
+
+    EditForm form = null!;
+
+    #endregion
+
+    #region Validators
+
+    FormValidatorHelper<string> RoleNameValidator = new FormValidatorHelper<string>(x => x
+    .NotEmpty()
+    .Length(1, 250));
+
+    #endregion
+
+    #region Methods
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadMenus();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if (!string.IsNullOrEmpty(Id))
+        {
+            MenuId = Guid.Parse(Id!);
+            GetDetail();
+        }
+        else
+        {
+            InputModel.IsActive = false;
+        }
+    }
+
+    protected async void GetDetail()
+    {
+        await GetRole(MenuId);
+    }
+
+    #endregion
+}

@@ -2,6 +2,5 @@
 {
     public interface ITenantRepository : IRepositoryConfigurationBase<Tenant>
     {
-        Task<Tenant?> GetTenantBySecret(string secret);
     }
 }

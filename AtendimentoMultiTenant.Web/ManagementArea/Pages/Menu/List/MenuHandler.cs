@@ -1,5 +1,3 @@
-using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
-
 namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 {
     public class MenuHandler : HandlerBase, IHandler<MenuRequest, MenuPagedRequest, MenuResponse>, IMenuHandler
@@ -92,6 +90,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
             }
 
             return result!;
+        }
+
+        public Task<IEnumerable<MenuResponse>?> GetList(Expression<Func<MenuRequest, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

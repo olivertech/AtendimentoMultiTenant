@@ -4,8 +4,9 @@
     {
         public MappingProfile()
         {
-            CreateMap<MenuResponse, MenuRequest>();
             CreateMap<ContainerDbResponse, ContainerDbRequest>();
+            CreateMap<MenuResponse, MenuRequest>();
+            CreateMap<RoleResponse, RoleRequest>();
         }
     }
 }

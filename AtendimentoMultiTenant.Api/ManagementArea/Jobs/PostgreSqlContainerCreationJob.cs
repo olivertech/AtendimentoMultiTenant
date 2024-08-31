@@ -154,7 +154,7 @@
 
                 //Recupera todos os registros da tabela Container, que estão 
                 //com IsUp = false e IsActive = false, para então remover tais containers
-                IEnumerable<ContainerDb>? containersToDown = await _unitOfWork.ContainerDbRepository.GetList(x => x.IsUp == false && x.IsActive == false);
+                IEnumerable<ContainerDb>? containersToDown = await _unitOfWork.ContainerDbRepository.GetList(x => x.IsUp == false && x.IsActive == false && x.DeativatedAt == null);
 
                 //Caso existam registros para baixar os containers
                 if (containersToDown!.Any())

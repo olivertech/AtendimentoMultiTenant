@@ -1,10 +1,7 @@
-﻿using AtendimentoMultiTenant.Shared.ManagementArea.Interfaces;
-using AtendimentoMultiTenant.Shared.ManagementArea.Requests;
+﻿using AtendimentoMultiTenant.Shared.ManagementArea.Requests;
 using AtendimentoMultiTenant.Shared.ManagementArea.Responses;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace AtendimentoMultiTenant.CodeGenerator
@@ -82,6 +79,11 @@ namespace AtendimentoMultiTenant.CodeGenerator
                     sb.AppendLine("\t\t}");
                     sb.AppendLine();
                     sb.AppendLine($"\t\tpublic Task<ResponsePagedFactory<IEnumerable<{entityName}Response>>> GetAll({entityName}PagedRequest request)");
+                    sb.AppendLine("\t\t{");
+                    sb.AppendLine("\t\t\tthrow new NotImplementedException();");
+                    sb.AppendLine("\t\t}");
+                    sb.AppendLine();
+                    sb.AppendLine($"\t\tpublic Task<IEnumerable<{entityName}Response>?> GetList(Expression<Func<{entityName}Request, bool>> predicate)");
                     sb.AppendLine("\t\t{");
                     sb.AppendLine("\t\t\tthrow new NotImplementedException();");
                     sb.AppendLine("\t\t}");
@@ -176,6 +178,7 @@ namespace AtendimentoMultiTenant.CodeGenerator
                     var controllerName = $"{entityName}Controller";
 
                     var sb = new StringBuilder();
+                    var zero = "{0}";
 
                     sb.AppendLine("using AtendimentoMultiTenant.Core.ManagementArea.Entities;");
                     sb.AppendLine("using AtendimentoMultiTenant.Api.ManagementArea.Interfaces;");
@@ -312,18 +315,18 @@ namespace AtendimentoMultiTenant.CodeGenerator
                     sb.AppendLine("\t\t\t\tif (result != null)");
                     sb.AppendLine("\t\t\t\t{");
                     sb.AppendLine($"\t\t\t\t\tvar response = _mapper.Map<{entityName}Response>(entity);");
-                    sb.AppendLine($"\t\t\t\t\treturn Ok(ResponseFactory<{entityName}Response>.Success(string.Format(\"Inclusão de {0} Realizado Com Sucesso.\", _nomeEntidade), response));");
+                    sb.AppendLine($"\t\t\t\t\treturn Ok(ResponseFactory<{entityName}Response>.Success(string.Format(\"Inclusão de {zero} Realizado Com Sucesso.\", _nomeEntidade), response));");
                     sb.AppendLine("\t\t\t\t}");
                     sb.AppendLine("\t\t\t\telse");
                     sb.AppendLine("\t\t\t\t{");
                     sb.AppendLine("\t\t\t\t\t_logger!.LogWarning(string.Format(\"Não foi possível incluir o {0}! Verifique os dados enviados.\", _nomeEntidade));");
-                    sb.AppendLine($"\t\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Não foi possível incluir o {0}! Verifique os dados enviados.\", _nomeEntidade)));");
+                    sb.AppendLine($"\t\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Não foi possível incluir o {zero}! Verifique os dados enviados.\", _nomeEntidade)));");
                     sb.AppendLine("\t\t\t\t}");
                     sb.AppendLine("\t\t\t}");
                     sb.AppendLine("\t\t\tcatch (Exception ex)");
                     sb.AppendLine("\t\t\t{");
                     sb.AppendLine("\t\t\t\t_logger!.LogError(ex, \"Insert\");");
-                    sb.AppendLine($"\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Erro ao inserir o {0} - \", _nomeEntidade) + ex.Message));");
+                    sb.AppendLine($"\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Erro ao inserir o {zero} - \", _nomeEntidade) + ex.Message));");
                     sb.AppendLine("\t\t\t}");
                     sb.AppendLine("\t\t}");
                     sb.AppendLine();
@@ -369,23 +372,23 @@ namespace AtendimentoMultiTenant.CodeGenerator
                     sb.AppendLine("\t\t\t\tif (result)");
                     sb.AppendLine("\t\t\t\t{");
                     sb.AppendLine($"\t\t\t\t\tvar response = _mapper!.Map<{entityName}Response>(entity);");
-                    sb.AppendLine($"\t\t\t\t\treturn Ok(ResponseFactory<{entityName}Response>.Success(string.Format(\"Atualização do {0} realizada com sucesso.\", _nomeEntidade), response));");
+                    sb.AppendLine($"\t\t\t\t\treturn Ok(ResponseFactory<{entityName}Response>.Success(string.Format(\"Atualização do {zero} realizada com sucesso.\", _nomeEntidade), response));");
                     sb.AppendLine("\t\t\t\t}");
                     sb.AppendLine("\t\t\t\telse");
                     sb.AppendLine("\t\t\t\t{");
                     sb.AppendLine("\t\t\t\t\t_logger!.LogWarning(string.Format(\"{0} não encontrado para atualização!\", _nomeEntidade));");
-                    sb.AppendLine($"\t\t\t\t\treturn StatusCode(StatusCodes.Status304NotModified, ResponseFactory<{entityName}Response>.Error(string.Format(\"{0} não encontrado para atualização!\", _nomeEntidade)));");
+                    sb.AppendLine($"\t\t\t\t\treturn StatusCode(StatusCodes.Status304NotModified, ResponseFactory<{entityName}Response>.Error(string.Format(\"{zero} não encontrado para atualização!\", _nomeEntidade)));");
                     sb.AppendLine("\t\t\t\t}");
                     sb.AppendLine("\t\t\t}");
                     sb.AppendLine("\t\t\tcatch (Exception ex)");
                     sb.AppendLine("\t\t\t{");
                     sb.AppendLine("\t\t\t\t_logger!.LogError(ex, \"Update\");");
-                    sb.AppendLine($"\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Erro ao atualizar a {0} - \", _nomeEntidade) + ex.Message));");
+                    sb.AppendLine($"\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Erro ao atualizar a {zero} - \", _nomeEntidade) + ex.Message));");
                     sb.AppendLine("\t\t\t}");
                     sb.AppendLine("\t\t}");
                     sb.AppendLine();
                     sb.AppendLine("\t\t[HttpDelete]");
-                    sb.AppendLine("\t\t[Route(nameof(Delete))]");
+                    sb.AppendLine("\t\t[Route(\"Delete/{id:Guid}\")]");
                     sb.AppendLine("\t\t[Produces(\"application/json\")]");
                     sb.AppendLine($"\t\t[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof({entityName}Response))]");
                     sb.AppendLine($"\t\t[ProducesResponseType(typeof(int), StatusCodes.Status404NotFound, Type = typeof({entityName}Response))]");
@@ -422,18 +425,18 @@ namespace AtendimentoMultiTenant.CodeGenerator
                     sb.AppendLine("\t\t\t\tif (result)");
                     sb.AppendLine("\t\t\t\t{");
                     sb.AppendLine($"\t\t\t\t\tvar response = _mapper!.Map<{entityName}Response>(entity);");
-                    sb.AppendLine($"\t\t\t\t\treturn Ok(ResponseFactory<{entityName}Response>.Success(string.Format(\"Remoção de {0} realizada com sucesso.\", _nomeEntidade), response));");
+                    sb.AppendLine($"\t\t\t\t\treturn Ok(ResponseFactory<{entityName}Response>.Success(string.Format(\"Remoção de {zero} realizada com sucesso.\", _nomeEntidade), response));");
                     sb.AppendLine("\t\t\t\t}");
                     sb.AppendLine("\t\t\t\telse");
                     sb.AppendLine("\t\t\t\t{");
                     sb.AppendLine("\t\t\t\t\t_logger!.LogWarning(string.Format(\"{0} não encontrada para remoção!\", _nomeEntidade));");
-                    sb.AppendLine($"\t\t\t\t\treturn StatusCode(StatusCodes.Status404NotFound, ResponseFactory<{entityName}Response>.Error(string.Format(\"{0} não encontrada para remoção!\", _nomeEntidade)));");
+                    sb.AppendLine($"\t\t\t\t\treturn StatusCode(StatusCodes.Status404NotFound, ResponseFactory<{entityName}Response>.Error(string.Format(\"{zero} não encontrada para remoção!\", _nomeEntidade)));");
                     sb.AppendLine("\t\t\t\t}");
                     sb.AppendLine("\t\t\t}");
                     sb.AppendLine("\t\t\tcatch (Exception ex)");
                     sb.AppendLine("\t\t\t{");
                     sb.AppendLine("\t\t\t\t_logger!.LogError(ex, \"Delete\");");
-                    sb.AppendLine($"\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Erro ao remover a {0} - \", _nomeEntidade) + ex.Message));");
+                    sb.AppendLine($"\t\t\t\treturn StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<{entityName}Response>.Error(string.Format(\"Erro ao remover a {zero} - \", _nomeEntidade) + ex.Message));");
                     sb.AppendLine("\t\t\t}");
                     sb.AppendLine("\t\t}");
                     sb.AppendLine();

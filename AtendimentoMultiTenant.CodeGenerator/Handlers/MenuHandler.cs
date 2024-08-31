@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<MenuResponse>?> GetList(Expression<Func<MenuRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<MenuResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

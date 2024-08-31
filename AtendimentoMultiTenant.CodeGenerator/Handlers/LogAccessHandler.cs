@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.LogAccess.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<LogAccessResponse>?> GetList(Expression<Func<LogAccessRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<LogAccessResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

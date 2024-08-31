@@ -17,6 +17,9 @@
             services.AddScoped<IContainerDbDetailHandler, ContainerDbDetailHandler>();
             services.AddScoped<IMenuHandler, MenuHandler>();
             services.AddScoped<IMenuDetailHandler, MenuDetailHandler>();
+            services.AddScoped<IFeatureHandler, FeatureHandler>();
+            services.AddScoped<IRoleHandler, RoleHandler>();
+            services.AddScoped<IRoleDetailHandler, RoleDetailHandler>();
 
             //Services injections
             services.AddScoped<IStorageService, StorageService>();

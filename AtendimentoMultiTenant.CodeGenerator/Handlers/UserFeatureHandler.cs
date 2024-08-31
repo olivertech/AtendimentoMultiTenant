@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.UserFeature.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<UserFeatureResponse>?> GetList(Expression<Func<UserFeatureRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<UserFeatureResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

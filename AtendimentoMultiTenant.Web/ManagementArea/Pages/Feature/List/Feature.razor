@@ -1,0 +1,131 @@
+﻿@page "/features"
+@using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
+@layout ConfigDashboardMainLayout
+@inherits FeaturePage
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-10">
+    <MudGrid>
+        <MudOverlay @bind-Visible="IsBusy" DarkBackground Absolute="false">
+            <ChildContent>
+                <Loading IsLoading="IsBusy" />
+            </ChildContent>
+        </MudOverlay>
+        <MudItem xs="12" sm="12" md="12" lg="12">
+            <MudPaper Class="pa-5">
+                <MudTable T="FeatureResponse"
+                          Items="@List"
+                          Dense="@dense"
+                          Hover="@hover"
+                          Bordered="@bordered"
+                          Striped="@striped"
+                          Loading="@IsBusy"
+                          OnRowClick="@(args => OpenItem(args))"
+                          RowClass="cursor-pointer"
+                          Filter="new Func<FeatureResponse,bool>(DoFilter)">
+                    <ToolBarContent>
+                        <MudText Typo="Typo.h6">Features do Sistema</MudText>
+                        <MudSpacer />
+                        <MudTextField @bind-Value="searchContentFieldValue"
+                                      Placeholder="Informe o valor e tecle enter..."
+                                      Label="Pesquisar"
+                                      Variant="Variant.Text"
+                                      Adornment="Adornment.Start"
+                                      AdornmentIcon="@Icons.Material.Filled.Search"
+                                      IconSize="Size.Medium"
+                                      Immediate="true"
+                                      Class="mt-0"></MudTextField>
+                    </ToolBarContent>
+                    <HeaderContent>
+                        <MudTh Style="width:60%; font-weight:600">Nome</MudTh>
+                        <MudTh Style="width:5%; text-align:center; font-weight:600">Ativo</MudTh>
+                        <MudTh Style="width:10%; text-align:center; font-weight:600">Ação</MudTh>
+                    </HeaderContent>
+                    <RowTemplate>
+                        <MudTd DataLabel="Nome">@context.Name</MudTd>
+                        <MudTd DataLabel="Ativo" Style="text-align:center">
+                            @if (@context.IsActive)
+                            {
+                                <span class="material-symbols-outlined" style="color: green">
+                                    check_small
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="material-symbols-outlined" style="color: red">
+                                    close_small
+                                </span>
+                            }
+                        </MudTd>
+                        <MudTd DataLabel="Ação" Style="text-align:center">
+                            <MudIconButton OnClick="@(()=> Delete(context.Id, "F"))" Icon="@Icons.Material.Filled.Delete" style="color: red" aria-label="delete" title="Deleção Física"></MudIconButton>
+                            <MudIconButton Disabled="!context.IsActive" OnClick="@(()=> Delete(context.Id, "L"))" Icon="@Icons.Material.Filled.Delete" style="color: gray" aria-label="delete" title="Deleção Lógica"></MudIconButton>
+                        </MudTd>
+                    </RowTemplate>
+                    <PagerContent>
+                        <MudTablePager />
+                    </PagerContent>
+                </MudTable>
+                <MudStack Justify="Justify.SpaceBetween" Row="true">
+                    <div class="d-flex flex-wrap mt-4">
+                        <MudSwitch @bind-Value="hover" Color="Color.Tertiary">Hover</MudSwitch>
+                        <MudSwitch @bind-Value="dense" Color="Color.Tertiary">Dense</MudSwitch>
+                        <MudSwitch @bind-Value="striped" Color="Color.Tertiary">Striped</MudSwitch>
+                        <MudSwitch @bind-Value="bordered" Color="Color.Tertiary">Bordered</MudSwitch>
+                    </div>
+                    <div class="d-flex flex-wrap mt-4">
+                        <MudButton OnClick="NewItem" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary">Inserir</MudButton>
+                    </div>
+                </MudStack>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    #region Grid Properties
+
+    private bool dense = true;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = true;
+    private string searchContentFieldValue = "";
+
+    #endregion
+
+    #region Page Methods
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetFeatures();
+    }
+
+    protected void OpenItem(TableRowClickEventArgs<FeatureResponse> args)
+    {
+        var item = args.Item;
+        ShowDetails(item!.Id);
+    }
+
+    protected async Task Delete(Guid id, string type)
+    {
+        await DeleteItem(id, type);
+    }
+
+    private bool DoFilter(FeatureResponse element) => FilterContent(element, searchContentFieldValue);
+
+    private bool FilterContent(FeatureResponse element, string searchContent)
+    {
+        if (string.IsNullOrWhiteSpace(searchContent))
+            return true;
+
+        if (element.Name!.ToString().Contains(searchContent, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        if ($"{element.Name}".Contains(searchContent))
+            return true;
+
+        return false;
+    }
+
+    #endregion
+}

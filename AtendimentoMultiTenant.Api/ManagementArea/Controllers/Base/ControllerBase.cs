@@ -34,14 +34,16 @@
                 var claims = _claimsIdentity!.Claims;
                 var role = claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault()!.Value;
                 var email = claims.Where(x => x.Type == ClaimTypes.Email).FirstOrDefault()!.Value;
-                var secret = claims.Where(x => x.Type == ClaimTypes.Hash).FirstOrDefault()!.Value;
+                var idTenant = Guid.Parse(claims.Where(x => x.Type == ClaimTypes.Hash).FirstOrDefault()!.Value);
 
                 var auth = HttpContext.Response.Headers.Authorization;
 
                 var user = _unitOfWork!.UserRepository.GetByEmail(email).Result;
-                var tenant = _unitOfWork!.TenantRepository.GetTenantBySecret(secret).Result;
 
-                if (user != null && tenant != null)
+                //REVER ISSO AQUI ... VER COMO USAR O SECRET SALVO EM SESSION PRA COMPARAR AQUI...
+                var secret = _unitOfWork!.SecretRepository.GetSecretByTenant(idTenant).Result;
+
+                if (user != null && secret != null)
                 {
                     return true;
                 }

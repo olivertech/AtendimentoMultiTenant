@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.User.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<UserResponse>?> GetList(Expression<Func<UserRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<UserResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

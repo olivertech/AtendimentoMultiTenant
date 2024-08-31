@@ -1,4 +1,5 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.LogAccess
+﻿
+namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.LogAccess
 {
     public class LogAccessHandler : HandlerBase, IHandler<LogAccessRequest, LogAccessPagedRequest, LogAccessResponse>, ILogAccessHandler
     {
@@ -64,6 +65,11 @@
         }
 
         public Task<ResponseFactory<LogAccessResponse>> Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<LogAccessResponse>?> GetList(Expression<Func<LogAccessRequest, bool>> predicate)
         {
             throw new NotImplementedException();
         }

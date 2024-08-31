@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.AccessToken.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<AccessTokenResponse>?> GetList(Expression<Func<AccessTokenRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<AccessTokenResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

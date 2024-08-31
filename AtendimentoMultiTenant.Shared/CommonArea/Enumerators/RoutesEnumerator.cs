@@ -20,5 +20,13 @@
         Menus,
         [Description("/menudetail")]
         MenuDetail,
+        [Description("/features")]
+        Features,
+        [Description("/featuredetail")]
+        FeatureDetail,
+        [Description("/roles")]
+        Roles,
+        [Description("/roledetail")]
+        RoleDetail,
     }
 }

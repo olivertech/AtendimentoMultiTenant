@@ -18,6 +18,7 @@
         public DbSet<Menu> Menus { get; set; }
         public DbSet<RoleMenu> RoleMenus { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<Secret> Secrets { get; set; }
 
         /// <summary>
         /// Faz referencia as classes de configurações das entidades

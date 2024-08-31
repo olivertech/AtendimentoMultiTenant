@@ -13,6 +13,7 @@
         IMenuRepository MenuRepository { get; }
         IRoleMenuRepository RoleMenuRepository { get; }
         IRoleRepository RoleRepository { get; }
+        ISecretRepository SecretRepository { get; }
 
         Task CommitAsync();
     }

@@ -1,4 +1,5 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.Detail
+﻿
+namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.Detail
 {
     public class ContainerDbDetailHandler : HandlerBase, IHandler<ContainerDbRequest, ContainerDbPagedRequest, ContainerDbResponse>, IContainerDbDetailHandler
     {
@@ -25,7 +26,6 @@
             try
             {
                 var requestMessage = new HttpRequestMessage(HttpMethod.Get, $"Api/ContainerDb/GetById/{id}");
-
                 requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await GetToken());
                 requestMessage.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -88,6 +88,11 @@
         }
 
         public Task<ResponseFactory<ContainerDbResponse>> Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<ContainerDbResponse>?> GetList(Expression<Func<ContainerDbRequest, bool>> predicate)
         {
             throw new NotImplementedException();
         }

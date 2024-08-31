@@ -29,9 +29,6 @@ namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
 		[JsonProperty(PropertyName = "name")]
 		public String? Name { get; set; }
 
-		[JsonProperty(PropertyName = "secret")]
-		public String? Secret { get; set; }
-
 		[JsonProperty(PropertyName = "timedat")]
 		public TimeOnly? TimedAt { get; set; }
 

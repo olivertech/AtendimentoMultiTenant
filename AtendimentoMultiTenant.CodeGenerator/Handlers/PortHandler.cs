@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Port.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<PortResponse>?> GetList(Expression<Func<PortRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<PortResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

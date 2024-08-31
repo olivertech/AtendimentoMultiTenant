@@ -8,6 +8,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Handlers\AccessTokenHandler.cs" />
+    <Compile Remove="Handlers\ContainerDbHandler.cs" />
+    <Compile Remove="Handlers\FeatureHandler.cs" />
+    <Compile Remove="Handlers\LogAccessHandler.cs" />
+    <Compile Remove="Handlers\MenuHandler.cs" />
+    <Compile Remove="Handlers\PortHandler.cs" />
+    <Compile Remove="Handlers\RoleHandler.cs" />
+    <Compile Remove="Handlers\RoleMenuHandler.cs" />
+    <Compile Remove="Handlers\SecretHandler.cs" />
+    <Compile Remove="Handlers\TenantHandler.cs" />
+    <Compile Remove="Handlers\UserFeatureHandler.cs" />
+    <Compile Remove="Handlers\UserHandler.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">
       <PrivateAssets>all</PrivateAssets>

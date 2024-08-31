@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<ContainerDbResponse>?> GetList(Expression<Func<ContainerDbRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<ContainerDbResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

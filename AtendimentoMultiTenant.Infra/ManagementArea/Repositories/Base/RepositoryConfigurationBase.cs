@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
+﻿using System.Collections.Generic;
+
+namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
 {
     public class RepositoryConfigurationBase<T> : IRepositoryConfigurationBase<T>
         where T : ConfigurationEntityBase
@@ -32,10 +34,7 @@
             {
                 var entity = await _entities!.Where(x => x.Id == id).IgnoreQueryFilters().FirstOrDefaultAsync();
 
-                if (entity == null)
-                    throw new InvalidOperationException("Registro não encontrado!");
-
-                return entity;
+                return entity ?? null;
             }
             catch (Exception ex)
             {

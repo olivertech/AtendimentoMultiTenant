@@ -251,7 +251,6 @@
                 entity.TenantId = _unitOfWork.TenantRepository.Insert(new Tenant
                 {
                     InitialUrl = $"https://localhost:{entity.ContainerDbPort}",
-                    Secret = "123",
                     ConnectionString = $"Host=localhost;Port={entity.PortId};Database={request.EnvironmentDbName};User ID={request.EnvironmentDbUser};Password={request.EnvironmentDbPwd};Pooling=true;",
                     IsActive = true,
                     Name = request.ClientName

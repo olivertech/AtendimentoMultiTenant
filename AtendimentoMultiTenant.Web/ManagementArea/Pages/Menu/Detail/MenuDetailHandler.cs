@@ -8,11 +8,6 @@
         {
         }
 
-        public Task<ResponseFactory<MenuResponse>> Delete(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
         public Task<ResponseFactory<IEnumerable<MenuResponse>>> GetAll()
         {
             throw new NotImplementedException();
@@ -107,6 +102,16 @@
             }
 
             return result!;
+        }
+
+        public Task<ResponseFactory<MenuResponse>> Delete(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IEnumerable<MenuResponse>?> GetList(Expression<Func<MenuRequest, bool>> predicate)
+        {
+            throw new NotImplementedException();
         }
     }
 }

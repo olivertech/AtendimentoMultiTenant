@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
+﻿namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 {
     [Route("api/Login")]
     [SwaggerTag("Login")]
@@ -47,13 +45,33 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                 if (user == null)
                     return BadRequest(new { Message = "Email e/ou senha inválido(s)!" });
 
-                //Recupera a chave Secret associada ao Tenant do usuário que está logando
-                var secretList = await _unitOfWork.TenantRepository.GetList(x => x.Id == user.TenantId);
+                //Gera uma nova secretkey - Será sempre gerado uma nova secretkey a cada novo login
+                Tenant? tenant = await _unitOfWork.TenantRepository.GetById(user.TenantId);
+                Secret? secret = await _unitOfWork.SecretRepository.GetById(user.TenantId);
 
-                //DESENVOLVER ROBO QUE TROCA TODAS AS SECRETS DAS TENANTS DE TEMPOS EM TEMPOS
-                //COMO FORMA DE EVITAR INVASÕES... FAZER A TROCA DAS SECRETS A CADA 24 HORAS
-                var secret = secretList!.FirstOrDefault()!.Secret;
-                var newToken = JwtAuth.GenerateToken(user, secret!, _configuration!);
+                if(secret == null)
+                {
+                    secret = new Secret
+                    {
+                        SecretKey = CryptoHelper.GenerateRandomSecret(25),
+                        Tenant = tenant,
+                        TenantId = tenant!.Id
+                    };
+
+                    //Atualiza a secretkey do tenant
+                    await _unitOfWork.SecretRepository.Insert(secret!);
+                }
+                else
+                {
+                    secret.SecretKey = CryptoHelper.GenerateRandomSecret(25);
+                    secret.TenantId = tenant!.Id;
+
+                    //Atualiza a secretkey do tenant
+                    await _unitOfWork.SecretRepository.Update(secret!);
+                }
+
+                //Gera token
+                var newToken = JwtAuth.GenerateToken(user, tenant!.Id, _configuration!);
                 var userToken = SetAccessToken(newToken.Token, newToken.ExpirationDate, user);
 
                 user.AccessTokenId = userToken.Result.Id;

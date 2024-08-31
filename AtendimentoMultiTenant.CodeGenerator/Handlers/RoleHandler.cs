@@ -45,6 +45,11 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Role.List
 			throw new NotImplementedException();
 		}
 
+		public Task<IEnumerable<RoleResponse>?> GetList(Expression<Func<RoleRequest, bool>> predicate)
+		{
+			throw new NotImplementedException();
+		}
+
 		public Task<ResponseFactory<RoleResponse>> GetById(Guid id)
 		{
 			throw new NotImplementedException();

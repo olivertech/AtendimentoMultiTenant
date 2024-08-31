@@ -48,7 +48,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Property<TimeOnly?>("TimedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("time without time zone")
-                        .HasDefaultValue(new TimeOnly(1, 28, 36))
+                        .HasDefaultValue(new TimeOnly(12, 51, 28))
                         .HasColumnName("timed_at");
 
                     b.Property<string>("Token")
@@ -175,7 +175,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             IsUp = true,
                             PortId = new Guid("af647e7a-3d74-11ef-a3ab-0242ac1c0002"),
                             TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                            TimedAt = new TimeOnly(1, 28, 36)
+                            TimedAt = new TimeOnly(12, 51, 28)
                         },
                         new
                         {
@@ -193,7 +193,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             IsUp = false,
                             PortId = new Guid("f35a4eae-6eee-49e4-95a0-3df60e6ca9b0"),
                             TenantId = new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"),
-                            TimedAt = new TimeOnly(1, 28, 36)
+                            TimedAt = new TimeOnly(12, 51, 28)
                         },
                         new
                         {
@@ -211,7 +211,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             IsUp = false,
                             PortId = new Guid("62afeccd-c9bb-48b2-a60b-0c5fe2b38694"),
                             TenantId = new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"),
-                            TimedAt = new TimeOnly(1, 28, 36)
+                            TimedAt = new TimeOnly(12, 51, 28)
                         },
                         new
                         {
@@ -229,7 +229,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             IsUp = false,
                             PortId = new Guid("39715917-a829-41c4-8da1-64029a0c6364"),
                             TenantId = new Guid("25ae8570-56b6-4a9d-9616-c15862613525"),
-                            TimedAt = new TimeOnly(1, 28, 36)
+                            TimedAt = new TimeOnly(12, 51, 28)
                         });
                 });
 
@@ -609,6 +609,35 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         });
                 });
 
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.Secret", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("Id");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true)
+                        .HasColumnName("is_active");
+
+                    b.Property<string>("SecretKey")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("secret_key");
+
+                    b.Property<Guid>("TenantId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("tenant_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TenantId");
+
+                    b.ToTable("Secret", (string)null);
+                });
+
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.Tenant", b =>
                 {
                     b.Property<Guid>("Id")
@@ -650,12 +679,6 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         .HasColumnType("character varying(250)")
                         .HasColumnName("name");
 
-                    b.Property<string>("Secret")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)")
-                        .HasColumnName("secret");
-
                     b.Property<TimeOnly?>("TimedAt")
                         .HasColumnType("time without time zone")
                         .HasColumnName("timed_at");
@@ -669,37 +692,41 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                         {
                             Id = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
                             ConnectionString = "Host=localhost;Port=5432;Database=AtendimentoConfigDB;User ID=postgresconfiguser;Password=atendimento@config;Pooling=true;",
+                            CreatedAt = new DateOnly(2024, 8, 28),
                             InitialUrl = "",
                             IsActive = true,
                             Name = "Configuration",
-                            Secret = "7Ej5TQznqUSkeXKZ"
+                            TimedAt = new TimeOnly(12, 51, 28)
                         },
                         new
                         {
                             Id = new Guid("f6a2372a-b146-45f9-be70-a0be13736dd8"),
                             ConnectionString = "Host=localhost;Port=5433;Database=Cliente1DB;User ID=usercliente1;Password=pwdcliente1;Pooling=true;",
+                            CreatedAt = new DateOnly(2024, 8, 28),
                             InitialUrl = "",
                             IsActive = true,
                             Name = "Tenant 1",
-                            Secret = "123"
+                            TimedAt = new TimeOnly(12, 51, 28)
                         },
                         new
                         {
                             Id = new Guid("64210b12-a8d4-44ae-b35e-b13b762c4179"),
                             ConnectionString = "Host=localhost;Port=5434;Database=Cliente2DB;User ID=usercliente2;Password=pwdcliente2;Pooling=true;",
+                            CreatedAt = new DateOnly(2024, 8, 28),
                             InitialUrl = "",
                             IsActive = true,
                             Name = "Tenant 2 ",
-                            Secret = "123"
+                            TimedAt = new TimeOnly(12, 51, 28)
                         },
                         new
                         {
                             Id = new Guid("25ae8570-56b6-4a9d-9616-c15862613525"),
                             ConnectionString = "Host=localhost;Port=5435;Database=Cliente3DB;User ID=usercliente3;Password=pwdcliente3;Pooling=true;",
+                            CreatedAt = new DateOnly(2024, 8, 28),
                             InitialUrl = "",
                             IsActive = true,
                             Name = "Tenant 3",
-                            Secret = "123"
+                            TimedAt = new TimeOnly(12, 51, 28)
                         });
                 });
 
@@ -787,7 +814,7 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                             Password = "123",
                             RoleId = new Guid("45533ff6-3ba5-11ef-9476-0242ac130002"),
                             TenantId = new Guid("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
-                            TimedAt = new TimeOnly(1, 28, 36)
+                            TimedAt = new TimeOnly(12, 51, 28)
                         });
                 });
 
@@ -864,6 +891,17 @@ namespace AtendimentoMultiTenant.Infra.Migrations
                     b.Navigation("Menu");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.Secret", b =>
+                {
+                    b.HasOne("AtendimentoMultiTenant.Core.ManagementArea.Entities.Tenant", "Tenant")
+                        .WithMany()
+                        .HasForeignKey("TenantId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tenant");
                 });
 
             modelBuilder.Entity("AtendimentoMultiTenant.Core.ManagementArea.Entities.User", b =>
