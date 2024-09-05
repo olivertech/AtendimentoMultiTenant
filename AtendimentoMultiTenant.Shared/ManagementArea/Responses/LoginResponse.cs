@@ -6,6 +6,9 @@
     /// </summary>
     public class LoginResponse : IResponse
     {
+        [JsonProperty(PropertyName = "id")]
+        public Guid Id { get; set; }
+
         [JsonProperty(PropertyName = "name")]
         public string Name { get; set; } = null!;
 
@@ -14,9 +17,6 @@
 
         [JsonProperty(PropertyName = "is_active")]
         public bool IsActive { get; set; } = true;
-
-        [JsonProperty(PropertyName = "secret")]
-        public string Secret { get; set; } = null!;
 
         [JsonProperty(PropertyName = "role")]
         public Role Role { get; set; } = null!;

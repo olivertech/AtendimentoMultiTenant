@@ -43,6 +43,7 @@ namespace AtendimentoMultiTenant.CodeGenerator
                     sb.AppendLine("using AtendimentoMultiTenant.Web.CommonArea.Interfaces;");
                     sb.AppendLine("using Newtonsoft.Json;");
                     sb.AppendLine("using System.Net.Http.Headers;");
+                    sb.AppendLine("using System.Linq.Expressions;");
                     sb.AppendLine();
                     sb.AppendLine($"namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.{entityName}.List");
                     sb.AppendLine("{");

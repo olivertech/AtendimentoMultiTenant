@@ -5,9 +5,10 @@
         #region Properties
 
         public RoleResponse InputModel { get; set; } = new();
-        public List<MenuResponse>? ListMenus { get; set; }
-        public List<RoleMenuResponse>? ListRoleMenus { get; set; }
-
+        public List<MenuResponse>? ListMenus { get; set; } = new();
+        public List<RoleMenuResponse>? ListRoleMenus { get; set; } = new();
+        public string[]? filteredMenus { get; set; } = [];
+        public IEnumerable<string>? selectedOptions { get; set; }
         public Guid MenuId { get; set; }
 
         #endregion
@@ -30,30 +31,33 @@
 
         #region Methods
 
-        public async Task LoadMenus()
+        public async Task LoadMenus(string id)
         {
-            ResponseFactory<IEnumerable<MenuResponse>>? resultMenu = null!;
-            ResponseFactory<IEnumerable<RoleMenuResponse>>? resultRoleMenu = null!;
+            ResponseFactory<IEnumerable<MenuResponse>> MenuList = null!;
+            ResponseFactory<IEnumerable<RoleMenuResponse>> RoleMenuList = null!;
+            
             IsBusy = true;
 
             try
             {
-                //var user = 
-                resultMenu = await MenuHandler.GetAll();
-                //resultRoleMenu = await RoleMenuHandler.GetList(x => x.RoleId == 
+                MenuList = await MenuHandler.GetAll();
+                RoleMenuList = await RoleMenuHandler.GetRoleMenuList(id);
 
-                if (resultMenu.IsSuccess)
+                if (MenuList.IsSuccess)
                 {
-                    ListMenus = resultMenu.Result!.ToList();
-                    //ListRoleMenus =  
-                    Snackbar.Add(resultMenu.Message, MudBlazor.Severity.Success);
+                    ListMenus = MenuList.Result!.ToList();
+                    ListRoleMenus = RoleMenuList.Result!.ToList();
+
+                    if (ListRoleMenus != null && ListRoleMenus.Count > 0)
+                    {
+                        filteredMenus = ListMenus.Where(menu => ListRoleMenus.Any(roleMenu => roleMenu.MenuId == menu.Id)).Select(menu => menu.Name).ToArray()!;
+                        selectedOptions = new HashSet<string>(filteredMenus);
+                    }
                 }
-                else
-                    Snackbar.Add(resultMenu.Message, MudBlazor.Severity.Warning);
             }
             catch (Exception)
             {
-                Snackbar.Add(resultMenu.Message, MudBlazor.Severity.Error);
+                Snackbar.Add(MenuList.Message, MudBlazor.Severity.Error);
             }
             finally
             {
@@ -98,6 +102,13 @@
 
         public async Task OnValidSubmitAsync()
         {
+
+
+            //PAREI AQUI... FAZER O TRATAMENTO DA LISTA DE MENUS QUE FICARAM SELECIONADOS NA SELECT PRA ATUALIZAR A TABELA ROLEMENU
+            //REMOVENDO TODOS E EM SEGUIDA INSERINDO TODOS QUE FORAM SELECIONADO..
+            //OU SEJA... SERÁ UM PROCESSO DE SALVE TANTO DO ROLE EM SI, COMO DA LISTA DE MENUS Q ELE PODE ACESSAR...
+
+
             ResponseFactory<RoleResponse> result = new();
             IsBusy = true;
 

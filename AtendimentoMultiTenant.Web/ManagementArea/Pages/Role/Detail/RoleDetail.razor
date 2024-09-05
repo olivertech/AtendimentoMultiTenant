@@ -13,7 +13,7 @@
             <Loading IsLoading="IsBusy" />
         </ChildContent>
     </MudOverlay>
-    <EditForm id="@form" Model="@InputModel" OnValidSubmit="OnValidSubmitAsync" OnInvalidSubmit="OnInvalidSubmit">
+    <EditForm Model="@InputModel" OnValidSubmit="OnValidSubmitAsync" OnInvalidSubmit="OnInvalidSubmit">
         <Morris.Blazor.Validation.Validate />
         <MudCard Class="pa-5" Elevation="4">
             <MudCardHeader>
@@ -35,10 +35,17 @@
                                               Label="Descrição da Role" Required="true" />
                             </MudStack>
                             <MudStack>
-                                <MudSelect T="string" Label="Menus" MultiSelection="true" @bind-Value="menu" @bind-SelectedValues="selectedOptions">
-                                    @foreach (var item in ListMenus!)
+                                <MudSelect T="string" Label="Menus Autorizados Para Essa Role" MultiSelection="true" @bind-Value="menu" @bind-SelectedValues="selectedOptions">
+                                    @if (IsBusy)
                                     {
-                                        <MudSelectItem T="string" Value="@item.Id.ToString()">@item.Name</MudSelectItem>
+                                        <MudProgressCircular Indeterminate="true" Color="Color.Primary" />
+                                    }
+                                    else
+                                    {
+                                        @foreach (var item in ListMenus!)
+                                        {
+                                            <MudSelectItem T="string" Value="@item.Name">@item.Name</MudSelectItem>
+                                        }
                                     }
                                 </MudSelect>
                             </MudStack>
@@ -66,12 +73,9 @@
     #region Properties
 
     private string menu { get; set; } = "Nenhum Selecionado";
-    private IEnumerable<string> selectedOptions { get; set; } = new HashSet<string>() { "Alaska" };
 
     [Parameter]
     public string? Id { get; set; }
-
-    EditForm form = null!;
 
     #endregion
 
@@ -85,9 +89,10 @@
 
     #region Methods
 
-    protected async override Task OnInitializedAsync()
+    protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        await LoadMenus();
+        if (firstRender)
+            await LoadMenus(Id);
     }
 
     protected override void OnParametersSet()

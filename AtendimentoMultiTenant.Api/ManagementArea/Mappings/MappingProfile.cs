@@ -23,6 +23,7 @@
             CreateMap<LogAccess, LogAccessResponse>();
             CreateMap<Feature, FeatureResponse>();
             CreateMap<Role, RoleResponse>();
+            CreateMap<RoleMenu, RoleMenuResponse>();
         }
     }
 }

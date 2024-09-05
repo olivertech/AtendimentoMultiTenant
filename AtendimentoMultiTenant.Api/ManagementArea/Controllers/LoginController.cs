@@ -91,6 +91,7 @@
                 var response = _mapper!.Map<LoginResponse>(user);
 
                 //response.Secret = secret!;
+                response.Id = user.Id;
                 response.Role = user!.Role!;
                 response.AccessToken = userToken.Result;
 

@@ -20,7 +20,8 @@
             services.AddScoped<IFeatureHandler, FeatureHandler>();
             services.AddScoped<IRoleHandler, RoleHandler>();
             services.AddScoped<IRoleDetailHandler, RoleDetailHandler>();
-
+            services.AddScoped<IRoleMenuHandler, RoleMenuHandler>();
+            
             //Services injections
             services.AddScoped<IStorageService, StorageService>();
 

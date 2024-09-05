@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 {
 	[Route("api/RoleMenu")]
@@ -48,6 +50,51 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 		}
 
 		[HttpGet]
+		[Route("GetAllByRoleId/{id:Guid}")]
+		[Produces("application/json")]
+		[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(RoleMenuResponse))]
+		[ProducesResponseType(typeof(int), StatusCodes.Status400BadRequest, Type = typeof(RoleMenuResponse))]
+		[Authorize(Roles = "Administrador")]
+		public async Task<IActionResult> GetAllByRoleId(Guid id)
+		{
+			try
+			{
+				if (!IsUserClaimsValid())
+				{
+					_logger!.LogWarning("Usuário não autorizado!");
+					return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<RoleMenuResponse>.Error("Usuário não autorizado!"));
+				}
+
+				if (!Guid.TryParse(id.ToString(), out _))
+				{
+					_logger!.LogWarning("Id inválido!");
+					return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<RoleMenuResponse>.Error("Id inválido!"));
+				}
+
+				var list = await _unitOfWork!.RoleMenuRepository.GetAll();
+
+				if (list != null)
+				{
+					list = list!.Where(x => x.RoleId == id).ToList();
+				}
+				else
+				{
+					_logger!.LogWarning("Não existe RoleMenu com o Id informado!");
+					return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<RoleMenuResponse>.Error("Não existe RoleMenu com o Id informado!"));
+				}
+
+				var responseList = _mapper!.Map<IEnumerable<RoleMenu>, IEnumerable<RoleMenuResponse>>(list!);
+
+				return Ok(ResponseFactory<IEnumerable<RoleMenuResponse>>.Success("Lista de " + _nomeEntidade + " recuperada com sucesso.", responseList));
+			}
+			catch (Exception ex)
+			{
+				_logger!.LogError(ex, "GetById");
+				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<RoleMenuResponse>.Error(string.Format("Erro ao recuperar configuração - ", _nomeEntidade) + ex.Message));
+			}
+		}
+
+		[HttpGet]
 		[Route("GetById/{id:Guid}")]
 		[Produces("application/json")]
 		[ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(RoleMenuResponse))]
@@ -65,7 +112,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 
 				if (!Guid.TryParse(id.ToString(), out _))
 				{
-						_logger!.LogWarning("Id inválido!");
+					_logger!.LogWarning("Id inválido!");
 					return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<RoleMenuResponse>.Error("Id inválido!"));
 				}
 

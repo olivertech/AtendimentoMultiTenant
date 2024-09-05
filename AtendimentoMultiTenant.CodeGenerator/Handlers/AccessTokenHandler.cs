@@ -5,6 +5,7 @@ using AtendimentoMultiTenant.Web.ManagementArea.Handlers.Base;
 using AtendimentoMultiTenant.Web.CommonArea.Interfaces;
 using Newtonsoft.Json;
 using System.Net.Http.Headers;
+using System.Linq.Expressions;
 
 namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.AccessToken.List
 {

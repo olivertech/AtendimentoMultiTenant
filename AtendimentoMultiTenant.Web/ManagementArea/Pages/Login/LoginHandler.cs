@@ -41,7 +41,8 @@
                     new Item { Key = "token", Data = returnValue.Result!.AccessToken!.Token! },
                     new Item { Key = "name", Data = returnValue.Result!.Name },
                     new Item { Key = "email", Data = returnValue.Result!.Email },
-                    new Item { Key = "secret", Data = returnValue.Result!.Secret },
+                    new Item { Key = "userid", Data = returnValue.Result!.Id.ToString() },
+                    new Item { Key = "roleid", Data = returnValue.Result!.Role.Id.ToString() },
                 };
 
                 await _storageService.SetListItem(listItems);
