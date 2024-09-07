@@ -21,6 +21,12 @@
   <ItemGroup>
     <Compile Remove="Helpers\HttpClientContainerDbHelper.cs" />
     <Compile Remove="Helpers\HttpClientLogAccessHelper.cs" />
+    <Compile Remove="ManagementArea\Components\LeftMenu\ILeftMenuHandler.cs" />
+    <Compile Remove="ManagementArea\Components\LeftMenu\LeftMenuHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\ContainerDb\List\ContainerDbHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\ContainerDb\List\IContainerDbHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Login\ILoginHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Login\LoginHandler.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +43,8 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="Morris.Blazor.FluentValidation" Version="3.0.0" />
     <PackageReference Include="MudBlazor" Version="7.4.0" />
+    <PackageReference Include="Refit" Version="7.1.2" />
+    <PackageReference Include="Refit.HttpClientFactory" Version="7.1.2" />
     <PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
     <PackageReference Include="System.Text.Json" Version="8.0.4" />
   </ItemGroup>

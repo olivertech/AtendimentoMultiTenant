@@ -9,10 +9,7 @@
             services.AddScoped<IConfigDashboardMainLayoutHandler, ConfigDashboardMainLayoutHandler>();
 
             //Pages Handler Injections
-            services.AddScoped<ILoginHandler, LoginHandler>();
-            services.AddScoped<IContainerDbHandler, ContainerDbHandler>();
             services.AddScoped<IConfigDashboardHandler, ConfigDashboardHandler>();
-            services.AddScoped<ILeftMenuHandler, LeftMenuHandler>();
             services.AddScoped<ILogAccessHandler, LogAccessHandler>();
             services.AddScoped<IContainerDbDetailHandler, ContainerDbDetailHandler>();
             services.AddScoped<IMenuHandler, MenuHandler>();

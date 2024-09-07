@@ -75,7 +75,7 @@
     private string menu { get; set; } = "Nenhum Selecionado";
 
     [Parameter]
-    public string? Id { get; set; }
+    public string? Id { get; set; } = null!;
 
     #endregion
 
@@ -92,7 +92,7 @@
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
-            await LoadMenus(Id);
+            await LoadMenus(Id!);
     }
 
     protected override void OnParametersSet()

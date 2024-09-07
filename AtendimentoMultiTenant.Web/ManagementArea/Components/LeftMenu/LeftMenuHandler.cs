@@ -52,9 +52,9 @@
     }
 }
 
-public class LeftMenuItem
-{
-    public string? Key { get; set; }
-    public string? Value { get; set; }
-    public string? Icon { get; set; }
-}
+//public class LeftMenuItem
+//{
+//    public string? Key { get; set; }
+//    public string? Value { get; set; }
+//    public string? Icon { get; set; }
+//}

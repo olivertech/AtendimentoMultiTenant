@@ -1,4 +1,6 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
+﻿using AtendimentoMultiTenant.Web.RefitClients;
+
+namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 {
     public partial class LeftMenuPage : PageBase
     {
@@ -11,7 +13,10 @@
         #region Services
 
         [Inject]
-        public ILeftMenuHandler Handler { get; set; } = null!;
+        public IMenuClient MenuClient { get; set; } = null!;
+
+        [Inject]
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -23,7 +28,25 @@
 
             try
             {
-                LeftMenuItems = await Handler.GetLeftMenuItens();
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> { 
+                    { "Authorization", $"Bearer {token}" }, 
+                    { "Content-Type", "application/json" } 
+                };
+
+                var result = await MenuClient.GetLeftMenuItens(headers);
+
+                if(result != null)
+                {
+                    if(result.IsSuccess)
+                    {
+                        foreach (var item in result!.Result!)
+                        {
+                            LeftMenuItems!.Add(new LeftMenuItem { Key = item.Name, Value = item.Route, Icon = item.Icone });
+                        }
+                    }
+                }
             }
             catch (KeyNotFoundException)
             {
@@ -46,5 +69,12 @@
         }
 
         #endregion
+    }
+
+    public class LeftMenuItem
+    {
+        public string? Key { get; set; }
+        public string? Value { get; set; }
+        public string? Icon { get; set; }
     }
 }

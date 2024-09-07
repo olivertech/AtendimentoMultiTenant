@@ -1,20 +1,22 @@
-﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
+﻿using AtendimentoMultiTenant.Web.RefitClients;
+
+namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
 {
     public partial class ContainerDbPage : PageBase
     {
         #region Properties
 
-        public List<ContainerDbResponse>? List = new List<ContainerDbResponse>();
+        public List<ContainerDbResponse>? List { get; set; } = new List<ContainerDbResponse>();
 
         #endregion
 
         #region Services
 
         [Inject]
-        public IContainerDbHandler Handler { get; set; } = null!;
+        public IContainerDbClient ContainerDbClient { get; set; } = null!;
 
         [Inject]
-        public IMapper? Mapper { get; set; } = null!;
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -27,7 +29,15 @@
 
             try
             {
-                result = await Handler.GetAll();
+                //result = await Handler.GetAll();
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await ContainerDbClient.GetAll(headers);
 
                 if (result.IsSuccess)
                 {

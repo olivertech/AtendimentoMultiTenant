@@ -1,6 +1,8 @@
 //=============================================================================================
 // Inicialização do NLog para permitir seu funcionamento, antes que a aplicação seja levantada
 //=============================================================================================
+using System.Text.Json;
+
 var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 
@@ -119,7 +121,11 @@ try
             });
         })
         .AddAutoMapper(typeof(Program))
-        .AddControllersWithViews()
+        .AddControllersWithViews().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            options.JsonSerializerOptions.WriteIndented = true;
+        })
         .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
     //==================================

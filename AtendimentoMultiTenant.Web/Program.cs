@@ -1,10 +1,13 @@
+using AtendimentoMultiTenant.Web.RefitClients;
+using Refit;
+
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-//==================
-// Adding MudBlazor
-//==================
+//================================
+// Adding MudBlazor Configuration
+//================================
 builder.Services.AddMudServices(config =>
 {
     config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomRight;
@@ -16,6 +19,7 @@ builder.Services.AddMudServices(config =>
     config.SnackbarConfiguration.ShowTransitionDuration = 500;
     config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
 });
+
 
 //======================
 // Configuração do Http
@@ -36,10 +40,11 @@ builder.Services.AddAutoMapper(typeof(Program));
 //===============================
 builder.Services.AddFormValidation(config => config.AddFluentValidation(typeof(LoginRequestValidator).Assembly));
 
-//====================
-// Handler Injections
-//====================
+//======================================
+// Handler And Refit Clients Injections
+//======================================
 builder.Services.AddHandlerDependenciesInjection();
+builder.Services.AddRefitClientsDependenciesInjection();
 
 //================================
 // Adding Session Storage Handler
