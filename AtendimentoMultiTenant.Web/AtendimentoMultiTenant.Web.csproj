@@ -23,10 +23,28 @@
     <Compile Remove="Helpers\HttpClientLogAccessHelper.cs" />
     <Compile Remove="ManagementArea\Components\LeftMenu\ILeftMenuHandler.cs" />
     <Compile Remove="ManagementArea\Components\LeftMenu\LeftMenuHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\ContainerDb\Detail\ContainerDbDetailHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\ContainerDb\Detail\IContainerDbDetailHandler.cs" />
     <Compile Remove="ManagementArea\Pages\ContainerDb\List\ContainerDbHandler.cs" />
     <Compile Remove="ManagementArea\Pages\ContainerDb\List\IContainerDbHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Dashboard\ConfigDashboardHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Dashboard\IConfigDashboardHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Feature\List\FeatureHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Feature\List\IFeatureHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\LogAccess\ILogAccessHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\LogAccess\LogAccessHandler.cs" />
     <Compile Remove="ManagementArea\Pages\Login\ILoginHandler.cs" />
     <Compile Remove="ManagementArea\Pages\Login\LoginHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Menu\Detail\IMenuDetailHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Menu\Detail\MenuDetailHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Menu\List\IMenuHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Menu\List\MenuHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\RoleMenu\List\IRoleMenuHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\RoleMenu\List\RoleMenuHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Role\Detail\IRoleDetailHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Role\Detail\RoleDetailHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Role\List\IRoleHandler.cs" />
+    <Compile Remove="ManagementArea\Pages\Role\List\RoleHandler.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -60,6 +78,7 @@
   <ItemGroup>
     <Folder Include="ManagementArea\Pages\Feature\Detail\" />
     <Folder Include="ManagementArea\Pages\RoleMenu\Detail\" />
+    <Folder Include="ManagementArea\Pages\RoleMenu\List\" />
     <Folder Include="ManagementArea\Pages\Tenant\" />
     <Folder Include="ManagementArea\Pages\User\List\" />
     <Folder Include="ManagementArea\Pages\User\Detail\" />

@@ -253,14 +253,14 @@
                     InitialUrl = $"https://localhost:{entity.ContainerDbPort}",
                     ConnectionString = $"Host=localhost;Port={entity.PortId};Database={request.EnvironmentDbName};User ID={request.EnvironmentDbUser};Password={request.EnvironmentDbPwd};Pooling=true;",
                     IsActive = true,
-                    Name = request.ClientName
+                    Name = request.ContainerDbName!.ToLower()
                 }).Result!.Id;
 
                 //Insere novo Usuário do Tenant e associa o id
                 User newUser = _unitOfWork.UserRepository.Insert(new User
                 {
                     Name = "Administrador",
-                    Email = "admin@" + request.ClientName + ".com.br",
+                    Email = "admin@" + request.ContainerDbName!.ToLower() + ".com.br",
                     Password = "123",
                     IsActive = true,
                     TenantId = entity.TenantId,

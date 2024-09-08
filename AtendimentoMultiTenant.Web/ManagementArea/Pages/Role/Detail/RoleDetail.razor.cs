@@ -4,6 +4,9 @@
     {
         #region Properties
 
+        [Parameter]
+        public string? Id { get; set; } = null!;
+
         public RoleResponse InputModel { get; set; } = new();
         public List<MenuResponse>? ListMenus { get; set; } = new();
         public List<RoleMenuResponse>? ListRoleMenus { get; set; } = new();
@@ -16,16 +19,19 @@
         #region Services
 
         [Inject]
-        public IRoleDetailHandler Handler { get; set; } = null!;
-
-        [Inject]
-        public IMenuHandler MenuHandler { get; set; } = null!;
-
-        [Inject]
-        public IRoleMenuHandler RoleMenuHandler { get; set; } = null!;
-
-        [Inject]
         public IMapper? Mapper { get; set; } = null!;
+
+        [Inject]
+        public IMenuClient MenuClient { get; set; } = null!;
+
+        [Inject]
+        public IRoleMenuClient RoleMenuClient { get; set; } = null!;
+
+        [Inject]
+        public IRoleClient RoleClient { get; set; } = null!;
+
+        [Inject]
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -35,13 +41,21 @@
         {
             ResponseFactory<IEnumerable<MenuResponse>> MenuList = null!;
             ResponseFactory<IEnumerable<RoleMenuResponse>> RoleMenuList = null!;
-            
+
             IsBusy = true;
 
             try
             {
-                MenuList = await MenuHandler.GetAll();
-                RoleMenuList = await RoleMenuHandler.GetRoleMenuList(id);
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                MenuList = await MenuClient.GetAll(headers);
+
+                RoleMenuList = await RoleMenuClient.GetRoleMenuList(id, headers);
 
                 if (MenuList.IsSuccess)
                 {
@@ -73,13 +87,17 @@
 
             try
             {
-                result = await Handler.GetById(id!);
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await RoleClient.GetById(id, headers);
 
                 if (result.IsSuccess)
-                {
                     InputModel = result!.Result!;
-                    Snackbar.Add(result.Message, MudBlazor.Severity.Success);
-                }
                 else
                     Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
 
@@ -102,12 +120,12 @@
 
         public async Task OnValidSubmitAsync()
         {
+            var token = await StorageService.GetItem("token");
 
-
-            //PAREI AQUI... FAZER O TRATAMENTO DA LISTA DE MENUS QUE FICARAM SELECIONADOS NA SELECT PRA ATUALIZAR A TABELA ROLEMENU
-            //REMOVENDO TODOS E EM SEGUIDA INSERINDO TODOS QUE FORAM SELECIONADO..
-            //OU SEJA... SERÁ UM PROCESSO DE SALVE TANTO DO ROLE EM SI, COMO DA LISTA DE MENUS Q ELE PODE ACESSAR...
-
+            var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
 
             ResponseFactory<RoleResponse> result = new();
             IsBusy = true;
@@ -118,11 +136,41 @@
 
                 if (request.Id == Guid.Empty)
                 {
-                    result = await Handler.Insert(request);
+                    result = await RoleClient.Insert(request, headers);
                 }
                 else
                 {
-                    result = await Handler.Update(request);
+                    result = await RoleClient.Update(request, headers);
+                }
+
+                //Recupero todos os menus associados ao role consultado
+                var resultMenus = await RoleMenuClient.GetRoleMenuList(Id!, headers);
+
+                if (resultMenus.IsSuccess)
+                {
+                    //Remove todos os menus associados ao role
+                    foreach (var menu in resultMenus.Result!.ToList())
+                    {
+                        await RoleMenuClient.Delete(menu.Id!, headers!);
+                    }
+                }
+
+                if (selectedOptions!.Any())
+                {
+                    //Insere os novos menus selecionados para o role
+                    foreach (var menu in selectedOptions!)
+                    {
+                        var selectedMenu = ListMenus!.Where(x => x.Name!.Equals(menu)).FirstOrDefault();
+
+                        var newMenu = new RoleMenuRequest
+                        {
+                             MenuId = selectedMenu!.Id,
+                             RoleId = Guid.Parse(Id!),
+                             IsActive = true,
+                        };
+
+                        await RoleMenuClient.Insert(newMenu!, headers!);
+                    }
                 }
 
                 if (result != null)

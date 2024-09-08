@@ -2,24 +2,6 @@
 {
     public class ContainerDbRequest : RequestBase, IRequest
     {
-        [JsonPropertyName("client_name")]
-        [JsonProperty(PropertyName = "client_name")]
-        [NameCustomValidator(ErrorMessage = "Informe apenas letras, números e '_', sem espaço em branco.")]
-        public string? ClientName
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (value is not null)
-                    _name = value.ToString().ToUpper();
-            }
-        }
-
-        private string? _name;
-
         [JsonPropertyName("container_name")]
         [JsonProperty(PropertyName = "container_name")]
         [NameCustomValidator(ErrorMessage = "Informe apenas letras, números e '_', sem espaço em branco.")]

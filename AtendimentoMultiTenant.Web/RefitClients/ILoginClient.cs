@@ -1,6 +1,4 @@
-﻿using Refit;
-
-namespace AtendimentoMultiTenant.Web.RefitClients
+﻿namespace AtendimentoMultiTenant.Web.RefitClients
 {
     public interface ILoginClient
     {

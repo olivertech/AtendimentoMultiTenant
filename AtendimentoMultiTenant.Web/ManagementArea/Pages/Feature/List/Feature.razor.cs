@@ -11,10 +11,13 @@
         #region Services
 
         [Inject]
-        public IFeatureHandler Handler { get; set; } = null!;
+        public IFeatureClient FeatureClient { get; set; } = null!;
 
         [Inject]
         public IMapper? Mapper { get; set; } = null!;
+
+        [Inject]
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -27,7 +30,14 @@
 
             try
             {
-                result = await Handler.GetAll();
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await FeatureClient.GetAll(headers);
 
                 if (result.IsSuccess)
                 {
@@ -79,7 +89,14 @@
 
             try
             {
-                result = await Handler.Delete(id, type);
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await FeatureClient.Delete(id, type, headers);
 
                 if (result.IsSuccess)
                 {

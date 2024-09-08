@@ -13,10 +13,13 @@
         #region Services
 
         [Inject]
-        public IMenuDetailHandler Handler { get; set; } = null!;
+        public IMenuClient MenuClient { get; set; } = null!;
 
         [Inject]
         public IMapper? Mapper { get; set; } = null!;
+
+        [Inject]
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -29,13 +32,17 @@
 
             try
             {
-                result = await Handler.GetById(id!);
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await MenuClient.GetById(id!, headers);
 
                 if (result.IsSuccess)
-                {
                     InputModel = result!.Result!;
-                    Snackbar.Add(result.Message, MudBlazor.Severity.Success);
-                }
                 else
                     Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
 
@@ -65,14 +72,14 @@
             {
                 var request = Mapper!.Map<MenuRequest>(InputModel);
 
-                if (request.Id == Guid.Empty)
-                {
-                    result = await Handler.Insert(request);
-                }
-                else
-                {
-                    result = await Handler.Update(request);
-                }
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = request.Id == Guid.Empty ? await MenuClient.Insert(request, headers) : await MenuClient.Update(request, headers);
 
                 if (result != null)
                 {

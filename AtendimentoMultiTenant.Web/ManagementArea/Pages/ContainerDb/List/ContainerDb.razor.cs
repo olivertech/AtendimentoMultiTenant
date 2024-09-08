@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Web.RefitClients;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
 {
     public partial class ContainerDbPage : PageBase
     {
@@ -29,7 +27,6 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.ContainerDb.List
 
             try
             {
-                //result = await Handler.GetAll();
                 var token = await StorageService.GetItem("token");
 
                 var headers = new Dictionary<string, string> {

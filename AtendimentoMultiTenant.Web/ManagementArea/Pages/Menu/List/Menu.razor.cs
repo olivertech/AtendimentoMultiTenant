@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AtendimentoMultiTenant.Web.RefitClients;
 
 namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 {
@@ -13,10 +13,10 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
         #region Services
 
         [Inject]
-        public IMenuHandler Handler { get; set; } = null!;
+        public IMenuClient MenuClient { get; set; } = null!;
 
         [Inject]
-        public IMapper? Mapper { get; set; } = null!;
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -29,7 +29,14 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 
             try
             {
-                result = await Handler.GetAll();
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await MenuClient.GetAll(headers);
 
                 if (result.IsSuccess)
                 {
@@ -81,21 +88,19 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 
             try
             {
-                result = await Handler.Delete(id, type);
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await MenuClient.Delete(id, type, headers);
 
                 if (result.IsSuccess)
                 {
                     Snackbar.Add(result.Message, MudBlazor.Severity.Success);
-
-                    //if(type == "F")
-                    //{
-                    //    var item = List!.Where(x => x.Id == id).FirstOrDefault();
-                    //    List!.Remove(item!);
-                    //}
-                    //else
-                    //{
-                        await GetMenus();
-                    //}
+                    await GetMenus();
                 }
                 else
                     Snackbar.Add(result.Message, MudBlazor.Severity.Warning);

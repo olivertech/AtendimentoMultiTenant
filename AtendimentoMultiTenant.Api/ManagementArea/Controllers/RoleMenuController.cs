@@ -270,7 +270,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 					return StatusCode(StatusCodes.Status400BadRequest, ResponseFactory<RoleMenuResponse>.Error("Id informado inválido!"));
 				}
 
-				var result = await _unitOfWork!.RoleMenuRepository.Delete(id, true);
+				var result = await _unitOfWork!.RoleMenuRepository.Delete(id, false);
 
 				_unitOfWork!.CommitAsync().Wait();
 

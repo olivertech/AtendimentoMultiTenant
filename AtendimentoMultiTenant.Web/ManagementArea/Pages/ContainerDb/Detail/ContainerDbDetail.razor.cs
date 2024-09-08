@@ -13,10 +13,13 @@
         #region Services
 
         [Inject]
-        public IContainerDbDetailHandler Handler { get; set; } = null!;
+        public IContainerDbClient ContainerDbClient { get; set; } = null!;
 
         [Inject]
         public IMapper? Mapper { get; set; } = null!;
+
+        [Inject]
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -29,7 +32,14 @@
 
             try
             {
-                result = await Handler.GetById(id!);
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
+                result = await ContainerDbClient.GetById(id!, headers);
 
                 if (result.IsSuccess)
                 {
@@ -58,17 +68,21 @@
 
             try
             {
+                var token = await StorageService.GetItem("token");
+
+                var headers = new Dictionary<string, string> {
+                    { "Authorization", $"Bearer {token}" },
+                    { "Content-Type", "application/json" }
+                };
+
                 var request = Mapper!.Map<ContainerDbRequest>(InputModel);
 
-                result = request.Id != null ? await Handler.Update(request) : await Handler.Insert(request);
+                result = request.Id != null ? await ContainerDbClient.Update(request, headers) : await ContainerDbClient.Insert(request, headers);
 
                 if (result != null)
                 {
                     if (result.IsSuccess)
-                    {
-                        Snackbar.Add(result.Message, MudBlazor.Severity.Success);
                         NavigationManager.NavigateTo(RoutesEnumerator.Containers.GetDescription(), false, true);
-                    }
                     else
                         Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
                 }

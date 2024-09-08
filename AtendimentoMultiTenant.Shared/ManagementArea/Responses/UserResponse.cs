@@ -2,7 +2,7 @@ namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
 {
 	public class UserResponse : IResponse
 	{
-		public Guid? AccessTokenId { get; set; }
+		public Guid AccessTokenId { get; set; }
 
 		public DateOnly? CreatedAt { get; set; }
 
@@ -12,7 +12,7 @@ namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
 
 		public String? Email { get; set; }
 
-		public Guid? Id { get; set; }
+		public Guid Id { get; set; }
 
 		public Boolean? IsActive { get; set; }
 
@@ -20,9 +20,9 @@ namespace AtendimentoMultiTenant.Shared.ManagementArea.Responses
 
 		public String? Password { get; set; }
 
-		public Guid? RoleId { get; set; }
+		public Guid RoleId { get; set; }
 
-		public Guid? TenantId { get; set; }
+		public Guid TenantId { get; set; }
 
 		public TimeOnly? TimedAt { get; set; }
 	}

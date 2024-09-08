@@ -13,6 +13,7 @@
             CreateMap<MenuRequest, Menu>();
             CreateMap<FeatureRequest, Feature>();
             CreateMap<RoleRequest, Role>();
+            CreateMap<RoleMenuRequest, RoleMenu>();
 
             /**
              * Mapping Responses ( Response <- Model )

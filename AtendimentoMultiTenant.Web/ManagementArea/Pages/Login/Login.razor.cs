@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Web.RefitClients;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Login
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Login
 {
     public partial class LoginPage : PageBase
     {
