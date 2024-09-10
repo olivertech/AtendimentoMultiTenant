@@ -4,7 +4,7 @@
     {
         public static IServiceCollection AddRefitClientsDependenciesInjection(this IServiceCollection services)
         {
-            var baseUrl = "https://localhost:7300";
+            var baseUrl = SharedConfigurations.BackEndUrl;
 
             services.AddRefitClient<IContainerDbClient>().ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
             services.AddRefitClient<IFeatureClient>().ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
