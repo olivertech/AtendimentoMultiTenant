@@ -4,7 +4,7 @@ namespace AtendimentoMultiTenant.Core.ManagementArea.Interfaces.Base
 {
     public interface IRepositoryConfigurationBase<T> where T : ConfigurationEntityBase
     {
-        Task<IEnumerable<T>?> GetAll();
+        Task<IEnumerable<T>?> GetAll(bool ignoreQueryfilters);
         Task<T?> GetById(Guid? id);
         Task<IEnumerable<T>?> GetList(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T?>> GetPagedList(int pageSize, int pageNumber);

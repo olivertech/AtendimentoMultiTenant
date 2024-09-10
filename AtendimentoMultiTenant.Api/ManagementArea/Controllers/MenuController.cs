@@ -158,7 +158,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                     return BadRequest(new { Message = validation.Errors });
                 }
 
-                var search = _unitOfWork!.MenuRepository.GetAll().Result;
+                var search = _unitOfWork!.MenuRepository.GetAll(true).Result;
 
                 if (search!.Any(x => x.Name == request.Name) ||
                     search!.Any(x => x.Route == request.Route) ||
@@ -234,7 +234,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                     return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<MenuResponse>.Error("Id informado inválido!"));
                 }
 
-                var search = _unitOfWork!.MenuRepository.GetAll().Result!.Where(x => !x.Id.Equals(request.Id)
+                var search = _unitOfWork!.MenuRepository.GetAll(true).Result!.Where(x => !x.Id.Equals(request.Id)
                                                                                 && (x.Name == request.Name
                                                                                 || x.Route == request.Route
                                                                                 || x.Icone == request.Icone)).ToList();

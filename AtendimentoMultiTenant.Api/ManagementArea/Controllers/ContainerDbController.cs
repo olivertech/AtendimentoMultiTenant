@@ -223,7 +223,7 @@
                     return BadRequest(new { Message = validation.Errors });
                 }
 
-                var search = _unitOfWork!.ContainerDbRepository.GetAll().Result!.Where(x => !x.Id.Equals(request.Id)
+                var search = _unitOfWork!.ContainerDbRepository.GetAll(true).Result!.Where(x => !x.Id.Equals(request.Id)
                                                                 && (x.ContainerDbName == request.ContainerDbName
                                                                 || x.ContainerDbVolume == request.ContainerDbVolume
                                                                 || x.ContainerDbNetwork == request.ContainerDbNetwork)).ToList();
@@ -332,7 +332,7 @@
                     return StatusCode(StatusCodes.Status404NotFound, ResponseFactory<ContainerDbResponse>.Error("Id informado inválido!"));
                 }
 
-                var search = _unitOfWork!.ContainerDbRepository.GetAll().Result!.Where(x => !x.Id.Equals(request.Id)
+                var search = _unitOfWork!.ContainerDbRepository.GetAll(true).Result!.Where(x => !x.Id.Equals(request.Id)
                                                                 && (x.ContainerDbName == request.ContainerDbName
                                                                 || x.ContainerDbVolume == request.ContainerDbVolume
                                                                 || x.ContainerDbNetwork == request.ContainerDbNetwork)).ToList();

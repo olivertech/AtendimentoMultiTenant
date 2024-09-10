@@ -47,7 +47,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 					return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<PortResponse>.Error("Usuário não autorizado!"));
 				}
 
-				var list = await _unitOfWork!.PortRepository.GetAll();
+				var list = await _unitOfWork!.PortRepository.GetAll(true);
 
 				var responseList = _mapper!.Map<IEnumerable<Port>, IEnumerable<PortResponse>>(list!);
 

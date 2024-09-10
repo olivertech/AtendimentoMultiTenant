@@ -14,11 +14,16 @@ namespace AtendimentoMultiTenant.Infra.ManagementArea.Repositories.Base
             _entities = _context.Set<T>();
         }
 
-        public async virtual Task<IEnumerable<T>?> GetAll()
+        public async virtual Task<IEnumerable<T>?> GetAll(bool ignoreQueryFilters)
         {
+            List<T> list = null!;
+
             try
             {
-                var list = await _entities!.ToListAsync();
+                if(ignoreQueryFilters)
+                    list = await _entities!.IgnoreQueryFilters().ToListAsync();
+                else
+                    list = await _entities!.ToListAsync();
 
                 return list ?? Enumerable.Empty<T>();
             }

@@ -47,7 +47,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 					return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<ContainerDbResponse>.Error("Usuário não autorizado!"));
 				}
 
-				var list = await _unitOfWork!.ContainerDbRepository.GetAll();
+				var list = await _unitOfWork!.ContainerDbRepository.GetAll(true);
 
 				var responseList = _mapper!.Map<IEnumerable<ContainerDb>, IEnumerable<ContainerDbResponse>>(list!);
 

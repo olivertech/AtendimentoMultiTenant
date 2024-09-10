@@ -55,18 +55,25 @@
 
                 MenuList = await MenuClient.GetAll(headers);
 
-                RoleMenuList = await RoleMenuClient.GetRoleMenuList(id, headers);
+                if (id != null)
+                {
+                    RoleMenuList = await RoleMenuClient.GetRoleMenuList(id!, headers);
 
-                if (MenuList.IsSuccess)
+                    if (MenuList.IsSuccess)
+                    {
+                        ListMenus = MenuList.Result!.ToList();
+                        ListRoleMenus = RoleMenuList.Result!.ToList();
+
+                        if (ListRoleMenus != null && ListRoleMenus.Count > 0)
+                        {
+                            filteredMenus = ListMenus.Where(menu => ListRoleMenus.Any(roleMenu => roleMenu.MenuId == menu.Id)).Select(menu => menu.Name).ToArray()!;
+                            selectedOptions = new HashSet<string>(filteredMenus);
+                        }
+                    }
+                }
+                else
                 {
                     ListMenus = MenuList.Result!.ToList();
-                    ListRoleMenus = RoleMenuList.Result!.ToList();
-
-                    if (ListRoleMenus != null && ListRoleMenus.Count > 0)
-                    {
-                        filteredMenus = ListMenus.Where(menu => ListRoleMenus.Any(roleMenu => roleMenu.MenuId == menu.Id)).Select(menu => menu.Name).ToArray()!;
-                        selectedOptions = new HashSet<string>(filteredMenus);
-                    }
                 }
             }
             catch (Exception)
@@ -170,6 +177,8 @@
                         };
 
                         await RoleMenuClient.Insert(newMenu!, headers!);
+
+                        await Task.Delay(200);
                     }
                 }
 
