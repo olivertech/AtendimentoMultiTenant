@@ -18,9 +18,6 @@
         [Inject]
         public IMapper? Mapper { get; set; } = null!;
 
-        [Inject]
-        public IStorageService StorageService { get; set; } = null!;
-
         #endregion
 
         #region Methods
@@ -32,14 +29,7 @@
 
             try
             {
-                var token = await StorageService.GetItem("token");
-
-                var headers = new Dictionary<string, string> {
-                    { "Authorization", $"Bearer {token}" },
-                    { "Content-Type", "application/json" }
-                };
-
-                result = await MenuClient.GetById(id!, headers);
+                result = await MenuClient.GetById(id!, await SetHeaders());
 
                 if (result.IsSuccess)
                     InputModel = result!.Result!;

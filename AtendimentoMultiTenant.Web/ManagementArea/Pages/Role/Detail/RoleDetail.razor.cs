@@ -30,9 +30,6 @@
         [Inject]
         public IRoleClient RoleClient { get; set; } = null!;
 
-        [Inject]
-        public IStorageService StorageService { get; set; } = null!;
-
         #endregion
 
         #region Methods
@@ -46,18 +43,11 @@
 
             try
             {
-                var token = await StorageService.GetItem("token");
-
-                var headers = new Dictionary<string, string> {
-                    { "Authorization", $"Bearer {token}" },
-                    { "Content-Type", "application/json" }
-                };
-
-                MenuList = await MenuClient.GetAll(headers);
+                MenuList = await MenuClient.GetAll(await SetHeaders());
 
                 if (id != null)
                 {
-                    RoleMenuList = await RoleMenuClient.GetRoleMenuList(id!, headers);
+                    RoleMenuList = await RoleMenuClient.GetRoleMenuList(id!, await SetHeaders());
 
                     if (MenuList.IsSuccess)
                     {
@@ -94,14 +84,7 @@
 
             try
             {
-                var token = await StorageService.GetItem("token");
-
-                var headers = new Dictionary<string, string> {
-                    { "Authorization", $"Bearer {token}" },
-                    { "Content-Type", "application/json" }
-                };
-
-                result = await RoleClient.GetById(id, headers);
+                result = await RoleClient.GetById(id, await SetHeaders());
 
                 if (result.IsSuccess)
                     InputModel = result!.Result!;
@@ -127,13 +110,6 @@
 
         public async Task OnValidSubmitAsync()
         {
-            var token = await StorageService.GetItem("token");
-
-            var headers = new Dictionary<string, string> {
-                    { "Authorization", $"Bearer {token}" },
-                    { "Content-Type", "application/json" }
-                };
-
             ResponseFactory<RoleResponse> result = new();
             IsBusy = true;
 
@@ -143,22 +119,22 @@
 
                 if (request.Id == Guid.Empty)
                 {
-                    result = await RoleClient.Insert(request, headers);
+                    result = await RoleClient.Insert(request, await SetHeaders());
                 }
                 else
                 {
-                    result = await RoleClient.Update(request, headers);
+                    result = await RoleClient.Update(request, await SetHeaders());
                 }
 
                 //Recupero todos os menus associados ao role consultado
-                var resultMenus = await RoleMenuClient.GetRoleMenuList(Id!, headers);
+                var resultMenus = await RoleMenuClient.GetRoleMenuList(Id!, await SetHeaders());
 
                 if (resultMenus.IsSuccess)
                 {
                     //Remove todos os menus associados ao role
                     foreach (var menu in resultMenus.Result!.ToList())
                     {
-                        await RoleMenuClient.Delete(menu.Id!, headers!);
+                        await RoleMenuClient.Delete(menu.Id!, await SetHeaders()!);
                     }
                 }
 
@@ -176,7 +152,7 @@
                              IsActive = true,
                         };
 
-                        await RoleMenuClient.Insert(newMenu!, headers!);
+                        await RoleMenuClient.Insert(newMenu!, await SetHeaders()!);
 
                         await Task.Delay(200);
                     }

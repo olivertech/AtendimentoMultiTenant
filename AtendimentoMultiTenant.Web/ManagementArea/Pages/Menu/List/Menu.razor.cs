@@ -15,9 +15,6 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
         [Inject]
         public IMenuClient MenuClient { get; set; } = null!;
 
-        [Inject]
-        public IStorageService StorageService { get; set; } = null!;
-
         #endregion
 
         #region Methods
@@ -29,14 +26,7 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Pages.Menu.List
 
             try
             {
-                var token = await StorageService.GetItem("token");
-
-                var headers = new Dictionary<string, string> {
-                    { "Authorization", $"Bearer {token}" },
-                    { "Content-Type", "application/json" }
-                };
-
-                result = await MenuClient.GetAll(headers);
+                result = await MenuClient.GetAll(await SetHeaders());
 
                 if (result.IsSuccess)
                 {

@@ -13,9 +13,6 @@
         [Inject]
         public ILoginClient LoginClient { get; set; } = null!;
 
-        [Inject]
-        public IStorageService StorageService { get; set; } = null!;
-
         #endregion
 
         #region Methods

@@ -13,9 +13,6 @@
         [Inject]
         public IContainerDbClient ContainerDbClient { get; set; } = null!;
 
-        [Inject]
-        public IStorageService StorageService { get; set; } = null!;
-
         #endregion
 
         #region Methods
@@ -27,14 +24,7 @@
 
             try
             {
-                var token = await StorageService.GetItem("token");
-
-                var headers = new Dictionary<string, string> {
-                    { "Authorization", $"Bearer {token}" },
-                    { "Content-Type", "application/json" }
-                };
-
-                result = await ContainerDbClient.GetAll(headers);
+                result = await ContainerDbClient.GetAll(await SetHeaders());
 
                 if (result.IsSuccess)
                 {
