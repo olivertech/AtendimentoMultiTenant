@@ -12,6 +12,7 @@ FRONTEND
 - Blazor WebAssembly (Wasm)
 - MudBlazor
 - Session Storage
+- Refit
 
 BACKEND
 - Aspnet core (.Net 8) com C#
