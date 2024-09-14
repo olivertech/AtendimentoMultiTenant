@@ -15,12 +15,21 @@
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Menu?>> GetAllFull()
+        public IEnumerable<Menu?> GetAllFull(Guid roleId)
         {
-            return await _context!.Menus
-                .Include(p => p.RoleMenus)
-                .OrderBy(p => p.Name)
-                .ToListAsync();
+            var result = (_context!.Menus.Join(
+                            inner: _context.RoleMenus,
+                            outerKeySelector: m => m.Id,
+                            innerKeySelector: rm => rm.MenuId,
+                            resultSelector: (m, rm) => new
+                            {
+                                m = m,
+                                rm = rm
+                            })
+                            .Where(resultSelector => resultSelector.rm.RoleId == roleId)
+                            .Select(resultSelector => resultSelector.m)).ToList();
+
+            return result;
         }
     }
 }

@@ -43,6 +43,31 @@
             return headers;
         }
 
+        public async Task<string> GetName()
+        {
+            return await StorageService.GetItem("name");
+        }
+
+        public async Task<string> GetEmail()
+        {
+            return await StorageService.GetItem("email");
+        }
+
+        public async Task<string> GetUserId()
+        {
+            return await StorageService.GetItem("userid");
+        }
+
+        public async Task<string> GetRoleId()
+        {
+            return await StorageService.GetItem("roleid");
+        }
+
+        public async Task<string> GetToken()
+        {
+            return await StorageService.GetItem("token");
+        }
+
         #endregion
     }
 }

@@ -51,13 +51,13 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
         }
 
         [HttpGet]
-        [Route(nameof(GetAllForLeftMenu))]
+        [Route("GetLeftMenuItens/{roleId:Guid}")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(MenuResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof(MenuResponse))]
         [ProducesResponseType(typeof(int), StatusCodes.Status401Unauthorized, Type = typeof(MenuResponse))]
         [Authorize(Roles = "Administrador")]
-        public async Task<IActionResult> GetAllForLeftMenu()
+        public IActionResult GetLeftMenuItens(Guid roleId)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
                     return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<MenuResponse>.Error("Usuário não autorizado!"));
                 }
 
-                var list = await _unitOfWork!.MenuRepository.GetAllFull();
+                var list = _unitOfWork!.MenuRepository.GetAllFull(roleId);
 
                 var responseList = _mapper!.Map<IEnumerable<Menu>, IEnumerable<MenuResponse>>(list!);
 

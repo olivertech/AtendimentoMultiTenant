@@ -14,9 +14,9 @@
         [Headers("Authorization: Bearer")]
         Task<ResponseFactory<MenuResponse>> GetById(Guid id, [HeaderCollection] IDictionary<string, string> headers);
 
-        [Get("/Api/Menu/GetAllForLeftMenu")]
+        [Get("/Api/Menu/GetLeftMenuItens/{roleId}")]
         [Headers("Authorization: Bearer")]
-        Task<ResponseFactory<IEnumerable<MenuResponse>>> GetLeftMenuItens([HeaderCollection] IDictionary<string, string> headers);
+        Task<ResponseFactory<IEnumerable<MenuResponse>>> GetLeftMenuItens(Guid roleId, [HeaderCollection] IDictionary<string, string> headers);
 
         [Post("/Api/Menu/Insert")]
         [Headers("Authorization: Bearer")]

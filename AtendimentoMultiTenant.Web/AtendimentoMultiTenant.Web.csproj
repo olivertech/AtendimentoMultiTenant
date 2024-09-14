@@ -9,12 +9,20 @@
 
   <ItemGroup>
     <Compile Remove="DTOs\**" />
+    <Compile Remove="ManagementArea\Handlers\**" />
+    <Compile Remove="ManagementArea\Interfaces\**" />
     <Compile Remove="ManagementArea\Pages\Authorization\**" />
     <Content Remove="DTOs\**" />
+    <Content Remove="ManagementArea\Handlers\**" />
+    <Content Remove="ManagementArea\Interfaces\**" />
     <Content Remove="ManagementArea\Pages\Authorization\**" />
     <EmbeddedResource Remove="DTOs\**" />
+    <EmbeddedResource Remove="ManagementArea\Handlers\**" />
+    <EmbeddedResource Remove="ManagementArea\Interfaces\**" />
     <EmbeddedResource Remove="ManagementArea\Pages\Authorization\**" />
     <None Remove="DTOs\**" />
+    <None Remove="ManagementArea\Handlers\**" />
+    <None Remove="ManagementArea\Interfaces\**" />
     <None Remove="ManagementArea\Pages\Authorization\**" />
   </ItemGroup>
 

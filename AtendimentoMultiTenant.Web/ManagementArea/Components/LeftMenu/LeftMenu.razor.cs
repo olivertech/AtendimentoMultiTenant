@@ -1,6 +1,4 @@
-﻿using AtendimentoMultiTenant.Web.RefitClients;
-
-namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
+﻿namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 {
     public partial class LeftMenuPage : PageBase
     {
@@ -14,9 +12,6 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
 
         [Inject]
         public IMenuClient MenuClient { get; set; } = null!;
-
-        [Inject]
-        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -35,7 +30,8 @@ namespace AtendimentoMultiTenant.Web.ManagementArea.Areas.Components.LeftMenu
                     { "Content-Type", "application/json" } 
                 };
 
-                var result = await MenuClient.GetLeftMenuItens(headers);
+                //Recupera os menus associados ao roleid do usuário que está logado
+                var result = await MenuClient.GetLeftMenuItens(Guid.Parse(await GetRoleId()), headers);
 
                 if(result != null)
                 {
