@@ -5,6 +5,7 @@
         #region Properties
 
         public ContainerDbResponse InputModel = new();
+        ResponseFactory<ContainerDbResponse> Container = null!;
 
         public Guid ContainerId { get; set; }
 
@@ -16,6 +17,9 @@
         public IContainerDbClient ContainerDbClient { get; set; } = null!;
 
         [Inject]
+        public ITenantClient TenantClient { get; set; } = null!;
+
+        [Inject]
         public IMapper? Mapper { get; set; } = null!;
 
         #endregion
@@ -25,24 +29,23 @@
         public async Task GetContainer(Guid id)
         {
             IsBusy = true;
-            ResponseFactory<ContainerDbResponse> result = null!;
 
             try
             {
-                result = await ContainerDbClient.GetById(id!, await SetHeaders());
+                Container = await ContainerDbClient.GetById(id!, await SetHeaders());
 
-                if (result.IsSuccess)
+                if (Container.IsSuccess)
                 {
-                    InputModel = result!.Result!;
-                    Snackbar.Add(result.Message, MudBlazor.Severity.Success);
+                    InputModel = Container!.Result!;
+                    Snackbar.Add(Container.Message, MudBlazor.Severity.Success);
                 }
                 else
-                    Snackbar.Add(result.Message, MudBlazor.Severity.Warning);
+                    Snackbar.Add(Container.Message, MudBlazor.Severity.Warning);
 
             }
             catch (Exception)
             {
-                Snackbar.Add(result.Message, MudBlazor.Severity.Error);
+                Snackbar.Add(Container.Message, MudBlazor.Severity.Error);
             }
             finally
             {
@@ -92,6 +95,12 @@
         public void GoBack()
         {
             NavigationManager.NavigateTo(RoutesEnumerator.Containers.GetDescription(), false, true);
+        }
+
+        public void GoTenant()
+        {
+            var uri = new Uri(RoutesEnumerator.TenantDetail.GetDescription() + "/" + Container.Result!.TenantId);
+            NavigationManager.NavigateTo(RoutesEnumerator.TenantDetail.GetDescription(), false, true);
         }
 
         #endregion

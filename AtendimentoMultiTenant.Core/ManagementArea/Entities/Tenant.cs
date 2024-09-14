@@ -7,6 +7,7 @@
     public class Tenant : ConfigurationEntityBase
     {
         public string? Name { get; set; } = null!;
+        public string? Description { get; set; } = null!;
         public string? ConnectionString { get; set; } = null!;
         public string? InitialUrl { get; set; } = null!;
         public DateOnly? CreatedAt { get; set; }

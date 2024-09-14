@@ -14,6 +14,7 @@
             CreateMap<FeatureRequest, Feature>();
             CreateMap<RoleRequest, Role>();
             CreateMap<RoleMenuRequest, RoleMenu>();
+            CreateMap<TenantRequest, Tenant>();
 
             /**
              * Mapping Responses ( Response <- Model )
@@ -25,6 +26,7 @@
             CreateMap<Feature, FeatureResponse>();
             CreateMap<Role, RoleResponse>();
             CreateMap<RoleMenu, RoleMenuResponse>();
+            CreateMap<Tenant, TenantResponse>();
         }
     }
 }

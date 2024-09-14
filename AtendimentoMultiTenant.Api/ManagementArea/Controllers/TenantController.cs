@@ -17,11 +17,35 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 			_logger = logger;
 		}
 
-		[NonAction]
-		public Task<IActionResult> GetAll()
+        [HttpGet]
+        [Route(nameof(GetAll))]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(int), StatusCodes.Status200OK, Type = typeof(TenantResponse))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status500InternalServerError, Type = typeof(TenantResponse))]
+        [ProducesResponseType(typeof(int), StatusCodes.Status401Unauthorized, Type = typeof(TenantResponse))]
+        [Authorize(Roles = "Administrador")]
+        public async Task<IActionResult> GetAll()
 		{
-			throw new NotImplementedException();
-		}
+            try
+            {
+                if (!IsUserClaimsValid())
+                {
+                    _logger!.LogWarning("Usuário não autorizado!");
+                    return StatusCode(StatusCodes.Status401Unauthorized, ResponseFactory<TenantResponse>.Error("Usuário não autorizado!"));
+                }
+
+                var list = await _unitOfWork!.TenantRepository.GetAll(true);
+
+                var responseList = _mapper!.Map<IEnumerable<Tenant>, IEnumerable<TenantResponse>>(list!);
+
+                return Ok(ResponseFactory<IEnumerable<TenantResponse>>.Success("Lista de " + _nomeEntidade + " recuperada com sucesso.", responseList));
+            }
+            catch (Exception ex)
+            {
+                _logger!.LogError(ex, "GetAll");
+                return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<TenantResponse>.Error("Erro ao recuperar lista " + _nomeEntidade + " - " + ex.Message));
+            }
+        }
 
 		[NonAction]
 		public Task<IActionResult> GetAllPaged(TenantRequest request)

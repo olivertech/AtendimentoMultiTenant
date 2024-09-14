@@ -19,9 +19,9 @@
 
         private string? _name;
 
-        [JsonPropertyName("secret")]
-        [JsonProperty(PropertyName = "secret")]
-        public string? Secret { get; set; } = null;
+        [JsonPropertyName("description")]
+        [JsonProperty(PropertyName = "description")]
+        public string? Description { get; set; } = null;
 
         [JsonPropertyName("connection_string")]
         [JsonProperty(PropertyName = "connection_string")]

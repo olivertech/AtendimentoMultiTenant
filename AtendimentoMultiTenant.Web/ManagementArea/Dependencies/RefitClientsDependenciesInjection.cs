@@ -13,6 +13,7 @@
             services.AddRefitClient<IMenuClient>().ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
             services.AddRefitClient<IRoleClient>().ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
             services.AddRefitClient<IRoleMenuClient>().ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
+            services.AddRefitClient<ITenantClient>().ConfigureHttpClient(c => c.BaseAddress = new Uri(baseUrl));
 
             return services;
         }

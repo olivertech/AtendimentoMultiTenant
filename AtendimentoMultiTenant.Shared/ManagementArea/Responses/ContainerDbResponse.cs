@@ -22,6 +22,8 @@
 
         public DateOnly? ContainerDbCreatedAt { get; set; }
 
+        public Guid TenantId { get; set; }
+
         public bool IsUp { get; set; } = false;
 
         public bool IsActive { get; set; }

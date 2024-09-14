@@ -11,6 +11,7 @@
             //Entity columns
             builder.Property(x => x.Id).HasColumnName("Id").HasValueGenerator<GuidValueGenerator>();
             builder.Property(x => x.Name).HasColumnName("name").HasMaxLength(250).IsRequired();
+            builder.Property(x => x.Description).HasColumnName("description").HasMaxLength(1500).IsRequired(false);
             builder.Property(x => x.ConnectionString).HasColumnName("connection_string").IsRequired();
             builder.Property(x => x.InitialUrl).HasColumnName("initial_url").IsRequired();
             builder.Property(x => x.CreatedAt).HasColumnName("created_at").IsRequired(false);
@@ -35,6 +36,7 @@
                 {
                     Id = Guid.Parse("9cf0bfd2-3d70-11ef-a3ab-0242ac1c0002"),
                     Name = "Configuration",
+                    Description = "Description",
                     ConnectionString = "Host=localhost;Port=5432;Database=AtendimentoConfigDB;User ID=postgresconfiguser;Password=atendimento@config;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,
@@ -46,6 +48,7 @@
                 {
                     Id = Guid.Parse("f6a2372a-b146-45f9-be70-a0be13736dd8"),
                     Name = "Tenant 1",
+                    Description = "Description",
                     ConnectionString = "Host=localhost;Port=5433;Database=Cliente1DB;User ID=usercliente1;Password=pwdcliente1;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,
@@ -56,6 +59,7 @@
                 {
                     Id = Guid.Parse("64210b12-a8d4-44ae-b35e-b13b762c4179"),
                     Name = "Tenant 2 ",
+                    Description = "Description",
                     ConnectionString = "Host=localhost;Port=5434;Database=Cliente2DB;User ID=usercliente2;Password=pwdcliente2;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,
@@ -66,6 +70,7 @@
                 {
                     Id = Guid.Parse("25ae8570-56b6-4a9d-9616-c15862613525"),
                     Name = "Tenant 3",
+                    Description = "Description",
                     ConnectionString = "Host=localhost;Port=5435;Database=Cliente3DB;User ID=usercliente3;Password=pwdcliente3;Pooling=true;",
                     InitialUrl = "",
                     IsActive = true,

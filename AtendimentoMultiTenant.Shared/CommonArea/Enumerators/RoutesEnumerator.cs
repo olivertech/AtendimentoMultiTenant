@@ -28,5 +28,9 @@
         Roles,
         [Description("/roledetail")]
         RoleDetail,
+        [Description("/tenants")]
+        Tenants,
+        [Description("/tenantdetail")]
+        TenantDetail,
     }
 }

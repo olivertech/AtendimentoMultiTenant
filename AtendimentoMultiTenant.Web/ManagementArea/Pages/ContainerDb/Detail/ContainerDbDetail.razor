@@ -70,6 +70,9 @@
             <MudCardActions Class="d-flex flex-row-reverse flex-grow-1 gap-4 me-2">
                 <MudStack Justify="Justify.FlexEnd" Row="true">
                     <MudButton OnClick="GoBack" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.ArrowBack" Color="Color.Tertiary">Voltar</MudButton>
+                    <MudTooltip Text="Acessar Tenant" Arrow="true" Placement="Placement.Bottom">
+                        <MudButton OnClick="GoTenant" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Signpost" Color="Color.Warning">Tenant</MudButton>
+                    </MudTooltip>
                     <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Save" Color="Color.Primary">Salvar</MudButton>
                 </MudStack>
             </MudCardActions>
