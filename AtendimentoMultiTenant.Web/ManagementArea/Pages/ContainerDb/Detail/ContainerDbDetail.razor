@@ -1,4 +1,6 @@
-﻿@page "/containerdetail/{Id}"
+﻿@page "/containerdetail"
+@page "/containerdetail/{Id}"
+
 @using AtendimentoMultiTenant.Web.Helpers
 @using AtendimentoMultiTenant.Web.ManagementArea.Components.Loading
 @using FluentValidation
@@ -27,18 +29,18 @@
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbName"
                                               Validation="@ContainerDbNameValidator.Validation"
                                               Immediate="true"
-                                              Label="Nome do Container Docker" Disabled="true" />
+                                              Label="Nome do Container Docker" Disabled="@IsDisabled" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbPort"
                                               Immediate="true"
-                                              Label="Porta do Container Docker" Disabled="true" />
+                                              Label="Porta do Container Docker" Disabled="@IsDisabled" />
                             </MudStack>
                             <MudStack Row="true">
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbImage"
-                                              Label="Imagem do Container Docker" Disabled="true" />
+                                              Label="Imagem do Container Docker" Disabled="@IsDisabled" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbVolume"
-                                              Label="Volume do Container Docker" Disabled="true" />
+                                              Label="Volume do Container Docker" Disabled="@IsDisabled" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.ContainerDbNetwork"
-                                              Label="Rede do Container Docker" Disabled="true" />
+                                              Label="Rede do Container Docker" Disabled="@IsDisabled" />
                             </MudStack>
                         </MudPaper>
                     </MudItem>
@@ -47,13 +49,13 @@
                             <MudStack Row="true">
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbName"
                                               Immediate="true"
-                                              Label="Nome da Instância do Banco de Dados" Disabled="true" />
+                                              Label="Nome da Instância do Banco de Dados" Disabled="@IsDisabled" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbUser"
                                               Immediate="true"
-                                              Label="Usuário do Banco" Disabled="true" />
+                                              Label="Usuário do Banco" Disabled="@IsDisabled" />
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.EnvironmentDbPwd"
                                               Immediate="true"
-                                              Label="Senha de Acesso" Disabled="true" />
+                                              Label="Senha de Acesso" Disabled="@IsDisabled" />
                             </MudStack>
                             <MudStack Row="true">
                                 <MudSwitch @bind-Value="InputModel.IsUp" Label="Up" Style="font-size: 8pt;" Class="mt-4 ml-5"
@@ -87,6 +89,8 @@
     [Parameter]
     public string? Id { get; set; }
 
+    public bool IsDisabled { get; set; } = true;
+
     #endregion
 
     #region Validators
@@ -101,8 +105,17 @@
 
     protected override void OnParametersSet()
     {
-        ContainerId = Guid.Parse(Id!);
-        GetDetail();
+        if (!string.IsNullOrEmpty(Id))
+        {
+            ContainerId = Guid.Parse(Id!);
+            GetDetail();
+        }
+        else
+        {
+            IsDisabled = false;
+            InputModel.IsActive = false;
+            InputModel.IsUp = false;
+        }
     }
 
     protected async void GetDetail()

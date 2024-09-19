@@ -31,6 +31,10 @@
     <Compile Remove="Helpers\HttpClientLogAccessHelper.cs" />
     <Compile Remove="ManagementArea\Components\LeftMenu\ILeftMenuHandler.cs" />
     <Compile Remove="ManagementArea\Components\LeftMenu\LeftMenuHandler.cs" />
+    <Compile Remove="ManagementArea\Layouts\ConfigDashboardMainLayout\ConfigDashboardMainLayoutHandler.cs" />
+    <Compile Remove="ManagementArea\Layouts\ConfigDashboardMainLayout\IConfigDashboardMainLayoutHandler.cs" />
+    <Compile Remove="ManagementArea\Layouts\MainLayout\IMainLayoutHandler.cs" />
+    <Compile Remove="ManagementArea\Layouts\MainLayout\MainLayoutHandler.cs" />
     <Compile Remove="ManagementArea\Pages\ContainerDb\Detail\ContainerDbDetailHandler.cs" />
     <Compile Remove="ManagementArea\Pages\ContainerDb\Detail\IContainerDbDetailHandler.cs" />
     <Compile Remove="ManagementArea\Pages\ContainerDb\List\ContainerDbHandler.cs" />
@@ -87,7 +91,6 @@
     <Folder Include="ManagementArea\Pages\Feature\Detail\" />
     <Folder Include="ManagementArea\Pages\RoleMenu\Detail\" />
     <Folder Include="ManagementArea\Pages\RoleMenu\List\" />
-    <Folder Include="ManagementArea\Pages\Tenant\Detail\" />
     <Folder Include="ManagementArea\Pages\User\List\" />
     <Folder Include="ManagementArea\Pages\User\Detail\" />
     <Folder Include="TenantArea\Handlers\" />

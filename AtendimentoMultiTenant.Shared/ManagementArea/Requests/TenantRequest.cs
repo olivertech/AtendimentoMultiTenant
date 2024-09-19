@@ -27,8 +27,8 @@
         [JsonProperty(PropertyName = "connection_string")]
         public string? ConnectionString { get; set; } = null;
 
-        [JsonPropertyName("id")]
-        [JsonProperty(PropertyName = "id")]
+        [JsonPropertyName("initial_url")]
+        [JsonProperty(PropertyName = "initial_url")]
         public string? InitialUrl { get; set; } = null;
 
         [JsonPropertyName("is_active")]

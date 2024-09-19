@@ -32,5 +32,9 @@
         Tenants,
         [Description("/tenantdetail")]
         TenantDetail,
+        [Description("/users")]
+        Users,
+        [Description("/userdetail")]
+        UserDetail,
     }
 }

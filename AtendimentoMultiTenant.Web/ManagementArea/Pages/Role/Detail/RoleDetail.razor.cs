@@ -131,14 +131,17 @@
 
                 if (resultMenus.IsSuccess)
                 {
-                    //Remove todos os menus associados ao role
-                    foreach (var menu in resultMenus.Result!.ToList())
+                    if (resultMenus.Result!.Any())
                     {
-                        await RoleMenuClient.Delete(menu.Id!, await SetHeaders()!);
+                        //Remove todos os menus associados ao role
+                        foreach (var menu in resultMenus.Result!.ToList())
+                        {
+                            await RoleMenuClient.Delete(menu.Id!, await SetHeaders()!);
+                        }
                     }
                 }
 
-                if (selectedOptions!.Any())
+                if (selectedOptions is not null && selectedOptions!.Any())
                 {
                     //Insere os novos menus selecionados para o role
                     foreach (var menu in selectedOptions!)

@@ -64,6 +64,11 @@
             }
         }
 
+        public void NewItem()
+        {
+            NavigationManager.NavigateTo(RoutesEnumerator.ContainerDetail.GetDescription(), false, true);
+        }
+
         #endregion
     }
 }

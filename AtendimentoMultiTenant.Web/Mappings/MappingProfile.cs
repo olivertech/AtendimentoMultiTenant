@@ -7,6 +7,7 @@
             CreateMap<ContainerDbResponse, ContainerDbRequest>();
             CreateMap<MenuResponse, MenuRequest>();
             CreateMap<RoleResponse, RoleRequest>();
+            CreateMap<TenantResponse, TenantRequest>();
         }
     }
 }

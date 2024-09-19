@@ -120,18 +120,18 @@ namespace AtendimentoMultiTenant.Api.ManagementArea.Controllers
 				if (result != null)
 				{
 					var response = _mapper.Map<FeatureResponse>(entity);
-					return Ok(ResponseFactory<FeatureResponse>.Success(string.Format("Inclusão de 0 Realizado Com Sucesso.", _nomeEntidade), response));
+					return Ok(ResponseFactory<FeatureResponse>.Success(string.Format("Inclusão de {0} Realizado Com Sucesso.", _nomeEntidade), response));
 				}
 				else
 				{
 					_logger!.LogWarning(string.Format("Não foi possível incluir o {0}! Verifique os dados enviados.", _nomeEntidade));
-					return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<FeatureResponse>.Error(string.Format("Não foi possível incluir o 0! Verifique os dados enviados.", _nomeEntidade)));
+					return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<FeatureResponse>.Error(string.Format("Não foi possível incluir o {0}! Verifique os dados enviados.", _nomeEntidade)));
 				}
 			}
 			catch (Exception ex)
 			{
 				_logger!.LogError(ex, "Insert");
-				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<FeatureResponse>.Error(string.Format("Erro ao inserir o 0 - ", _nomeEntidade) + ex.Message));
+				return StatusCode(StatusCodes.Status500InternalServerError, ResponseFactory<FeatureResponse>.Error(string.Format("Erro ao inserir o {0} - ", _nomeEntidade) + ex.Message));
 			}
 		}
 

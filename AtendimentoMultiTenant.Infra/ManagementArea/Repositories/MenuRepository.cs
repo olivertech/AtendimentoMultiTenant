@@ -27,7 +27,9 @@
                                 rm = rm
                             })
                             .Where(resultSelector => resultSelector.rm.RoleId == roleId)
-                            .Select(resultSelector => resultSelector.m)).ToList();
+                            .Select(resultSelector => resultSelector.m))
+                            .OrderBy(x => x.Name)
+                            .ToList();
 
             return result;
         }

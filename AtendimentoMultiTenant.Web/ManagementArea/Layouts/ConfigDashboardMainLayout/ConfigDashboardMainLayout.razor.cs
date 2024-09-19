@@ -11,7 +11,7 @@
         #region Services
 
         [Inject]
-        public IConfigDashboardMainLayoutHandler Handler { get; set; } = null!;
+        public IStorageService StorageService { get; set; } = null!;
 
         #endregion
 
@@ -26,7 +26,7 @@
         {
             if (item == "Sair")
             {
-                await Handler.Logout();
+                await Logout();
                 NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription(), false, true);
             }
         }
@@ -34,6 +34,11 @@
         public void CheckSession()
         {
             StateHasChanged();
+        }
+
+        public async Task Logout()
+        {
+            await StorageService!.RemoveItems();
         }
 
         #endregion

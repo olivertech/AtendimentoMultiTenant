@@ -23,7 +23,7 @@
                           OnRowClick="@(args => OpenItem(args))"
                           RowClass="cursor-pointer">
                     <ToolBarContent>
-                        <MudText Typo="Typo.h6">Logs de Acesso</MudText>
+                        <MudText Typo="Typo.h6">Containers</MudText>
                         <MudSpacer />
                         <MudTextField @bind-Value="searchContentFieldValue"
                                       Placeholder="Informe o valor e tecle enter..."
@@ -47,12 +47,17 @@
                         <MudTablePager />
                     </PagerContent>
                 </MudTable>
-                <div class="d-flex flex-wrap mt-4">
-                    <MudSwitch @bind-Value="hover" Color="Color.Tertiary">Hover</MudSwitch>
-                    <MudSwitch @bind-Value="dense" Color="Color.Tertiary">Dense</MudSwitch>
-                    <MudSwitch @bind-Value="striped" Color="Color.Tertiary">Striped</MudSwitch>
-                    <MudSwitch @bind-Value="bordered" Color="Color.Tertiary">Bordered</MudSwitch>
-                </div>
+                <MudStack Justify="Justify.SpaceBetween" Row="true">
+                    <div class="d-flex flex-wrap mt-4">
+                        <MudSwitch @bind-Value="hover" Color="Color.Tertiary">Hover</MudSwitch>
+                        <MudSwitch @bind-Value="dense" Color="Color.Tertiary">Dense</MudSwitch>
+                        <MudSwitch @bind-Value="striped" Color="Color.Tertiary">Striped</MudSwitch>
+                        <MudSwitch @bind-Value="bordered" Color="Color.Tertiary">Bordered</MudSwitch>
+                    </div>
+                    <div class="d-flex flex-wrap mt-4">
+                        <MudButton OnClick="NewItem" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Add" Color="Color.Primary">Inserir</MudButton>
+                    </div>
+                </MudStack>
             </MudPaper>
         </MudItem>
     </MudGrid>

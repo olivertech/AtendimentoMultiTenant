@@ -9,7 +9,7 @@
         #region Services
 
         [Inject]
-        public IMainLayoutHandler Handler { get; set; } = null!;
+        public NavigationManager NavigationManager { get; set; } = null!;
 
         #endregion
 
@@ -17,12 +17,12 @@
 
         public void GotoLoginPage()
         {
-            Handler.GotoLoginPage();
+            NavigationManager.NavigateTo(RoutesEnumerator.Login.GetDescription(), false, true);
         }
 
         public void GotoIndexPage()
         {
-            Handler.GotoIndexPage();
+            NavigationManager.NavigateTo(RoutesEnumerator.Index.GetDescription(), false, true);
         }
 
         #endregion
