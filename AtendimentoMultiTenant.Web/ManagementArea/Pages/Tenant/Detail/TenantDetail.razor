@@ -26,6 +26,27 @@
                     <MudItem xs="12" sm="12" md="12" lg="12">
                         <MudPaper Class="ps-8 pt-5 pe-8 pb-2" Elevation="4">
                             <MudStack Row="true">
+
+                                @* Recupera os containers pra listar aqui e apontar o associado ao tenant, mantendo o controle disabled *@
+
+                                @* <MudSelect @bind-Value="_value"
+                                           Variant=""
+                                           Label="@variant.ToString()"
+                                           Margin="_margin"
+                                           Dense="_dense"
+                                           Disabled="_disabled"
+                                           ReadOnly="_readonly"
+                                           Placeholder="@(_placeholder ? "Placeholder" : null)"
+                                           HelperText="@(_helperText ? "Helper Text" : null)"
+                                           HelperTextOnFocus="_helperTextOnFocus"
+                                           Clearable="_clearable">
+                                    @foreach (var state in _states)
+                                    {
+                                        <MudSelectItem Value="state">@state</MudSelectItem>
+                                    }
+                                </MudSelect> *@
+                            </MudStack>
+                            <MudStack Row="true">
                                 <MudTextField Class="mb-5" @bind-Value="InputModel.Name"
                                               Immediate="true"
                                               Label="Nome do Tenant" />
